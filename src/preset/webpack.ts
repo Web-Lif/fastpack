@@ -40,27 +40,27 @@ export function presetPlugins(config: Config,  {
     
     // see https://www.webpackjs.com/plugins/define-plugin/
     config.plugin('fastpack/DefinePlugin').use(DefinePlugin, [define])
+
+    const htmlWebpackPluginOptions: HtmlWebpackPlugin.Options = {
+    }
+
+    const document = join(process.cwd(), 'src', 'pages', 'document.ejs')
+    if (existsSync(document)) {
+        htmlWebpackPluginOptions.template = document
+    }
+    // see https://www.webpackjs.com/plugins/html-webpack-plugin/
+    config.plugin('fastpack/HtmlWebpackPlugin').use(HtmlWebpackPlugin, [htmlWebpackPluginOptions])
 }
 
 export function presetDev(config: Config) {
     config.mode('development');
-
-    const htmlWebpackPluginParam: HtmlWebpackPlugin.Options = {}
-
-    const document = join(process.cwd(), 'src', 'pages', 'document.ejs')
-    if (existsSync(document)) {
-        htmlWebpackPluginParam.template = document
-    }
-
-    // see https://www.webpackjs.com/plugins/html-webpack-plugin/
-    config.plugin('fastpack/HtmlWebpackPlugin').use(HtmlWebpackPlugin, [htmlWebpackPluginParam])
 }
 
 export function presetBuild(config: Config, {
     copy = []
 }: FastPackConfig) {
     config.mode('production')
-
+    
     // see https://www.webpackjs.com/plugins/copy-webpack-plugin/
     config.plugin('fastpack/CopyWebpackPlugin').use(CopyWebpackPlugin, [{
         patterns: [

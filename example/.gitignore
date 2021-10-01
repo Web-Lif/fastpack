@@ -12,7 +12,3 @@ node_modules
 
 # husky
 .husky
-
-coverage
-
-bin

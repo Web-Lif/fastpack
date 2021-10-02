@@ -8,17 +8,40 @@ import { join } from 'path'
 import { FastPackConfig } from '../type'
 
 // eslint-disable-next-line import/prefer-default-export
-export function presetEntry (config: Config) {
-    const entry = join(process.cwd(), 'src', 'app.tsx');
+export function presetEntry (config: Config, {
+    alias = new Map<string, string>(),
+    devtool
+} : FastPackConfig) {
+    const entry = join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx');
     config.entry('fastpack').add(entry).end();
     config.output
         .filename('[name].bundle.js');
+
+
+    config.resolve.extensions
+        .add('.wasm')
+        .add('.tsx')
+        .add('.ts')
+        .add('.mjs')
+        .add('.cjs')
+        .add('.js')
+        .add('.json')
+        .end();
     // see https://github.com/facebook/react/issues/2402
     // see https://github.com/facebook/react/issues/13991#issuecomment-435587809
-    config.resolve.alias
+    const aliasConfig = config.resolve.alias
         .set('react', join(process.cwd(), 'node_modules', 'react'))
         .set('react-dom', join(process.cwd(), 'node_modules', 'react-dom'))
-        .end()
+        .set('react-router-dom', join(process.cwd(), 'node_modules', 'react-router-dom'))
+    
+    alias.forEach((key, value) => {
+        aliasConfig.set(key, value)
+    })
+    aliasConfig.end()
+
+    if (devtool) {
+        config.devtool(devtool)
+    }
 }
 
 export function presetLoader(config: Config) {
@@ -48,6 +71,8 @@ export function presetPlugins(config: Config,  {
     if (existsSync(document)) {
         htmlWebpackPluginOptions.template = document
     }
+    htmlWebpackPluginOptions.publicPath = '/'
+
     // see https://www.webpackjs.com/plugins/html-webpack-plugin/
     config.plugin('fastpack/HtmlWebpackPlugin').use(HtmlWebpackPlugin, [htmlWebpackPluginOptions])
 }

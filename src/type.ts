@@ -1,11 +1,19 @@
+import { DevTool } from 'webpack-chain'
+
 export enum FastpackMode {
     DEV = 'dev',
     BUILD = 'build'
 }
 
+export interface Router {
+    name?: string
+    component: string
+}
+
 interface DevServer {
     [name: string]: string
 }
+
 
 export interface FastPackConfig {
     /**
@@ -36,7 +44,7 @@ export interface FastPackConfig {
      * Choose a style of source mapping to enhance the debugging process. These values can affect build and rebuild speed dramatically.
      * see https://webpack.js.org/configuration/devtool/
      */
-    devtool?: string | boolean
+    devtool?: DevTool
 
     /**
      * 用于提供给代码中可用的变量。
@@ -45,8 +53,20 @@ export interface FastPackConfig {
 
     /**
      * 设置要复制到输出目录的文件或文件夹。 see https://www.webpackjs.com/plugins/copy-webpack-plugin/
-     * 
      */
-    copy: Array<string | { from:string, to:string }>
+    copy?: Array<string | { from:string, to:string }>
+
+    /**
+     * 路由信息, 路径为 `pages` 下的文件
+     */
+    routers: Array<Router>
+
+    /**
+     * 渲染的节点，默认情况下会自动创建一个 div 来进行节点的渲染， 如果指定这个值，就会寻找节点id 为这个值的节点来进行渲染
+     */
+    rootRender?: string
 } 
+
+
+
 

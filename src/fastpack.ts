@@ -12,23 +12,34 @@ import {
     presetDev,
     presetBuild
 } from './preset/webpack'
+import { createBootstrap } from './preset/react'
+
 import { getFastPackConfig, portIsEffective } from './utils/config'
 
-import { FastpackMode } from './type'
+import { FastPackConfig, FastpackMode } from './type'
 
 
 register()
 
+
+// 在启动之前执行的操作
+async function onBeforeStart(config: FastPackConfig) {
+    // 创建启动文件
+    await createBootstrap(config)
+}
+
 async function start() {
     if (process.argv.length === 3) {
+        const fastpackConfig = getFastPackConfig()
+
+        await onBeforeStart(fastpackConfig)
         const status = process.argv[2];
     
         if (status === FastpackMode.DEV) {
     
             const config = new Config()
-            const fastpackConfig = getFastPackConfig()
     
-            presetEntry(config)
+            presetEntry(config, fastpackConfig)
             presetLoader(config)
             presetPlugins(config, fastpackConfig)
             presetDev(config)
@@ -59,15 +70,14 @@ async function start() {
             const server = new WebpackDevServer({
                 host: defaultHost,
                 port: defaultPort,
+                historyApiFallback: true,
                 ...devServer
             }, compiler);
     
             server.start()
         } else if (status === FastpackMode.BUILD) {
             const config = new Config()
-            const fastpackConfig = getFastPackConfig()
-    
-            presetEntry(config)
+            presetEntry(config, fastpackConfig)
             presetLoader(config)
             presetPlugins(config, fastpackConfig)
             presetBuild(config, fastpackConfig)

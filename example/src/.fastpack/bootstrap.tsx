@@ -6,17 +6,25 @@ import {
     Route,
 } from 'react-router-dom'
 
-const _User_Login = React.lazy(() => import('../pages/User/Login'));
+const Route_Index = React.lazy(() => import('../pages'));
+const Route_User_Login = React.lazy(() => import('../pages/User/Login'));
+
+const NotFound = React.lazy(() => import('../components/NotFound'))
 
 function Bootstrap () {
-    
     return (
         <Router>
             <Suspense fallback={<div />}>
                 <Switch>
-                        <Route path="/User/Login">
-                            <_User_Login />
-                        </Route>
+                    <Route path="/" exact>
+                        <Route_Index />
+                    </Route>
+                    <Route path="/User/Login" exact>
+                        <Route_User_Login />
+                    </Route>
+                    <Route path="*">
+                        <NotFound />
+                    </Route>
                 </Switch>
             </Suspense>
         </Router>

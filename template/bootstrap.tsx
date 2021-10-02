@@ -7,20 +7,28 @@ import {
 } from 'react-router-dom'
 
 {{#each routers}}
-const {{this.name}} = React.lazy(() => import('../pages{{this.component}}'));
+const Route{{this.name}} = React.lazy(() => import('../pages{{this.component}}'));
 {{/each}}
 
+{{#if notFound}}
+const NotFound = React.lazy(() => import('..{{notFound}}'))
+{{/if}}
+
 function Bootstrap () {
-    
     return (
         <Router>
             <Suspense fallback={<div />}>
                 <Switch>
                     {{#each routers}}
-                        <Route path="{{this.component}}">
-                            <{{this.name}} />
-                        </Route>
+                    <Route path="{{this.path}}" exact>
+                        <Route{{this.name}} />
+                    </Route>
                     {{/each}}
+                    <Route path="*">
+                    {{#if notFound}}
+                        <NotFound />
+                    {{/if}}
+                    </Route>
                 </Switch>
             </Suspense>
         </Router>
@@ -31,7 +39,7 @@ function Bootstrap () {
 ReactDOM.render(
     <Bootstrap />
     ,
-    document.querySelector('#{{this}}')
+    document.querySelector('#{{rootRender}}')
 )
 {{/if}}
 {{#unless rootRender}}

@@ -1,5 +1,9 @@
 export default {
-    routers: [{
-        component: '/User/Login'
-    }]
+    router: {
+        paths: [
+            '/',
+            '/User/Login'
+        ],
+        notFound: '/components/NotFound'
+    }
 }

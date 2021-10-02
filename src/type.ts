@@ -5,15 +5,17 @@ export enum FastpackMode {
     BUILD = 'build'
 }
 
-export interface Router {
-    name?: string
-    component: string
+interface Router {
+    /** 路由信息 */
+    paths: string[]
+
+    /** 配置未找到路由信息的时候，会显示的页面 */
+    notFound?: string
 }
 
 interface DevServer {
     [name: string]: string
 }
-
 
 export interface FastPackConfig {
     /**
@@ -59,7 +61,7 @@ export interface FastPackConfig {
     /**
      * 路由信息, 路径为 `pages` 下的文件
      */
-    routers: Array<Router>
+    router: Router
 
     /**
      * 渲染的节点，默认情况下会自动创建一个 div 来进行节点的渲染， 如果指定这个值，就会寻找节点id 为这个值的节点来进行渲染

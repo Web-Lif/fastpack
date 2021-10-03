@@ -1,6 +1,7 @@
 import Config from 'webpack-chain'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import WebpackBar from 'webpackbar'
 import { existsSync } from 'fs'
 import { DefinePlugin } from 'webpack'
 import { join } from 'path'
@@ -9,8 +10,7 @@ import { FastPackConfig } from '../type'
 
 // eslint-disable-next-line import/prefer-default-export
 export function presetEntry (config: Config, {
-    alias = new Map<string, string>(),
-    devtool
+    alias = new Map<string, string>()
 } : FastPackConfig) {
     const entry = join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx');
     config.entry('fastpack').add(entry).end();
@@ -38,10 +38,6 @@ export function presetEntry (config: Config, {
         aliasConfig.set(key, value)
     })
     aliasConfig.end()
-
-    if (devtool) {
-        config.devtool(devtool)
-    }
 }
 
 export function presetLoader(config: Config) {
@@ -75,10 +71,19 @@ export function presetPlugins(config: Config,  {
 
     // see https://www.webpackjs.com/plugins/html-webpack-plugin/
     config.plugin('fastpack/HtmlWebpackPlugin').use(HtmlWebpackPlugin, [htmlWebpackPluginOptions])
+
+    config.stats('errors-only')
+    config.plugin('fastpack/WebpackBar').use(WebpackBar, [{
+        name: 'fastpack'
+    }])
+
 }
 
-export function presetDev(config: Config) {
+export function presetDev(config: Config, {
+    devtool = 'cheap-module-source-map'
+}: FastPackConfig) {
     config.mode('development');
+    config.devtool(devtool)
 }
 
 export function presetBuild(config: Config, {

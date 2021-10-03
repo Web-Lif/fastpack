@@ -5,5 +5,7 @@ export default {
             '/User/Login'
         ],
         notFound: '/components/NotFound'
+    },
+    devServer: {
     }
 }

@@ -42,7 +42,7 @@ async function start() {
             presetEntry(config, fastpackConfig)
             presetLoader(config)
             presetPlugins(config, fastpackConfig)
-            presetDev(config)
+            presetDev(config, fastpackConfig)
     
             const {
                 devServer = {},

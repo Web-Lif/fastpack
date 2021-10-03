@@ -47,8 +47,19 @@ export function presetLoader(config: Config) {
         .module
         .rule('fastpack/typescript')
         .test(/\.tsx?$/)
-        .use('fastpack/ts-loader')
-        .loader('ts-loader')
+        .exclude
+        .add(/node_modules/)
+        .end()
+        .use('fastpack/babel-loader')
+        .loader('babel-loader')
+        .options({
+            'presets': [
+                "@babel/preset-env",
+                "@babel/preset-react",
+                "@babel/preset-typescript"
+            ],
+            'plugins': []
+        })
         .end()
     
     // see https://www.webpackjs.com/loaders/worker-loader/

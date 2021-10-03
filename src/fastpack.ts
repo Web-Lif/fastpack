@@ -32,13 +32,18 @@ async function start() {
     if (process.argv.length === 3) {
         const fastpackConfig = getFastPackConfig()
 
-        await onBeforeStart(fastpackConfig)
         const status = process.argv[2];
-    
+        
         if (status === FastpackMode.DEV) {
-    
+            
             const config = new Config()
-    
+            
+            fastpackConfig.plugins?.forEach(plugin => {
+                plugin.before?.(config, fastpackConfig)
+            })
+            await onBeforeStart(fastpackConfig)
+
+
             presetEntry(config, fastpackConfig)
             presetLoader(config)
             presetPlugins(config, fastpackConfig)
@@ -55,6 +60,10 @@ async function start() {
             // 默认的端口号
             let defaultPort = 8000
     
+            fastpackConfig.plugins?.forEach(plugin => {
+                plugin.after?.(config, fastpackConfig)
+            })
+
             // 如果端口号被占用， 则重新生成端口号
             for(;;) {
                 try {
@@ -66,6 +75,7 @@ async function start() {
                 }
             }
     
+
             // 启动开发服务器
             const server = new WebpackDevServer({
                 host: defaultHost,
@@ -77,11 +87,21 @@ async function start() {
             server.start()
         } else if (status === FastpackMode.BUILD) {
             const config = new Config()
+
+            fastpackConfig.plugins?.forEach(plugin => {
+                plugin.before?.(config, fastpackConfig)
+            })
+            await onBeforeStart(fastpackConfig)
+
             presetEntry(config, fastpackConfig)
             presetLoader(config)
             presetPlugins(config, fastpackConfig)
             presetBuild(config, fastpackConfig)
     
+            fastpackConfig.plugins?.forEach(plugin => {
+                plugin.after?.(config, fastpackConfig)
+            })
+
             const compiler = Webpack(config.toConfig());
             // 编译文件
             compiler.run(() => {

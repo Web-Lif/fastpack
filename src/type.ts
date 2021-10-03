@@ -1,4 +1,4 @@
-import { DevTool } from 'webpack-chain'
+import Config, { DevTool } from 'webpack-chain'
 
 export enum FastpackMode {
     DEV = 'dev',
@@ -19,6 +19,24 @@ interface Router {
 interface DevServer {
     [name: string]: string
 }
+
+export interface Plugin {
+    /**
+     *  创建文件的时候触发的事件
+     */
+    onCreateFile: (config: FastPackConfig, source: string) => string
+
+    /**
+     * 在数据初始化之前
+     */
+    before: (webpack: Config, fastpack: FastPackConfig) => void
+
+    /**
+     * 在数据初始之后
+     */
+    after: (webpack: Config, fastpack: FastPackConfig) => void
+}
+
 
 export interface FastPackConfig {
     /**
@@ -70,6 +88,11 @@ export interface FastPackConfig {
      * 渲染的节点，默认情况下会自动创建一个 div 来进行节点的渲染， 如果指定这个值，就会寻找节点id 为这个值的节点来进行渲染
      */
     rootRender?: string
+
+    /**
+     * 插件的扩展点
+     */
+    plugins?: Array<Plugin>
 } 
 
 

@@ -16,10 +16,12 @@ export interface Router {
 
 
 // eslint-disable-next-line import/prefer-default-export
-export async function createBootstrap ({
-    router,
-    rootRender
-}: FastPackConfig) {
+export async function createBootstrap (config: FastPackConfig) {
+    const {
+        router,
+        rootRender,
+        plugins = []
+    } =  config
     const fastpackFolder = join(process.cwd(), 'src', '.fastpack')
     if (!existsSync(fastpackFolder)) {
         await mkdir(fastpackFolder)
@@ -46,11 +48,16 @@ export async function createBootstrap ({
         }
     })
 
-    const content = template({
+    let content = template({
         routers,
         rootRender,
         notFound: router.notFound,
         loading: router.loading
     })
+
+    plugins.forEach(plugin => {
+        content = plugin.onCreateFile?.(config, fileContent)
+    })
+
     await writeFile(join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx'), content)
 }

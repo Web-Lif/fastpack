@@ -1,5 +1,6 @@
 {
-    "name": "test",
+    "name": "example",
+    "private": true,
     "author": "",
     "version": "0.0.1-canary",
     "license": "MIT",

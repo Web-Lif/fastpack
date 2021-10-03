@@ -30,9 +30,9 @@ export function presetEntry (config: Config, {
     // see https://github.com/facebook/react/issues/2402
     // see https://github.com/facebook/react/issues/13991#issuecomment-435587809
     const aliasConfig = config.resolve.alias
-        .set('react', join(process.cwd(), 'node_modules', 'react'))
-        .set('react-dom', join(process.cwd(), 'node_modules', 'react-dom'))
-        .set('react-router-dom', join(process.cwd(), 'node_modules', 'react-router-dom'))
+        // .set('react', join(process.cwd(), 'node_modules', 'react'))
+        // .set('react-dom', join(process.cwd(), 'node_modules', 'react-dom'))
+        // .set('react-router-dom', join(process.cwd(), 'node_modules', 'react-router-dom'))
     
     alias.forEach((key, value) => {
         aliasConfig.set(key, value)
@@ -53,6 +53,7 @@ export function presetLoader(config: Config) {
         .use('fastpack/babel-loader')
         .loader('babel-loader')
         .options({
+            'cacheDirectory': true,
             'presets': [
                 "@babel/preset-env",
                 "@babel/preset-react",

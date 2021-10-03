@@ -1,10 +1,8 @@
-#!/usr/bin/env node
-
 import Webpack from 'webpack'
 import Config from 'webpack-chain'
 import WebpackDevServer from 'webpack-dev-server'
-import { register } from 'ts-node'
-
+import { watch } from 'fs'
+import { join } from 'path'
 import {
     presetEntry,
     presetLoader,
@@ -15,18 +13,25 @@ import {
 import { createBootstrap } from './preset/react'
 
 import { getFastPackConfig, portIsEffective } from './utils/config'
-
-import { FastPackConfig, FastpackMode } from './type'
-
-
-register()
+import { FastpackMode } from './type'
 
 
 // 在启动之前执行的操作
-async function onBeforeStart(config: FastPackConfig) {
+async function onBeforeStart() {
+    const fastpack = join(process.cwd())
+    watch(fastpack, ( event, filename) => {
+        console.log(event, filename)
+        if (event === 'change' && filename === '.fastpack.config.ts') {
+            console.log(event, filename)
+            const data = getFastPackConfig()
+            console.log(JSON.stringify(data))
+            createBootstrap(getFastPackConfig())
+        }
+    })
     // 创建启动文件
-    await createBootstrap(config)
+    await createBootstrap(getFastPackConfig())
 }
+
 
 async function start() {
     if (process.argv.length === 3) {
@@ -41,8 +46,7 @@ async function start() {
             fastpackConfig.plugins?.forEach(plugin => {
                 plugin.before?.(config, fastpackConfig)
             })
-            await onBeforeStart(fastpackConfig)
-
+            await onBeforeStart()
 
             presetEntry(config, fastpackConfig)
             presetLoader(config)
@@ -74,7 +78,6 @@ async function start() {
                     defaultPort += 1
                 }
             }
-    
 
             // 启动开发服务器
             const server = new WebpackDevServer({
@@ -91,7 +94,8 @@ async function start() {
             fastpackConfig.plugins?.forEach(plugin => {
                 plugin.before?.(config, fastpackConfig)
             })
-            await onBeforeStart(fastpackConfig)
+            
+            await onBeforeStart()
 
             presetEntry(config, fastpackConfig)
             presetLoader(config)

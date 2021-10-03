@@ -9,6 +9,7 @@ import RouterLoading from '../components/Loading'
 
 const Route_Index = React.lazy(() => import('../pages'));
 const Route_User_Login = React.lazy(() => import('../pages/User/Login'));
+const Route_User_test = React.lazy(() => import('../pages/User/test'));
 
 const NotFound = React.lazy(() => import('../components/NotFound'))
 
@@ -23,6 +24,9 @@ function Bootstrap () {
                     </Route>
                     <Route path="/User/Login" exact>
                         <Route_User_Login />
+                    </Route>
+                    <Route path="/User/test" exact>
+                        <Route_User_test />
                     </Route>
                     <Route path="*">
                         <NotFound />

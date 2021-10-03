@@ -59,5 +59,12 @@ export async function createBootstrap (config: FastPackConfig) {
         content = plugin.onCreateFile?.(config, fileContent)
     })
 
-    await writeFile(join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx'), content)
+    const bootstrapPath = join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx')
+
+    const targetContent = await readFile(bootstrapPath, 'utf8')
+
+    // 如果内容相同， 则不用覆盖文件
+    if (content !== targetContent) {
+        await writeFile(bootstrapPath, content)
+    }
 }

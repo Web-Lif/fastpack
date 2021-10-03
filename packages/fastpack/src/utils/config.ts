@@ -1,7 +1,9 @@
 import { join } from 'path'
 import { createServer } from 'net'
-
+import { register } from 'ts-node'
 import { FastPackConfig } from '../type'
+
+register()
 
 function testDefault(obj: any) {
     return obj.default || obj;

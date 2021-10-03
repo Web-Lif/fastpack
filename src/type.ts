@@ -11,6 +11,9 @@ interface Router {
 
     /** 配置未找到路由信息的时候，会显示的页面 */
     notFound?: string
+
+    /** 加载路由的动画信息 */
+    loading?: string
 }
 
 interface DevServer {

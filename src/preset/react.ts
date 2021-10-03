@@ -49,7 +49,8 @@ export async function createBootstrap ({
     const content = template({
         routers,
         rootRender,
-        notFound: router.notFound
+        notFound: router.notFound,
+        loading: router.loading
     })
     await writeFile(join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx'), content)
 }

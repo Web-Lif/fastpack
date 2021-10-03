@@ -5,16 +5,18 @@ import {
     Switch,
     Route,
 } from 'react-router-dom'
+import RouterLoading from '../components/Loading'
 
 const Route_Index = React.lazy(() => import('../pages'));
 const Route_User_Login = React.lazy(() => import('../pages/User/Login'));
 
 const NotFound = React.lazy(() => import('../components/NotFound'))
 
+
 function Bootstrap () {
     return (
         <Router>
-            <Suspense fallback={<div />}>
+            <Suspense fallback={<RouterLoading />}>
                 <Switch>
                     <Route path="/" exact>
                         <Route_Index />

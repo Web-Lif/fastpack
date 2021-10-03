@@ -4,7 +4,8 @@ export default {
             '/',
             '/User/Login'
         ],
-        notFound: '/components/NotFound'
+        notFound: '/components/NotFound',
+        loading: '/components/Loading'
     },
     devServer: {
     }

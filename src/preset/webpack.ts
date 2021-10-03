@@ -50,6 +50,15 @@ export function presetLoader(config: Config) {
         .use('fastpack/ts-loader')
         .loader('ts-loader')
         .end()
+    
+    // see https://www.webpackjs.com/loaders/worker-loader/
+    config
+        .module
+        .rule('fastpack/worker')
+        .test(/\.worker\.ts$/)
+        .use('fastpack/worker-loader')
+        .loader('worker-loader')
+        .end()
 }
 
 

@@ -22,7 +22,6 @@ async function onBeforeStart() {
     watch(fastpack, ( event, filename) => {
         if (event === 'change' && filename === '.fastpack.config.ts') {
             const data = getFastPackConfig()
-            console.log(JSON.stringify(data))
             createBootstrap(getFastPackConfig())
         }
     })

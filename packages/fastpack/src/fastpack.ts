@@ -21,7 +21,6 @@ async function onBeforeStart() {
     const fastpack = join(process.cwd())
     watch(fastpack, ( event, filename) => {
         if (event === 'change' && filename === '.fastpack.config.ts') {
-            const data = getFastPackConfig()
             createBootstrap(getFastPackConfig())
         }
     })
@@ -50,20 +49,21 @@ async function start() {
             presetPlugins(config, fastpackConfig)
             presetDev(config, fastpackConfig)
     
+            fastpackConfig.plugins?.forEach(plugin => {
+                plugin.after?.(config, fastpackConfig)
+            })
+
             const {
                 devServer = {},
                 ...restConfig
             } = config.toConfig()
+           
             const compiler = Webpack(restConfig);
     
             // 默认可访问地址
             const defaultHost = '127.0.0.1'
             // 默认的端口号
             let defaultPort = 8000
-    
-            fastpackConfig.plugins?.forEach(plugin => {
-                plugin.after?.(config, fastpackConfig)
-            })
 
             // 如果端口号被占用， 则重新生成端口号
             for(;;) {

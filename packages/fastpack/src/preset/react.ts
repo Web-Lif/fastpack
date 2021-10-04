@@ -56,7 +56,10 @@ export async function createBootstrap (config: FastPackConfig) {
     })
 
     plugins.forEach(plugin => {
-        content = plugin.onCreateFile?.(config, fileContent)
+        const txt = plugin.onCreateFile?.(config, fileContent)
+        if (txt) {
+            content = txt
+        }
     })
 
     const bootstrapPath = join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx')

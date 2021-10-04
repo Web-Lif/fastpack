@@ -72,14 +72,34 @@ export function presetLoader(config: Config) {
         .module
         .rule('fastpack/worker')
         .test(/\.worker\.ts$/)
+        .exclude
+        .add(/node_modules/)
+        .end()
         .use('fastpack/worker-loader')
         .loader('worker-loader')
         .end()
+
+    // see https://www.webpackjs.com/loaders/css-loader/
+    config
+        .module
+        .rule('fastpack/css')
+        .test(/\.css$/)
+        .use('fastpack/style-loader')
+        .loader('style-loader')
+        .end()
+        .use('fastpack/css-loade')
+        .loader('css-loader')
+        .end()
+    
 }
 
 
 export function presetPlugins(config: Config,  {
     define = {},
+    publicPath = '/',
+    meta = {},
+    title = 'fastpack',
+    favicon
 }: FastPackConfig) {
     
     // see https://www.webpackjs.com/plugins/define-plugin/
@@ -92,7 +112,13 @@ export function presetPlugins(config: Config,  {
     if (existsSync(document)) {
         htmlWebpackPluginOptions.template = document
     }
-    htmlWebpackPluginOptions.publicPath = '/'
+
+    htmlWebpackPluginOptions.title = title
+    htmlWebpackPluginOptions.publicPath = publicPath
+    htmlWebpackPluginOptions.meta = meta
+    if (favicon) {
+        htmlWebpackPluginOptions.favicon = favicon
+    }
 
     // see https://www.webpackjs.com/plugins/html-webpack-plugin/
     config.plugin('fastpack/HtmlWebpackPlugin').use(HtmlWebpackPlugin, [htmlWebpackPluginOptions])

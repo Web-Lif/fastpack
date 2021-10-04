@@ -20,21 +20,21 @@ interface DevServer {
     [name: string]: string
 }
 
-export interface Plugin {
+export interface FastpackPlugin {
     /**
      *  创建文件的时候触发的事件
      */
-    onCreateFile: (config: FastPackConfig, source: string) => string
+    onCreateFile?: (config: FastPackConfig, source: string) => string
 
     /**
      * 在数据初始化之前
      */
-    before: (webpack: Config, fastpack: FastPackConfig) => void
+    before?: (webpack: Config, fastpack: FastPackConfig) => void
 
     /**
      * 在数据初始之后
      */
-    after: (webpack: Config, fastpack: FastPackConfig) => void
+    after?: (webpack: Config, fastpack: FastPackConfig) => void
 }
 
 
@@ -92,7 +92,27 @@ export interface FastPackConfig {
     /**
      * 插件的扩展点
      */
-    plugins?: Array<Plugin>
+    plugins?: Array<FastpackPlugin>
+
+    /**
+     * The publicPath used for script and link tags see https://github.com/jantimon/html-webpack-plugin
+     */
+    publicPath?: string
+
+    /**
+     * 配置额外的 meta 标签。数组中可以配置key:value形式的对象。
+     */
+    meta?: {[name: string]: string}
+
+    /**
+     * 配置网页标题
+     */
+    title?: string
+
+    /**
+     * 配置 favicon 地址 (href 属性)
+     */
+    favicon?: string
 } 
 
 

@@ -20,9 +20,7 @@ import { FastpackMode } from './type'
 async function onBeforeStart() {
     const fastpack = join(process.cwd())
     watch(fastpack, ( event, filename) => {
-        console.log(event, filename)
         if (event === 'change' && filename === '.fastpack.config.ts') {
-            console.log(event, filename)
             const data = getFastPackConfig()
             console.log(JSON.stringify(data))
             createBootstrap(getFastPackConfig())

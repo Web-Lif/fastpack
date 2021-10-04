@@ -8,6 +8,10 @@ import { join } from 'path'
 
 import { FastPackConfig } from '../type'
 
+const react = require.resolve('react')
+const reactDOM = require.resolve('react-dom')
+const reactRouterDOM = require.resolve('react-router-dom')
+
 // eslint-disable-next-line import/prefer-default-export
 export function presetEntry (config: Config, {
     alias = new Map<string, string>()
@@ -16,7 +20,6 @@ export function presetEntry (config: Config, {
     config.entry('fastpack').add(entry).end();
     config.output
         .filename('[name].bundle.js');
-
 
     config.resolve.extensions
         .add('.wasm')
@@ -27,12 +30,13 @@ export function presetEntry (config: Config, {
         .add('.js')
         .add('.json')
         .end();
+    
     // see https://github.com/facebook/react/issues/2402
     // see https://github.com/facebook/react/issues/13991#issuecomment-435587809
     const aliasConfig = config.resolve.alias
-        // .set('react', join(process.cwd(), 'node_modules', 'react'))
-        // .set('react-dom', join(process.cwd(), 'node_modules', 'react-dom'))
-        // .set('react-router-dom', join(process.cwd(), 'node_modules', 'react-router-dom'))
+        .set('react', react)
+        .set('react-dom', reactDOM)
+        .set('react-router-dom', reactRouterDOM)
     
     alias.forEach((key, value) => {
         aliasConfig.set(key, value)

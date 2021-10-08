@@ -29,7 +29,7 @@ async function onBeforeStart() {
 }
 
 
-async function start() {
+export default async function start() {
     if (process.argv.length === 3) {
         const fastpackConfig = getFastPackConfig()
 
@@ -110,5 +110,3 @@ async function start() {
         }
     }
 }
-
-start()

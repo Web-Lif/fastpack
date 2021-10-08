@@ -3,7 +3,7 @@
     "author": "苯苯 <854363956@qq.com>",
     "license": "MIT",
     "scripts": {
-        "start": "yarn workspace example start"
+        "start": "npm run start --workspace=example"
     },
     "workspaces": [
         "packages/*",

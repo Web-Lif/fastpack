@@ -10,7 +10,7 @@ function testDefault(obj: any) {
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export function getFastPackConfig(path: string = join(process.cwd(), '.fastpack.config.ts')): FastPackConfig  {
+export function getFastPackConfig(path: string = join(process.cwd(), '.fastpack.ts')): FastPackConfig  {
     Object.keys(require.cache).forEach((key) => {
         delete require.cache[key];
     })

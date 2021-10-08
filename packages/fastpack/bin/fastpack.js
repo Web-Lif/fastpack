@@ -1,3 +1,5 @@
 #!/usr/bin/env node
 
-require('../dist/fastpack')
+const fastpack = require('../dist/fastpack').default
+
+fastpack()

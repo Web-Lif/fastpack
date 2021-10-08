@@ -1,6 +1,7 @@
 import Config from 'webpack-chain'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 import WebpackBar from 'webpackbar'
 import { existsSync } from 'fs'
 import { DefinePlugin } from 'webpack'
@@ -63,7 +64,9 @@ export function presetLoader(config: Config) {
                 "@babel/preset-react",
                 "@babel/preset-typescript"
             ],
-            'plugins': []
+            'plugins': [
+                
+            ]
         })
         .end()
     
@@ -133,8 +136,28 @@ export function presetPlugins(config: Config,  {
 export function presetDev(config: Config, {
     devtool = 'cheap-module-source-map'
 }: FastPackConfig) {
-    config.mode('development');
+    config.mode('development')
     config.devtool(devtool)
+
+    // see https://webpack.js.org/configuration/cache/
+    config.cache(true)
+
+    // see https://github.com/pmmmwh/react-refresh-webpack-plugin
+    config.module
+        .rule('fastpack/typescript')
+        .use('fastpack/babel-loader')
+        .loader('babel-loader')
+        .tap((options: any) => (
+            {
+                ...options,
+                plugins: [
+                    ...options.plugins,
+                    require.resolve('react-refresh/babel')
+                ]
+            }
+        ))
+    config.plugin('fastpack/ReactRefresh').use(ReactRefreshWebpackPlugin)
+    
 }
 
 export function presetBuild(config: Config, {

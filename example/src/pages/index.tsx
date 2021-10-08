@@ -1,10 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from 'antd'
 
-export default () => {
+const App = () => {
+    const [count, setCount] = useState<number>(0)
+    
     return (
         <div className="home">
-            <Button> 这个是首页信息 </Button>
+            <Button
+                onClick={() => {
+                    setCount(count + 1)
+                }}
+            >
+                点击-次数  {count}
+            </Button>
         </div>
     )
 }
+
+export default App

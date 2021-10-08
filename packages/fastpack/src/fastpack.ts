@@ -76,6 +76,7 @@ export default async function start() {
                 }
             }
 
+
             // 启动开发服务器
             const server = new WebpackDevServer({
                 host: defaultHost,
@@ -84,7 +85,9 @@ export default async function start() {
                 ...devServer
             }, compiler);
     
-            server.start()
+            server.startCallback(() => {
+
+            })
         } else if (status === FastpackMode.BUILD) {
             const config = new Config()
 

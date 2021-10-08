@@ -39,9 +39,12 @@ export function presetEntry (config: Config, {
         .set('react-dom', reactDOM)
         .set('react-router-dom', reactRouterDOM)
     
+    config.stats('errors-only')
+
     alias.forEach((key, value) => {
         aliasConfig.set(key, value)
     })
+
     aliasConfig.end()
 }
 
@@ -93,7 +96,6 @@ export function presetLoader(config: Config) {
         .use('fastpack/css-loade')
         .loader('css-loader')
         .end()
-    
 }
 
 
@@ -126,7 +128,7 @@ export function presetPlugins(config: Config,  {
     // see https://www.webpackjs.com/plugins/html-webpack-plugin/
     config.plugin('fastpack/HtmlWebpackPlugin').use(HtmlWebpackPlugin, [htmlWebpackPluginOptions])
 
-    config.stats('errors-only')
+    
     config.plugin('fastpack/WebpackBar').use(WebpackBar, [{
         name: 'fastpack'
     }])

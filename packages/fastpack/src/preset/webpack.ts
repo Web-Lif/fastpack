@@ -144,7 +144,6 @@ export function presetDev(config: Config, {
     // see https://webpack.js.org/configuration/cache/
     config.cache(true)
 
-    // see https://github.com/pmmmwh/react-refresh-webpack-plugin
     config.module
         .rule('fastpack/typescript')
         .use('fastpack/babel-loader')
@@ -158,6 +157,7 @@ export function presetDev(config: Config, {
                 ]
             }
         ))
+    // see https://github.com/pmmmwh/react-refresh-webpack-plugin
     config.plugin('fastpack/ReactRefresh').use(ReactRefreshWebpackPlugin)
     
 }

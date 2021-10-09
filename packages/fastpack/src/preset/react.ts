@@ -52,7 +52,8 @@ export async function createBootstrap (config: FastPackConfig) {
         routers,
         rootRender,
         notFound: router.notFound,
-        loading: router.loading
+        loading: router.loading,
+        layout: router.layout
     })
 
     plugins.forEach(plugin => {

@@ -17,27 +17,58 @@ const Route{{this.name}} = React.lazy(() => import('../pages{{this.component}}')
 const NotFound = React.lazy(() => import('..{{notFound}}'))
 {{/if}}
 
+{{#if layout}}
+const Layout = React.lazy(() => import('..{{layout}}'))
+{{/if}}
 
 function Bootstrap () {
     return (
         <Router>
             {{#if loading}}
             <Suspense fallback={<RouterLoading />}>
-            {{/if}}
-            {{#unless loading}}
+            {{else}}
             <Suspense fallback={<div />}>
-            {{/unless}}
+            {{/if}}
                 <Switch>
                     {{#each routers}}
-                    <Route path="{{this.path}}" exact>
-                        <Route{{this.name}} />
-                    </Route>
+                    <Route
+                        path="{{this.path}}"
+                        exact
+                        render={props => {
+                            {{#if ../layout}}
+                            const layout = (
+                                <Layout {...props}>
+                                    <Route{{this.name}} />
+                                </Layout>
+                            )
+                            return layout
+                            {{else}}
+                            const router = (
+                                <Route{{this.name}} />
+                            )
+                            return router
+                            {{/if}}
+                        }}
+                    />
                     {{/each}}
-                    <Route path="*">
                     {{#if notFound}}
-                        <NotFound />
+                    <Route
+                        path="*"
+                        render={props => {
+                            const RouterNotFund = <NotFound />
+                            {{#if layout}}
+                            const layout = (
+                                <Layout {...props}>
+                                    {RouterNotFund}
+                                </Layout>
+                            )
+                            return layout
+                            {{else}}
+                            return router
+                            {{/if}}
+                        }}
+                    />
                     {{/if}}
-                    </Route>
                 </Switch>
             </Suspense>
         </Router>
@@ -50,8 +81,7 @@ ReactDOM.render(
     ,
     document.querySelector('#{{rootRender}}')
 )
-{{/if}}
-{{#unless rootRender}}
+{{else}}
 const root = document.createElement("div")
 document.body.appendChild(root)
 ReactDOM.render(
@@ -59,4 +89,4 @@ ReactDOM.render(
     ,
     root
 )
-{{/unless}}
+{{/if}}

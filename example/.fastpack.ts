@@ -8,7 +8,8 @@ export default {
             '/User/test'
         ],
         notFound: '/components/NotFound',
-        loading: '/components/Loading'
+        loading: '/components/Loading',
+        layout: '/layouts'
     },
     title: 'test',
     devServer: {

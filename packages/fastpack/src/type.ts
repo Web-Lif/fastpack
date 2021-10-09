@@ -14,6 +14,9 @@ interface Router {
 
     /** 加载路由的动画信息 */
     loading?: string
+
+    /** 路由的布局信息 */
+    layout?: string
 }
 
 interface DevServer {

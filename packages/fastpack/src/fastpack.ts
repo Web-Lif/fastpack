@@ -3,6 +3,7 @@ import Config from 'webpack-chain'
 import WebpackDevServer from 'webpack-dev-server'
 import { watch } from 'fs'
 import { join } from 'path'
+import SpeedMeasurePlugin from 'speed-measure-webpack-plugin'
 import {
     presetEntry,
     presetLoader,
@@ -57,8 +58,21 @@ export default async function start() {
                 devServer = {},
                 ...restConfig
             } = config.toConfig()
-           
-            const compiler = Webpack(restConfig);
+            
+            let webpackConfig = restConfig
+            if (
+                process.env.SpeedMeasure && (
+                    process.env.SpeedMeasure === 'json' || 
+                    process.env.SpeedMeasure === 'human' || 
+                    process.env.SpeedMeasure === 'humanVerbose'  
+                )) {
+                const smp = new SpeedMeasurePlugin({
+                    outputFormat: process.env.SpeedMeasure
+                });
+                webpackConfig = smp.wrap(webpackConfig)
+            }
+
+            const compiler = Webpack(webpackConfig);
     
             // 默认可访问地址
             const defaultHost = '127.0.0.1'
@@ -106,7 +120,20 @@ export default async function start() {
                 plugin.after?.(config, fastpackConfig)
             })
 
-            const compiler = Webpack(config.toConfig());
+            let webpackConfig = config.toConfig()
+            if (
+                process.env.SpeedMeasure && (
+                    process.env.SpeedMeasure === 'json' || 
+                    process.env.SpeedMeasure === 'human' || 
+                    process.env.SpeedMeasure === 'humanVerbose'  
+                )) {
+                const smp = new SpeedMeasurePlugin({
+                    outputFormat: process.env.SpeedMeasure
+                });
+                webpackConfig = smp.wrap(webpackConfig)
+            }
+
+            const compiler = Webpack(webpackConfig);
             // 编译文件
             compiler.run(() => {
             })

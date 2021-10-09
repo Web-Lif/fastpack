@@ -1,7 +1,7 @@
 import { compile } from 'handlebars'
 import { readFile, writeFile, mkdir } from 'fs/promises'
 import { existsSync } from 'fs'
-import { join, sep } from 'path'
+import { join } from 'path'
 import { FastPackConfig } from '../type'
 
 
@@ -35,13 +35,13 @@ export async function createBootstrap (config: FastPackConfig) {
     router?.paths?.forEach(path => {
         if (path === '/') {
             routers.push({
-                name: '_Index',
+                name: '$Index',
                 component: '',
                 path: '/'
             })
         } else {
             routers.push({
-                name: path.split(sep).join('_'),
+                name: path.replace(/\//g, ''),
                 path,
                 component: path
             })

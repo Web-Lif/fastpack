@@ -139,15 +139,20 @@ export function presetPlugins(config: Config, {
 
     // see https://webpack.js.org/plugins/module-federation-plugin/
     if (share) {
-        const exposes = router?.paths?.map((ele) => ({
-            [ele.split('sep').join('_')]: `./src/pages${ele}`
-        }))
+        const exposes: any = {}
+        router?.paths?.forEach((ele) => {
+            if (ele === '/') {
+                exposes.$Index = `./src/pages${ele}`
+            } else {
+                exposes[ele.replace(/\//g, '')] = `./src/pages${ele}`
+            }
+        })
 
         config.plugin('fastpack/ModuleFederationPlugin').use(ModuleFederationPlugin, [{
             name: share.name,
             filename: 'fastpack.share.js',
             exposes,
-            shared: { react: { singleton: true }, 'react-dom': { singleton: true } },
+            shared: { react: { singleton: true, eager: true }, 'react-dom': { singleton: true, eager: true } },
         } as any])
     }
 }

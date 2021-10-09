@@ -1,7 +1,7 @@
 import Webpack from 'webpack'
 import Config from 'webpack-chain'
 import WebpackDevServer from 'webpack-dev-server'
-import { watch } from 'fs'
+import { watch, rmSync } from 'fs'
 import { join } from 'path'
 import SpeedMeasurePlugin from 'speed-measure-webpack-plugin'
 
@@ -104,6 +104,8 @@ export default async function start() {
 
             })
         } else if (status === FastpackMode.BUILD) {
+            rmSync(join(process.cwd(), 'dist'), { recursive: true, force: true })
+
             const config = new Config()
 
             fastpackConfig.plugins?.forEach(plugin => {

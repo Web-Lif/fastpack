@@ -7,9 +7,9 @@ import {
 } from 'react-router-dom'
 import RouterLoading from '../components/Loading'
 
-const Route_Index = React.lazy(() => import('../pages'));
-const Route_User_Login = React.lazy(() => import('../pages/User/Login'));
-const Route_User_test = React.lazy(() => import('../pages/User/test'));
+const Route$Index = React.lazy(() => import('../pages'));
+const RouteUserLogin = React.lazy(() => import('../pages/User/Login'));
+const RouteUsertest = React.lazy(() => import('../pages/User/test'));
 
 const NotFound = React.lazy(() => import('../components/NotFound'))
 
@@ -26,7 +26,7 @@ function Bootstrap () {
                         render={props => {
                             const layout = (
                                 <Layout {...props}>
-                                    <Route_Index />
+                                    <Route$Index />
                                 </Layout>
                             )
                             return layout
@@ -38,7 +38,7 @@ function Bootstrap () {
                         render={props => {
                             const layout = (
                                 <Layout {...props}>
-                                    <Route_User_Login />
+                                    <RouteUserLogin />
                                 </Layout>
                             )
                             return layout
@@ -50,7 +50,7 @@ function Bootstrap () {
                         render={props => {
                             const layout = (
                                 <Layout {...props}>
-                                    <Route_User_test />
+                                    <RouteUsertest />
                                 </Layout>
                             )
                             return layout

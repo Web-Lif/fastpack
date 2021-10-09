@@ -8,3 +8,8 @@
 | 名称        |值                                   | 描述
 |---          |-----                               |---------
 |SpeedMeasure |`json` \| `human` \| `humanVerbose` | 用来查看启动插件的速度信息 默认 `humanVerbose`
+
+
+## 配置信息
+
+请查看 `FastPackConfig` 的接口类型

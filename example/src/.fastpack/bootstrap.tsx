@@ -15,11 +15,6 @@ const NotFound = React.lazy(() => import('../components/NotFound'))
 
 const Layout = React.lazy(() => import('../layouts'))
 
-
-const routerRender = (props) => {
-
-}
-
 function Bootstrap () {
     return (
         <Router>

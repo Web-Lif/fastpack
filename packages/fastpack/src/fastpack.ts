@@ -109,7 +109,7 @@ export default async function start() {
                 plugin.before?.(config, fastpackConfig)
             })
             
-            await onBeforeStart()
+            await createBootstrap(getFastPackConfig())
 
             presetEntry(config, fastpackConfig)
             presetLoader(config)

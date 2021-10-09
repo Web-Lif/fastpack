@@ -1,6 +1,7 @@
 import FastpackPluginBabelImport from '@weblif/plugin-babel-import'
 
 export default {
+    title: 'test',
     router: {
         paths: [
             '/',
@@ -10,9 +11,6 @@ export default {
         notFound: '/components/NotFound',
         loading: '/components/Loading',
         layout: '/layouts'
-    },
-    title: 'test',
-    devServer: {
     },
     plugins: [new FastpackPluginBabelImport([{"libraryName": "antd", "style": 'css'}])]
 }

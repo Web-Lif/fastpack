@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 import WebpackBar from 'webpackbar'
 import { existsSync } from 'fs'
-import { DefinePlugin } from 'webpack'
+import { DefinePlugin, container } from 'webpack'
 import { join } from 'path'
 
 import { FastPackConfig } from '../type'
@@ -13,10 +13,12 @@ const react = require.resolve('react')
 const reactDOM = require.resolve('react-dom')
 const reactRouterDOM = require.resolve('react-router-dom')
 
+const { ModuleFederationPlugin } = container
+
 // eslint-disable-next-line import/prefer-default-export
-export function presetEntry (config: Config, {
+export function presetEntry(config: Config, {
     alias = new Map<string, string>()
-} : FastPackConfig) {
+}: FastPackConfig) {
     const entry = join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx');
     config.entry('fastpack').add(entry).end();
     config.output
@@ -31,14 +33,14 @@ export function presetEntry (config: Config, {
         .add('.js')
         .add('.json')
         .end();
-    
+
     // see https://github.com/facebook/react/issues/2402
     // see https://github.com/facebook/react/issues/13991#issuecomment-435587809
     const aliasConfig = config.resolve.alias
         .set('react', react)
         .set('react-dom', reactDOM)
         .set('react-router-dom', reactRouterDOM)
-    
+
     config.stats('errors-only')
 
     alias.forEach((key, value) => {
@@ -68,11 +70,11 @@ export function presetLoader(config: Config) {
                 "@babel/preset-typescript"
             ],
             'plugins': [
-                
+
             ]
         })
         .end()
-    
+
     // see https://www.webpackjs.com/loaders/worker-loader/
     config
         .module
@@ -99,14 +101,16 @@ export function presetLoader(config: Config) {
 }
 
 
-export function presetPlugins(config: Config,  {
+export function presetPlugins(config: Config, {
     define = {},
     publicPath = '/',
     meta = {},
     title = 'fastpack',
-    favicon
+    favicon,
+    router,
+    share
 }: FastPackConfig) {
-    
+
     // see https://www.webpackjs.com/plugins/define-plugin/
     config.plugin('fastpack/DefinePlugin').use(DefinePlugin, [define])
 
@@ -128,11 +132,24 @@ export function presetPlugins(config: Config,  {
     // see https://www.webpackjs.com/plugins/html-webpack-plugin/
     config.plugin('fastpack/HtmlWebpackPlugin').use(HtmlWebpackPlugin, [htmlWebpackPluginOptions])
 
-    
+
     config.plugin('fastpack/WebpackBar').use(WebpackBar, [{
         name: 'fastpack'
     }])
 
+    // see https://webpack.js.org/plugins/module-federation-plugin/
+    if (share) {
+        const exposes = router?.paths?.map((ele) => ({
+            [ele.split('sep').join('_')]: `./src/pages${ele}`
+        }))
+
+        config.plugin('fastpack/ModuleFederationPlugin').use(ModuleFederationPlugin, [{
+            name: share.name,
+            filename: 'fastpack.share.js',
+            exposes,
+            shared: { react: { singleton: true }, 'react-dom': { singleton: true } },
+        } as any])
+    }
 }
 
 export function presetDev(config: Config, {
@@ -159,14 +176,14 @@ export function presetDev(config: Config, {
         ))
     // see https://github.com/pmmmwh/react-refresh-webpack-plugin
     config.plugin('fastpack/ReactRefresh').use(ReactRefreshWebpackPlugin)
-    
+
 }
 
 export function presetBuild(config: Config, {
     copy = []
 }: FastPackConfig) {
     config.mode('production')
-    
+
     // see https://www.webpackjs.com/plugins/copy-webpack-plugin/
     config.plugin('fastpack/CopyWebpackPlugin').use(CopyWebpackPlugin, [{
         patterns: [

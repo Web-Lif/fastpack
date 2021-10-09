@@ -1,5 +1,6 @@
 import FastpackPluginBabelImport from '@weblif/plugin-babel-import'
 
+
 export default {
     title: 'test',
     router: {
@@ -12,5 +13,8 @@ export default {
         loading: '/components/Loading',
         layout: '/layouts'
     },
-    plugins: [new FastpackPluginBabelImport([{"libraryName": "antd", "style": 'css'}])]
+    plugins: [new FastpackPluginBabelImport([{"libraryName": "antd", "style": 'css'}])],
+    share: {
+        name: 'testModule'
+    }
 }

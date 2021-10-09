@@ -40,6 +40,10 @@ export interface FastpackPlugin {
     after?: (webpack: Config, fastpack: FastPackConfig) => void
 }
 
+interface FastPackShare {
+    name: string
+}
+
 
 export interface FastPackConfig {
     /**
@@ -116,6 +120,11 @@ export interface FastPackConfig {
      * 配置 favicon 地址 (href 属性)
      */
     favicon?: string
+
+    /**
+     * 将路由分享给其他用户
+     */
+    share?: FastPackShare
 } 
 
 

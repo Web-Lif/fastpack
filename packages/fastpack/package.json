@@ -12,8 +12,10 @@
     ],
     "scripts": {
         "start": "tsc --watch",
+        "build": "tsc",
         "lint:script": "eslint src --ext .js,.ts",
-        "test": "jest"
+        "test": "jest",
+        "prepublishOnly": "npm run build"
     },
     "dependencies": {
         "@babel/core": "^7.15.5",

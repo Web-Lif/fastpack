@@ -3,6 +3,10 @@
     "author": "苯苯 <854363956@qq.com>",
     "version": "0.0.1-canary",
     "license": "MIT",
+    "repository": {
+        "url": "https://github.com/Web-Lif/fastpack"
+    },
+    "homepage": "https://github.com/Web-Lif/fastpack",
     "bin": {
         "fastpack": "bin/fastpack.js"
     },

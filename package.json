@@ -3,11 +3,15 @@
     "author": "苯苯 <854363956@qq.com>",
     "license": "MIT",
     "scripts": {
-        "start": "npm run start --workspace=example"
+        "start": "npm run start --workspace=example",
+        "update-dep:fastpack": "npm run update-dep --workspace=@weblif/fastpack"
     },
     "workspaces": [
         "packages/*",
         "website",
         "example"
-    ]
+    ],
+    "devDependencies": {
+        "npm-check-updates": "^11.8.5"
+    }
 }

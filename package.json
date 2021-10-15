@@ -10,8 +10,5 @@
         "packages/*",
         "website",
         "example"
-    ],
-    "devDependencies": {
-        "npm-check-updates": "^11.8.5"
-    }
+    ]
 }

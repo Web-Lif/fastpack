@@ -44,7 +44,6 @@ interface FastPackShare {
     name: string
 }
 
-
 export interface FastPackConfig {
     /**
      * 配置别名，对引用路径进行映射。

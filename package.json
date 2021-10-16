@@ -4,7 +4,8 @@
     "license": "MIT",
     "scripts": {
         "start": "npm run start --workspace=example",
-        "update-dep:fastpack": "npm run update-dep --workspace=@weblif/fastpack"
+        "update-dep:fastpack": "npm run update-dep --workspace=@weblif/fastpack",
+        "build:site": "npm run build --workspace=website"
     },
     "workspaces": [
         "packages/*",

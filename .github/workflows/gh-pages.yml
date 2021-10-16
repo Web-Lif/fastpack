@@ -14,7 +14,8 @@ jobs:
           persist-credentials: false
 
       - name: Install
-        run: npm i -g npm@latest && npm install
+        run: sudo npm i -g npm@latest
+        run: npm install
         
       - name: Build
         run: npm run build:site

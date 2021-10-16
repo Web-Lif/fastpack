@@ -21,23 +21,3 @@ FastPack 主要用作 React 项目的打包和开发，它开箱即用受到 [um
 > Fastpack 只是对 webpack@5 和 babel 进行封装了，灵感来自于 [umijs](https://github.com/umijs/umi) 
 
 
-FastPack 主要用作 React 项目的打包和开发，它开箱即用受到 [umijs](https://github.com/umijs/umi) 和 [create react app](https://github.com/facebook/create-react-app) 的影响而开发的。希望可以更好更快的启动项目，更好的对 React 项目进行开发，测试还有打包。
-
-
-
-FastPack 主要用作 React 项目的打包和开发，它开箱即用受到 [umijs](https://github.com/umijs/umi) 和 [create react app](https://github.com/facebook/create-react-app) 的影响而开发的。希望可以更好更快的启动项目，更好的对 React 项目进行开发，测试还有打包。
-
-
-
-FastPack 主要用作 React 项目的打包和开发，它开箱即用受到 [umijs](https://github.com/umijs/umi) 和 [create react app](https://github.com/facebook/create-react-app) 的影响而开发的。希望可以更好更快的启动项目，更好的对 React 项目进行开发，测试还有打包。
-
-
-
-FastPack 主要用作 React 项目的打包和开发，它开箱即用受到 [umijs](https://github.com/umijs/umi) 和 [create react app](https://github.com/facebook/create-react-app) 的影响而开发的。希望可以更好更快的启动项目，更好的对 React 项目进行开发，测试还有打包。
-
-
-
-FastPack 主要用作 React 项目的打包和开发，它开箱即用受到 [umijs](https://github.com/umijs/umi) 和 [create react app](https://github.com/facebook/create-react-app) 的影响而开发的。希望可以更好更快的启动项目，更好的对 React 项目进行开发，测试还有打包。
-
-
-

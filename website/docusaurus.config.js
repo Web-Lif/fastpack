@@ -9,7 +9,7 @@ const config = {
   title: 'FastPack',
   tagline: '基于 Webpack 5 和 babel 的构建工具，用于 React 开发',
   url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/fastpack',
+  baseUrl: 'fastpack',
   onBrokenLinks: 'throw', 
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',

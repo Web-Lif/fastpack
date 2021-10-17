@@ -63,10 +63,11 @@ export default {
 配置开发服务器
 
 包含以下的配置项
-    - port 端口号，默认 8000
-    - host 默认 0.0.0.0
-    - https 是否启用 https server，同时也会开启 HTTP/2
-    - writeToDisk 生成 assets 到文件系统
+
+- port 端口号，默认 8000
+- host 默认 0.0.0.0
+- https 是否启用 https server，同时也会开启 HTTP/2
+- writeToDisk 生成 assets 到文件系统
 
 ## devtool
 

@@ -21,7 +21,6 @@
         "lint:script": "eslint src --ext .js,.ts",
         "update-dep": "ncu -u",
         "test": "jest",
-        "preinstall": "npm run build",
         "prepublishOnly": "npm run build"
     },
     "dependencies": {

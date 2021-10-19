@@ -24,7 +24,7 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/Web-Lif/edit/canary/website/',
+          editUrl: 'https://github.com/Web-Lif/fastpack/edit/canary/website/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

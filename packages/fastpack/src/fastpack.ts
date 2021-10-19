@@ -14,7 +14,7 @@ import {
 } from './preset/webpack'
 import { createBootstrap } from './preset/react'
 
-import { getFastPackConfig, portIsEffective } from './utils/config'
+import { getFastPackConfig } from './utils/config'
 import { FastpackMode } from './type'
 
 
@@ -55,12 +55,8 @@ export default async function start() {
                 plugin.after?.(config, fastpackConfig)
             })
 
-            const {
-                devServer = {},
-                ...restConfig
-            } = config.toConfig()
             
-            let webpackConfig = restConfig
+            let webpackConfig = config.toConfig()
             if (
                 process.env.SpeedMeasure && (
                     process.env.SpeedMeasure === 'json' || 
@@ -78,20 +74,11 @@ export default async function start() {
             // 默认可访问地址
             const defaultHost = '127.0.0.1'
             // 默认的端口号
-            let defaultPort = 8000
+            const defaultPort = 8000
 
-            // 如果端口号被占用， 则重新生成端口号
-            for(;;) {
-                try {
-                    // eslint-disable-next-line no-await-in-loop
-                    await portIsEffective(defaultPort)
-                    break;
-                } catch (error) {
-                    defaultPort += 1
-                }
-            }
-
-
+            const {
+                devServer = {}
+            } = fastpackConfig
             // 启动开发服务器
             const server = new WebpackDevServer({
                 host: defaultHost,

@@ -16,5 +16,8 @@ export default {
     // plugins: [new FastpackPluginBabelImport([{"libraryName": "antd", "style": 'css'}])],
     share: {
         name: 'testModule'
+    },
+    devServer: {
+        port: 8085
     }
 }

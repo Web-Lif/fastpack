@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: config 配置
+title: 配置
 ---
 
 Fastpack 默认会读取当前项目中的 `.fastpack.ts` 文件

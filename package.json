@@ -3,7 +3,7 @@
     "author": "苯苯 <854363956@qq.com>",
     "license": "MIT",
     "scripts": {
-        "start": "npm run start --workspace=example",
+        "start": "npm run build --workspace=@weblif/fastpack --workspace=@weblif/plugin-babel-import && npm run start --workspace=example",
         "start:site": "npm run start --workspace=website",
         "update-dep:fastpack": "npm run update-dep --workspace=@weblif/fastpack",
         "build:site": "npm run build --workspace=website"

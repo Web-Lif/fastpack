@@ -63,7 +63,15 @@ export async function createBootstrap (config: FastPackConfig) {
         }
     })
 
+
+
     const bootstrapPath = join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx')
+
+    // 如果不存在文件，则创建对应的文件信息
+    if (!existsSync(bootstrapPath)) {
+        await writeFile(bootstrapPath, content)
+        return
+    }
 
     const targetContent = await readFile(bootstrapPath, 'utf8')
 

@@ -17,7 +17,8 @@ const { ModuleFederationPlugin } = container
 
 // eslint-disable-next-line import/prefer-default-export
 export function presetEntry(config: Config, {
-    alias = new Map<string, string>()
+    alias = new Map<string, string>(),
+    externals = {}
 }: FastPackConfig) {
     const entry = join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx');
     config.entry('fastpack').add(entry).end();
@@ -40,6 +41,8 @@ export function presetEntry(config: Config, {
         .set('react', react)
         .set('react-dom', reactDOM)
         .set('react-router-dom', reactRouterDOM)
+
+    config.externals(externals)
 
     config.stats('errors-only')
 

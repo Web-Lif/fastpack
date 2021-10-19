@@ -100,7 +100,19 @@ export default {
 };
 ```
 
+
 > 然后你写 console.log(VERSION); 会被编译成 console.log('0.0.1-canary')。注意: `define` 对象的属性值会经过一次 `JSON.stringify` 转换
+
+
+## externals
+
+- Type: `object`
+- Default: `{}`
+
+
+设置哪些模块可以不被打包，通过 `<script>` 或其他方式引入，通常需要和 `scripts` 或 `headScripts` 配置同时使用。
+
+见 https://webpack.js.org/configuration/externals/#string
 
 ## copy
 

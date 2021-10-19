@@ -64,6 +64,14 @@ export interface FastPackConfig {
      */
     alias?: Map<string, string>
 
+
+    /**
+     * 设置哪些模块可以不被打包，通过 <script> 或其他方式引入，通常需要和 scripts 或 headScripts 配置同时使用。
+     * 
+     * see https://webpack.js.org/configuration/externals/#string
+     */
+    externals?: { [name: string]: string }
+
     /**
      * 配置开发服务器。 see https://webpack.js.org/configuration/dev-server/
      */

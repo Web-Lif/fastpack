@@ -30,5 +30,10 @@ $ set PORT=3000 && fastpack dev
 - `humanVerbose` 表示生成更加详细的可读信息
 
 
+## ReactRefresh
 
+- Type: `boolean`
+- Default: `true`
+
+是否开启 ReactRefresh 快速刷新, 如有问题，可以使用此环境变量关闭 `ReactRefresh`
 

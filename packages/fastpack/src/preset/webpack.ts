@@ -169,21 +169,24 @@ export function presetDev(config: Config, {
     // see https://webpack.js.org/configuration/cache/
     config.cache(true)
 
-    config.module
-        .rule('fastpack/typescript')
-        .use('fastpack/babel-loader')
-        .loader('babel-loader')
-        .tap((options: any) => (
-            {
-                ...options,
-                plugins: [
-                    ...options.plugins,
-                    require.resolve('react-refresh/babel')
-                ]
-            }
-        ))
-    // see https://github.com/pmmmwh/react-refresh-webpack-plugin
-    config.plugin('fastpack/ReactRefresh').use(ReactRefreshWebpackPlugin)
+    // 设置环境变量关闭 ReactRefresh
+    if (process.env.ReactRefresh !== 'false') {
+        config.module
+            .rule('fastpack/typescript')
+            .use('fastpack/babel-loader')
+            .loader('babel-loader')
+            .tap((options: any) => (
+                {
+                    ...options,
+                    plugins: [
+                        ...options.plugins,
+                        require.resolve('react-refresh/babel')
+                    ]
+                }
+            ))
+        // see https://github.com/pmmmwh/react-refresh-webpack-plugin
+        config.plugin('fastpack/ReactRefresh').use(ReactRefreshWebpackPlugin)
+    }
 
 }
 

@@ -62,7 +62,7 @@ export interface FastPackConfig {
      *  - `@` 项目 src 目录
      *  - `react` 和 `react-dom` 使用项目中依赖的版本
      */
-    alias?: Map<string, string>
+    alias?: { [name: string]: string }
 
 
     /**

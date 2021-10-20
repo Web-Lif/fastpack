@@ -17,7 +17,7 @@ const { ModuleFederationPlugin } = container
 
 // eslint-disable-next-line import/prefer-default-export
 export function presetEntry(config: Config, {
-    alias = new Map<string, string>(),
+    alias = {},
     externals = {}
 }: FastPackConfig) {
     const entry = join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx');
@@ -46,8 +46,8 @@ export function presetEntry(config: Config, {
 
     config.stats('errors-only')
 
-    alias.forEach((key, value) => {
-        aliasConfig.set(key, value)
+    Object.keys((key: string) => {
+        aliasConfig.set(key, alias[key])
     })
 
     aliasConfig.end()

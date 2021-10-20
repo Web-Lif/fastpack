@@ -145,9 +145,9 @@ export function presetPlugins(config: Config, {
         const exposes: any = {}
         router?.paths?.forEach((ele) => {
             if (ele === '/') {
-                exposes.$Index = `./src/pages${ele}`
+                exposes.Router$Index = `./src/pages${ele}`
             } else {
-                exposes[ele.replace(/\//g, '')] = `./src/pages${ele}`
+                exposes[`Router$${ele.replace(/\//g, '')}`] = `./src/pages${ele}`
             }
         })
 

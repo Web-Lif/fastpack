@@ -157,7 +157,6 @@ export function presetPlugins(config: Config, {
         name: 'fastpack'
     }])
 
-    config.stats('errors-only')
 }
 
 export function presetDev(config: Config, {
@@ -187,6 +186,7 @@ export function presetDev(config: Config, {
         // see https://github.com/pmmmwh/react-refresh-webpack-plugin
         config.plugin('fastpack/ReactRefresh').use(ReactRefreshWebpackPlugin)
     }
+    config.stats('errors-only')
 }
 
 export function presetBuild(config: Config, {

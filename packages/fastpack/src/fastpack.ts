@@ -124,7 +124,14 @@ export default async function start() {
 
             const compiler = Webpack(webpackConfig);
             // 编译文件
-            compiler.compile(() => {
+            compiler.run((error, result) => {
+                if (result && (result.hasErrors || result.hasWarnings)) {
+                    console.log(result.toString({
+                        colors: true,
+                        modules: false,
+                        chunks : false
+                    }))
+                }
             })
         }
     }

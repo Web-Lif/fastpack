@@ -124,7 +124,7 @@ export default async function start() {
 
             const compiler = Webpack(webpackConfig);
             // 编译文件
-            compiler.run(() => {
+            compiler.compile(() => {
             })
         }
     }

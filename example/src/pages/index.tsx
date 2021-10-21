@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
 
+import './index.less';
+
 const App = () => {
     const [count, setCount] = useState<number>(0)
     const history = useHistory()

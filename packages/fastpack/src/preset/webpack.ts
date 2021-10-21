@@ -44,8 +44,6 @@ export function presetEntry(config: Config, {
 
     config.externals(externals)
 
-    config.stats('errors-only')
-
     Object.keys((key: string) => {
         aliasConfig.set(key, alias[key])
     })
@@ -136,10 +134,6 @@ export function presetPlugins(config: Config, {
     config.plugin('fastpack/HtmlWebpackPlugin').use(HtmlWebpackPlugin, [htmlWebpackPluginOptions])
 
 
-    config.plugin('fastpack/WebpackBar').use(WebpackBar, [{
-        name: 'fastpack'
-    }])
-
     // see https://webpack.js.org/plugins/module-federation-plugin/
     if (share) {
         const exposes: any = {}
@@ -158,6 +152,11 @@ export function presetPlugins(config: Config, {
             shared: { react: { singleton: true, eager: true }, 'react-dom': { singleton: true, eager: true } },
         } as any])
     }
+
+    config.plugin('fastpack/WebpackBar').use(WebpackBar, [{
+        name: 'fastpack'
+    }])
+
 }
 
 export function presetDev(config: Config, {
@@ -187,19 +186,21 @@ export function presetDev(config: Config, {
         // see https://github.com/pmmmwh/react-refresh-webpack-plugin
         config.plugin('fastpack/ReactRefresh').use(ReactRefreshWebpackPlugin)
     }
-
+    config.stats('errors-only')
 }
 
 export function presetBuild(config: Config, {
     copy = []
 }: FastPackConfig) {
     config.mode('production')
-
-    // see https://www.webpackjs.com/plugins/copy-webpack-plugin/
-    config.plugin('fastpack/CopyWebpackPlugin').use(CopyWebpackPlugin, [{
-        patterns: [
-            { from: 'public' },
-            ...copy
-        ]
-    }])
+    const publicPath = join(process.cwd(), 'public')
+    if (existsSync(publicPath)) {
+        // see https://www.webpackjs.com/plugins/copy-webpack-plugin/
+        config.plugin('fastpack/CopyWebpackPlugin').use(CopyWebpackPlugin, [{
+            patterns: [
+                { from: 'public' },
+                ...copy
+            ]
+        }])
+    }
 }

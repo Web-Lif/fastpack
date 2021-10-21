@@ -5,6 +5,12 @@ import {
     Switch,
     Route,
 } from 'react-router-dom'
+
+{{#if layout}}
+import Layout from '..{{layout}}'
+{{/if}}
+
+
 {{#if loading}}
 import RouterLoading from '..{{loading}}'
 {{/if}}
@@ -15,10 +21,6 @@ const Route{{this.name}} = React.lazy(() => import('../pages{{this.component}}')
 
 {{#if notFound}}
 const NotFound = React.lazy(() => import('..{{notFound}}'))
-{{/if}}
-
-{{#if layout}}
-const Layout = React.lazy(() => import('..{{layout}}'))
 {{/if}}
 
 function Bootstrap () {

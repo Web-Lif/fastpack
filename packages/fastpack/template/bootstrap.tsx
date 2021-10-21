@@ -83,6 +83,8 @@ ReactDOM.render(
 )
 {{else}}
 const root = document.createElement("div")
+root.style.width = '100%'
+root.style.height = '100%'
 document.body.appendChild(root)
 ReactDOM.render(
     <Bootstrap />

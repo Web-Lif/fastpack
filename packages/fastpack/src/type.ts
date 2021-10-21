@@ -64,7 +64,6 @@ export interface FastPackConfig {
      */
     alias?: { [name: string]: string }
 
-
     /**
      * 设置哪些模块可以不被打包，通过 <script> 或其他方式引入，通常需要和 scripts 或 headScripts 配置同时使用。
      * 

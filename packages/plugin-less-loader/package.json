@@ -1,0 +1,17 @@
+{
+    "name": "@weblif/plugin-less-loader",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "license": "MIT",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "prepublishOnly": "npm run build"
+    },
+    "peerDependencies": {
+        "less": "^4.1.2",
+        "less-loader": "^10.2.0"
+    }
+}

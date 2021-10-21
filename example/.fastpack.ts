@@ -1,5 +1,5 @@
 import FastpackPluginBabelImport from '@weblif/plugin-babel-import'
-
+import FastpackPluginLessLoader from '@weblif/plugin-less-loader'
 
 export default {
     title: 'test',
@@ -13,11 +13,14 @@ export default {
         loading: '/components/Loading',
         layout: '/layouts'
     },
-    plugins: [new FastpackPluginBabelImport([{"libraryName": "antd", "style": 'css'}])],
     share: {
         name: 'testModule'
     },
     devServer: {
         port: 8085
-    }
+    },
+    plugins: [
+        new FastpackPluginBabelImport([{"libraryName": "antd", "style": 'css'}]),
+        new FastpackPluginLessLoader({})
+    ],
 }

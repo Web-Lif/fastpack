@@ -26,11 +26,11 @@ function Bootstrap () {
                     exact
                     render={props => {
                         const layout = (
-                            <Suspense fallback={<RouterLoading />}>
-                                <Layout {...props}>
+                            <Layout {...props}>
+                                <Suspense fallback={<RouterLoading />}>
                                     <Route$Index />
-                                </Layout>
-                            </Suspense>
+                                </Suspense>
+                            </Layout>
                         )
                         return layout
                     }}
@@ -40,11 +40,11 @@ function Bootstrap () {
                     exact
                     render={props => {
                         const layout = (
-                            <Suspense fallback={<RouterLoading />}>
-                                <Layout {...props}>
+                            <Layout {...props}>
+                                <Suspense fallback={<RouterLoading />}>
                                     <RouteUserLogin />
-                                </Layout>
-                            </Suspense>
+                                </Suspense>
+                            </Layout>
                         )
                         return layout
                     }}
@@ -54,11 +54,11 @@ function Bootstrap () {
                     exact
                     render={props => {
                         const layout = (
-                            <Suspense fallback={<RouterLoading />}>
-                                <Layout {...props}>
+                            <Layout {...props}>
+                                <Suspense fallback={<RouterLoading />}>
                                     <RouteUsertest />
-                                </Layout>
-                            </Suspense>
+                                </Suspense>
+                            </Layout>
                         )
                         return layout
                     }}

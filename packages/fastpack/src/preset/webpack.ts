@@ -93,6 +93,9 @@ export function presetLoader(config: Config) {
         .module
         .rule('fastpack/css')
         .test(/\.css$/)
+        .exclude
+        .add(/node_modules/)
+        .end()
         .use('fastpack/style-loader')
         .loader('style-loader')
         .end()

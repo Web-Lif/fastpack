@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
 
-import styles from './index.less';
+import styles from './index.module.less';
 
 const App = () => {
     const [count, setCount] = useState<number>(0)

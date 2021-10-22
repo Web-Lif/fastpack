@@ -5,6 +5,10 @@ import {
     Switch,
     Route,
 } from 'react-router-dom'
+
+import Layout from '../layouts'
+
+
 import RouterLoading from '../components/Loading'
 
 const Route$Index = React.lazy(() => import('../pages'));
@@ -12,8 +16,6 @@ const RouteUserLogin = React.lazy(() => import('../pages/User/Login'));
 const RouteUsertest = React.lazy(() => import('../pages/User/test'));
 
 const NotFound = React.lazy(() => import('../components/NotFound'))
-
-const Layout = React.lazy(() => import('../layouts'))
 
 function Bootstrap () {
     return (

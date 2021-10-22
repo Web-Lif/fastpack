@@ -12,7 +12,7 @@ export default class FastpackPluginLessLoader {
         webpack
             .module
             .rule('fastpack/lessModule')
-            .test(/module\.less$/)
+            .test(/\.mless$/)
             .use('fastpack/style-loader')
             .loader('style-loader')
             .end()

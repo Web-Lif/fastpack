@@ -11,22 +11,8 @@ export default class FastpackPluginLessLoader {
     after(webpack: any) {
         webpack
             .module
-            .rule('fastpack/less')
-            .test(/\.less$/)
-            .use('fastpack/style-loader')
-            .loader('style-loader')
-            .end()
-            .use('fastpack/css-loade')
-            .loader('css-loader')
-            .end()
-            .use('fastpack/less-loader')
-            .loader('less-loader')
-            .options(this.options)
-            .end()
-        webpack
-            .module
-            .rule('fastpack/less')
-            .test(/module\.less$/)
+            .rule('fastpack/lessModule')
+            .test(/\.mless$/)
             .use('fastpack/style-loader')
             .loader('style-loader')
             .end()
@@ -41,5 +27,21 @@ export default class FastpackPluginLessLoader {
             .loader('less-loader')
             .options(this.options)
             .end()
+
+        webpack
+            .module
+            .rule('fastpack/less')
+            .test(/\.less$/)
+            .use('fastpack/style-loader')
+            .loader('style-loader')
+            .end()
+            .use('fastpack/css-loade')
+            .loader('css-loader')
+            .end()
+            .use('fastpack/less-loader')
+            .loader('less-loader')
+            .options(this.options)
+            .end()
+
     }
 }

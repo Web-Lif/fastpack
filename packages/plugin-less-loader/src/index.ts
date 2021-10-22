@@ -1,4 +1,5 @@
-
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 
 export default class FastpackPluginLessLoader {
 
@@ -13,14 +14,22 @@ export default class FastpackPluginLessLoader {
             .module
             .rule('fastpack/lessModule')
             .test(/\.mless$/)
-            .use('fastpack/style-loader')
-            .loader('style-loader')
+            .use('fastpack/cache-loader')
+            .loader('cache-loader')
             .end()
+            .use('fastpack/miniCssLoader')
+            .loader(MiniCssExtractPlugin.loader)
+            .end()
+            // .use('fastpack/thread-loader')
+            // .loader('thread-loader')
+            // .end()
+            // .use('fastpack/style-loader')
+            // .loader('style-loader')
+            // .end()
             .use('fastpack/css-loade')
             .loader('css-loader')
             .options({
-                modules: true,
-                sourceMap: true,
+                modules: true
             })
             .end()
             .use('fastpack/less-loader')
@@ -32,9 +41,16 @@ export default class FastpackPluginLessLoader {
             .module
             .rule('fastpack/less')
             .test(/\.less$/)
-            .use('fastpack/style-loader')
-            .loader('style-loader')
+            .use('fastpack/cache-loader')
+            .loader('cache-loader')
             .end()
+
+            .use('fastpack/miniCssLoader')
+            .loader(MiniCssExtractPlugin.loader)
+            .end()
+            // .use('fastpack/style-loader')
+            // .loader('style-loader')
+            // .end()
             .use('fastpack/css-loade')
             .loader('css-loader')
             .end()
@@ -42,6 +58,9 @@ export default class FastpackPluginLessLoader {
             .loader('less-loader')
             .options(this.options)
             .end()
-
+        
+        webpack.plugin('fastpack/MiniCssExtractPlugin').use(MiniCssExtractPlugin)
+        webpack.optimization.minimizer('fastpack/CssMinimizerPlugin').use(CssMinimizerPlugin)
+        webpack.optimization.minimize(true)
     }
 }

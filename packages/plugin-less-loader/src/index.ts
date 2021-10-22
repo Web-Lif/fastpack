@@ -18,6 +18,10 @@ export default class FastpackPluginLessLoader {
             .end()
             .use('fastpack/css-loade')
             .loader('css-loader')
+            .options({
+                modules: true,
+                sourceMap: true,
+            })
             .end()
             .use('fastpack/less-loader')
             .loader('less-loader')

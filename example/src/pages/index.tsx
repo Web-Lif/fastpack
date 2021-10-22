@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
 
-import './index.less';
+import styles from './index.less';
 
 const App = () => {
     const [count, setCount] = useState<number>(0)
     const history = useHistory()
     return (
-        <div className="home">
+        <div className={styles.mybody}>
             <Button
                 onClick={() => {
                     setCount(count + 1)

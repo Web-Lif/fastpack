@@ -20,58 +20,62 @@ const NotFound = React.lazy(() => import('../components/NotFound'))
 function Bootstrap () {
     return (
         <Router>
-            <Suspense fallback={<RouterLoading />}>
-                <Switch>
-                    <Route
-                        path="/"
-                        exact
-                        render={props => {
-                            const layout = (
-                                <Layout {...props}>
+            <Switch>
+                <Route
+                    path="/"
+                    exact
+                    render={props => {
+                        const layout = (
+                            <Layout {...props}>
+                                <Suspense fallback={<RouterLoading />}>
                                     <Route$Index />
-                                </Layout>
-                            )
-                            return layout
-                        }}
-                    />
-                    <Route
-                        path="/User/Login"
-                        exact
-                        render={props => {
-                            const layout = (
-                                <Layout {...props}>
+                                </Suspense>
+                            </Layout>
+                        )
+                        return layout
+                    }}
+                />
+                <Route
+                    path="/User/Login"
+                    exact
+                    render={props => {
+                        const layout = (
+                            <Layout {...props}>
+                                <Suspense fallback={<RouterLoading />}>
                                     <RouteUserLogin />
-                                </Layout>
-                            )
-                            return layout
-                        }}
-                    />
-                    <Route
-                        path="/User/test"
-                        exact
-                        render={props => {
-                            const layout = (
-                                <Layout {...props}>
+                                </Suspense>
+                            </Layout>
+                        )
+                        return layout
+                    }}
+                />
+                <Route
+                    path="/User/test"
+                    exact
+                    render={props => {
+                        const layout = (
+                            <Layout {...props}>
+                                <Suspense fallback={<RouterLoading />}>
                                     <RouteUsertest />
-                                </Layout>
-                            )
-                            return layout
-                        }}
-                    />
-                    <Route
-                        path="*"
-                        render={props => {
-                            const RouterNotFund = <NotFound />
-                            const layout = (
-                                <Layout {...props}>
-                                    {RouterNotFund}
-                                </Layout>
-                            )
-                            return layout
-                        }}
-                    />
-                </Switch>
-            </Suspense>
+                                </Suspense>
+                            </Layout>
+                        )
+                        return layout
+                    }}
+                />
+                <Route
+                    path="*"
+                    render={props => {
+                        const RouterNotFund = <NotFound />
+                        const layout = (
+                            <Layout {...props}>
+                                {RouterNotFund}
+                            </Layout>
+                        )
+                        return layout
+                    }}
+                />
+            </Switch>
         </Router>
     )
 }

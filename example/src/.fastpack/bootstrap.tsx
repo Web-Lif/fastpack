@@ -20,58 +20,62 @@ const NotFound = React.lazy(() => import('../components/NotFound'))
 function Bootstrap () {
     return (
         <Router>
-            <Suspense fallback={<RouterLoading />}>
-                <Switch>
-                    <Route
-                        path="/"
-                        exact
-                        render={props => {
-                            const layout = (
+            <Switch>
+                <Route
+                    path="/"
+                    exact
+                    render={props => {
+                        const layout = (
+                            <Suspense fallback={<RouterLoading />}>
                                 <Layout {...props}>
                                     <Route$Index />
                                 </Layout>
-                            )
-                            return layout
-                        }}
-                    />
-                    <Route
-                        path="/User/Login"
-                        exact
-                        render={props => {
-                            const layout = (
+                            </Suspense>
+                        )
+                        return layout
+                    }}
+                />
+                <Route
+                    path="/User/Login"
+                    exact
+                    render={props => {
+                        const layout = (
+                            <Suspense fallback={<RouterLoading />}>
                                 <Layout {...props}>
                                     <RouteUserLogin />
                                 </Layout>
-                            )
-                            return layout
-                        }}
-                    />
-                    <Route
-                        path="/User/test"
-                        exact
-                        render={props => {
-                            const layout = (
+                            </Suspense>
+                        )
+                        return layout
+                    }}
+                />
+                <Route
+                    path="/User/test"
+                    exact
+                    render={props => {
+                        const layout = (
+                            <Suspense fallback={<RouterLoading />}>
                                 <Layout {...props}>
                                     <RouteUsertest />
                                 </Layout>
-                            )
-                            return layout
-                        }}
-                    />
-                    <Route
-                        path="*"
-                        render={props => {
-                            const RouterNotFund = <NotFound />
-                            const layout = (
-                                <Layout {...props}>
-                                    {RouterNotFund}
-                                </Layout>
-                            )
-                            return layout
-                        }}
-                    />
-                </Switch>
-            </Suspense>
+                            </Suspense>
+                        )
+                        return layout
+                    }}
+                />
+                <Route
+                    path="*"
+                    render={props => {
+                        const RouterNotFund = <NotFound />
+                        const layout = (
+                            <Layout {...props}>
+                                {RouterNotFund}
+                            </Layout>
+                        )
+                        return layout
+                    }}
+                />
+            </Switch>
         </Router>
     )
 }

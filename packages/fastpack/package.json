@@ -1,7 +1,7 @@
 {
     "name": "@weblif/fastpack",
     "author": "苯苯 <854363956@qq.com>",
-    "version": "0.1.6-canary",
+    "version": "0.1.7-canary",
     "license": "MIT",
     "repository": {
         "url": "https://github.com/Web-Lif/fastpack"

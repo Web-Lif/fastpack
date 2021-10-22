@@ -26,53 +26,53 @@ const NotFound = React.lazy(() => import('..{{notFound}}'))
 function Bootstrap () {
     return (
         <Router>
-            {{#if loading}}
-            <Suspense fallback={<RouterLoading />}>
-            {{else}}
-            <Suspense fallback={<div />}>
-            {{/if}}
-                <Switch>
-                    {{#each routers}}
-                    <Route
-                        path="{{this.path}}"
-                        exact
-                        render={props => {
-                            {{#if ../layout}}
-                            const layout = (
+            <Switch>
+                {{#each routers}}
+                <Route
+                    path="{{this.path}}"
+                    exact
+                    render={props => {
+                        {{#if ../layout}}
+                        const layout = (
+                            {{#if ../loading}}
+                            <Suspense fallback={<RouterLoading />}>
+                            {{else}}
+                            <Suspense fallback={<div />}>
+                            {{/if}}
                                 <Layout {...props}>
                                     <Route{{this.name}} />
                                 </Layout>
-                            )
-                            return layout
-                            {{else}}
-                            const router = (
-                                <Route{{this.name}} />
-                            )
-                            return router
-                            {{/if}}
-                        }}
-                    />
-                    {{/each}}
-                    {{#if notFound}}
-                    <Route
-                        path="*"
-                        render={props => {
-                            const RouterNotFund = <NotFound />
-                            {{#if layout}}
-                            const layout = (
-                                <Layout {...props}>
-                                    {RouterNotFund}
-                                </Layout>
-                            )
-                            return layout
-                            {{else}}
-                            return router
-                            {{/if}}
-                        }}
-                    />
-                    {{/if}}
-                </Switch>
-            </Suspense>
+                            </Suspense>
+                        )
+                        return layout
+                        {{else}}
+                        const router = (
+                            <Route{{this.name}} />
+                        )
+                        return router
+                        {{/if}}
+                    }}
+                />
+                {{/each}}
+                {{#if notFound}}
+                <Route
+                    path="*"
+                    render={props => {
+                        const RouterNotFund = <NotFound />
+                        {{#if layout}}
+                        const layout = (
+                            <Layout {...props}>
+                                {RouterNotFund}
+                            </Layout>
+                        )
+                        return layout
+                        {{else}}
+                        return router
+                        {{/if}}
+                    }}
+                />
+                {{/if}}
+            </Switch>
         </Router>
     )
 }

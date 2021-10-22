@@ -14,6 +14,9 @@ export default class FastpackPluginLessLoader {
             .module
             .rule('fastpack/lessModule')
             .test(/\.mless$/)
+            .exclude
+            .add(/node_modules/)
+            .end()
             .use('fastpack/miniCssLoader')
             .loader(MiniCssExtractPlugin.loader)
             .end()
@@ -32,6 +35,9 @@ export default class FastpackPluginLessLoader {
             .module
             .rule('fastpack/less')
             .test(/\.less$/)
+            .exclude
+            .add(/node_modules/)
+            .end()
             .use('fastpack/miniCssLoader')
             .loader(MiniCssExtractPlugin.loader)
             .end()

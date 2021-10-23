@@ -31,7 +31,7 @@ function Bootstrap () {
                 <Route
                     path="{{this.path}}"
                     exact
-                    render={props => {
+                    render={(props: any) => {
                         {{#if ../layout}}
                         const layout = (
                             <Layout {...props}>
@@ -40,7 +40,7 @@ function Bootstrap () {
                                 {{else}}
                                 <Suspense fallback={<div />}>
                                 {{/if}}
-                                    <Route{{this.name}} />
+                                    <Route{{this.name}} {...props} />
                                 </Suspense>
                             </Layout>
                         )
@@ -54,24 +54,29 @@ function Bootstrap () {
                     }}
                 />
                 {{/each}}
-                {{#if notFound}}
                 <Route
                     path="*"
-                    render={props => {
-                        const RouterNotFund = <NotFound />
+                    render={(props: any) => {
                         {{#if layout}}
+                        const RouterNotFund = <NotFound {...props}/>
+                        {{else}}
+                        const RouterNotFund = <div />
+                        {{/if}}
+
                         const layout = (
                             <Layout {...props}>
-                                {RouterNotFund}
+                                {{#if ../loading}}
+                                <Suspense fallback={<RouterLoading />}>
+                                {{else}}
+                                <Suspense fallback={<div />}>
+                                {{/if}}
+                                    {RouterNotFund}
+                                </Suspense>
                             </Layout>
                         )
                         return layout
-                        {{else}}
-                        return router
-                        {{/if}}
                     }}
                 />
-                {{/if}}
             </Switch>
         </Router>
     )

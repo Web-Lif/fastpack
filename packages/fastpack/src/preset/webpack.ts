@@ -3,7 +3,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 import WebpackBar from 'webpackbar'
-import { existsSync } from 'fs'
+import { existsSync, readdirSync } from 'fs'
 import { DefinePlugin, container } from 'webpack'
 import { join } from 'path'
 
@@ -197,7 +197,7 @@ export function presetBuild(config: Config, {
 }: FastPackConfig) {
     config.mode('production')
     const publicPath = join(process.cwd(), 'public')
-    if (existsSync(publicPath)) {
+    if (existsSync(publicPath) && readdirSync(publicPath).length > 0) {
         // see https://www.webpackjs.com/plugins/copy-webpack-plugin/
         config.plugin('fastpack/CopyWebpackPlugin').use(CopyWebpackPlugin, [{
             patterns: [

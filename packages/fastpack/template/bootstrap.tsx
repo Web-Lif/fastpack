@@ -64,15 +64,15 @@ function Bootstrap () {
                         {{/if}}
 
                         const layout = (
-                            {{#if ../loading}}
-                            <Suspense fallback={<RouterLoading />}>
-                            {{else}}
-                            <Suspense fallback={<div />}>
-                            {{/if}}
-                                <Layout {...props}>
+                            <Layout {...props}>
+                                {{#if ../loading}}
+                                <Suspense fallback={<RouterLoading />}>
+                                {{else}}
+                                <Suspense fallback={<div />}>
+                                {{/if}}
                                     {RouterNotFund}
-                                </Layout>
-                            </Suspense>
+                                </Suspense>
+                            </Layout>
                         )
                         return layout
                     }}

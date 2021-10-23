@@ -24,11 +24,11 @@ function Bootstrap () {
                 <Route
                     path="/"
                     exact
-                    render={props => {
+                    render={(props: any) => {
                         const layout = (
                             <Layout {...props}>
                                 <Suspense fallback={<RouterLoading />}>
-                                    <Route$Index />
+                                    <Route$Index {...props} />
                                 </Suspense>
                             </Layout>
                         )
@@ -38,11 +38,11 @@ function Bootstrap () {
                 <Route
                     path="/User/Login"
                     exact
-                    render={props => {
+                    render={(props: any) => {
                         const layout = (
                             <Layout {...props}>
                                 <Suspense fallback={<RouterLoading />}>
-                                    <RouteUserLogin />
+                                    <RouteUserLogin {...props} />
                                 </Suspense>
                             </Layout>
                         )
@@ -52,11 +52,11 @@ function Bootstrap () {
                 <Route
                     path="/User/test"
                     exact
-                    render={props => {
+                    render={(props: any) => {
                         const layout = (
                             <Layout {...props}>
                                 <Suspense fallback={<RouterLoading />}>
-                                    <RouteUsertest />
+                                    <RouteUsertest {...props} />
                                 </Suspense>
                             </Layout>
                         )
@@ -65,15 +65,15 @@ function Bootstrap () {
                 />
                 <Route
                     path="*"
-                    render={props => {
-                        const RouterNotFund = <NotFound />
+                    render={(props: any) => {
+                        const RouterNotFund = <NotFound {...props}/>
 
                         const layout = (
-                            <Suspense fallback={<div />}>
-                                <Layout {...props}>
+                            <Layout {...props}>
+                                <Suspense fallback={<div />}>
                                     {RouterNotFund}
-                                </Layout>
-                            </Suspense>
+                                </Suspense>
+                            </Layout>
                         )
                         return layout
                     }}

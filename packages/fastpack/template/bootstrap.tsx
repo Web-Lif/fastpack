@@ -31,7 +31,7 @@ function Bootstrap () {
                 <Route
                     path="{{this.path}}"
                     exact
-                    render={props => {
+                    render={(props: any) => {
                         {{#if ../layout}}
                         const layout = (
                             <Layout {...props}>
@@ -40,7 +40,7 @@ function Bootstrap () {
                                 {{else}}
                                 <Suspense fallback={<div />}>
                                 {{/if}}
-                                    <Route{{this.name}} />
+                                    <Route{{this.name}} {...props} />
                                 </Suspense>
                             </Layout>
                         )
@@ -56,9 +56,9 @@ function Bootstrap () {
                 {{/each}}
                 <Route
                     path="*"
-                    render={props => {
+                    render={(props: any) => {
                         {{#if layout}}
-                        const RouterNotFund = <NotFound />
+                        const RouterNotFund = <NotFound {...props}/>
                         {{else}}
                         const RouterNotFund = <div />
                         {{/if}}

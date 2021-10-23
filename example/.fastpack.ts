@@ -20,7 +20,11 @@ export default {
         port: 8085
     },
     plugins: [
-        new FastpackPluginBabelImport([{"libraryName": "antd", "style": 'css'}]),
-        new FastpackPluginLessLoader({})
+        new FastpackPluginBabelImport([{"libraryName": "antd", "style": true }]),
+        new FastpackPluginLessLoader({
+            lessOptions: {
+                javascriptEnabled: true,
+            }
+        }),
     ],
 }

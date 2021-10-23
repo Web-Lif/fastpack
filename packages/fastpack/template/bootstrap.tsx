@@ -54,24 +54,29 @@ function Bootstrap () {
                     }}
                 />
                 {{/each}}
-                {{#if notFound}}
                 <Route
                     path="*"
                     render={props => {
-                        const RouterNotFund = <NotFound />
                         {{#if layout}}
+                        const RouterNotFund = <NotFound />
+                        {{else}}
+                        const RouterNotFund = <div />
+                        {{/if}}
+
                         const layout = (
-                            <Layout {...props}>
-                                {RouterNotFund}
-                            </Layout>
+                            {{#if ../loading}}
+                            <Suspense fallback={<RouterLoading />}>
+                            {{else}}
+                            <Suspense fallback={<div />}>
+                            {{/if}}
+                                <Layout {...props}>
+                                    {RouterNotFund}
+                                </Layout>
+                            </Suspense>
                         )
                         return layout
-                        {{else}}
-                        return router
-                        {{/if}}
                     }}
                 />
-                {{/if}}
             </Switch>
         </Router>
     )

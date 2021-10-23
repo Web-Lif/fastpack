@@ -13,9 +13,6 @@ export default {
         loading: '/components/Loading',
         layout: '/layouts'
     },
-    share: {
-        name: 'testModule'
-    },
     devServer: {
         port: 8085
     },

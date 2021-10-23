@@ -24,6 +24,7 @@ function Bootstrap () {
                 <Route
                     path="/"
                     exact
+                    sensitive
                     render={(props: any) => {
                         const layout = (
                             <Layout {...props}>
@@ -38,6 +39,7 @@ function Bootstrap () {
                 <Route
                     path="/User/Login"
                     exact
+                    sensitive
                     render={(props: any) => {
                         const layout = (
                             <Layout {...props}>
@@ -52,6 +54,7 @@ function Bootstrap () {
                 <Route
                     path="/User/test"
                     exact
+                    sensitive
                     render={(props: any) => {
                         const layout = (
                             <Layout {...props}>

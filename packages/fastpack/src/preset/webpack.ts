@@ -2,10 +2,13 @@ import Config from 'webpack-chain'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import TerserPlugin from 'terser-webpack-plugin'
 import WebpackBar from 'webpackbar'
 import { existsSync, readdirSync } from 'fs'
 import { DefinePlugin, container } from 'webpack'
 import { join } from 'path'
+
 
 import { FastPackConfig } from '../type'
 
@@ -196,6 +199,37 @@ export function presetBuild(config: Config, {
     copy = []
 }: FastPackConfig) {
     config.mode('production')
+    config.devtool(false)
+    config.optimization.splitChunks({
+        chunks: 'async',
+        maxSize: 524288,
+        minSize: 262144,
+        minRemainingSize: 0,
+        minChunks: 1,
+        maxAsyncRequests: 30,
+        maxInitialRequests: 30,
+        enforceSizeThreshold: 50000,
+        cacheGroups: {
+            defaultVendors: {
+                test: /[\\/]node_modules[\\/]/,
+                priority: -10,
+                reuseExistingChunk: true,
+            },
+            default: {
+                minChunks: 2,
+                priority: -20,
+                reuseExistingChunk: true,
+            },
+        },
+    })
+    config.optimization.usedExports(true)
+    config.performance.maxAssetSize(2048000)
+    config.performance.maxEntrypointSize(2048000)
+    if (process.env.Analyzer) {
+        config.plugin('fastpack/BundleAnalyzerPlugin').use(BundleAnalyzerPlugin)
+    }
+    config.optimization.minimizer('fastpack/TerserPlugin').use(TerserPlugin)
+    config.optimization.minimize(true)
     const publicPath = join(process.cwd(), 'public')
     if (existsSync(publicPath) && readdirSync(publicPath).length > 0) {
         // see https://www.webpackjs.com/plugins/copy-webpack-plugin/

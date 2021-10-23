@@ -37,3 +37,9 @@ $ set PORT=3000 && fastpack dev
 
 是否开启 ReactRefresh 快速刷新, 如有问题，可以使用此环境变量关闭 `ReactRefresh`
 
+## Analyzer
+
+- Type: `boolean`
+- Default: `false`
+
+是否开启分析构建的包体积大小

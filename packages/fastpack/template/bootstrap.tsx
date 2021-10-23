@@ -31,6 +31,7 @@ function Bootstrap () {
                 <Route
                     path="{{this.path}}"
                     exact
+                    sensitive
                     render={(props: any) => {
                         {{#if ../layout}}
                         const layout = (

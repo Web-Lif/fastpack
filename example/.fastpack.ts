@@ -7,7 +7,7 @@ export default {
         paths: [
             '/',
             '/User/Login',
-            '/User/test'
+            'components:/User/test'
         ],
         notFound: '/components/NotFound',
         loading: '/components/Loading',

@@ -11,31 +11,36 @@ import Layout from '../layouts'
 
 import RouterLoading from '../components/Loading'
 
+
 const Route$Index = React.lazy(() => import('../pages'));
 const RouteUserLogin = React.lazy(() => import('../pages/User/Login'));
 const RouteUsertest = React.lazy(() => import('../pages/User/test'));
 
+
+(window as any).g_routers = [
+    {
+        path: '/',
+        component: React.lazy(() => import('../pages'))
+    },
+    {
+        path: '/User/Login',
+        component: React.lazy(() => import('../pages/User/Login'))
+    },
+    {
+        path: 'components:/User/test',
+        component: React.lazy(() => import('../pages/User/test'))
+    },
+]
+
+
 const NotFound = React.lazy(() => import('../components/NotFound'))
+
+
 
 function Bootstrap () {
     return (
         <Router>
             <Switch>
-                <Route
-                    path="/"
-                    exact
-                    sensitive
-                    render={(props: any) => {
-                        const layout = (
-                            <Layout {...props}>
-                                <Suspense fallback={<RouterLoading />}>
-                                    <Route$Index {...props} />
-                                </Suspense>
-                            </Layout>
-                        )
-                        return layout
-                    }}
-                />
                 <Route
                     path="/User/Login"
                     exact
@@ -45,21 +50,6 @@ function Bootstrap () {
                             <Layout {...props}>
                                 <Suspense fallback={<RouterLoading />}>
                                     <RouteUserLogin {...props} />
-                                </Suspense>
-                            </Layout>
-                        )
-                        return layout
-                    }}
-                />
-                <Route
-                    path="/User/test"
-                    exact
-                    sensitive
-                    render={(props: any) => {
-                        const layout = (
-                            <Layout {...props}>
-                                <Suspense fallback={<RouterLoading />}>
-                                    <RouteUsertest {...props} />
                                 </Suspense>
                             </Layout>
                         )

@@ -1,9 +1,9 @@
-import { compile } from 'handlebars'
+import Handlebars from 'handlebars'
 import { readFile, writeFile, mkdir } from 'fs/promises'
 import { existsSync } from 'fs'
 import { join } from 'path'
 import { FastPackConfig } from '../type'
-
+import { isValidRouterPath } from '../utils/router'
 
 export interface Router {
     /** 组件名称，内部使用 */
@@ -14,8 +14,18 @@ export interface Router {
     component: string
 }
 
+Handlebars.registerHelper('eachRouters', (context, options) => {
+    let ret = "";
+    context.forEach((element: any) => {
+        const { path } = element
+        console.log(path)
+        if (isValidRouterPath(path)) {
+            ret += options.fn(element);
+        }
+    })
+    return ret;
+})
 
-// eslint-disable-next-line import/prefer-default-export
 export async function createBootstrap (config: FastPackConfig) {
     const {
         router,
@@ -28,8 +38,7 @@ export async function createBootstrap (config: FastPackConfig) {
     }
 
     const fileContent = await readFile(join(__dirname, '..', '..', 'template', 'bootstrap.tsx'), 'utf8')
-    const template = compile(fileContent)
-
+    const template = Handlebars.compile(fileContent)
     const routers: Router[] = []
 
     router?.paths?.forEach(path => {
@@ -40,10 +49,12 @@ export async function createBootstrap (config: FastPackConfig) {
                 path: '/'
             })
         } else {
+            const pathSplit = path.split(':')
+            const pathtemp = pathSplit.pop()!
             routers.push({
-                name: path.replace(/\//g, ''),
+                name: pathtemp.replace(/\//g, ''),
                 path,
-                component: path
+                component: pathtemp
             })
         }
     })

@@ -15,19 +15,33 @@ import Layout from '..{{layout}}'
 import RouterLoading from '..{{loading}}'
 {{/if}}
 
+
 {{#each routers}}
 const Route{{this.name}} = React.lazy(() => import('../pages{{this.component}}'));
 {{/each}}
+
+
+(window as any).g_routers = [
+    {{#each routers}}
+    {
+        path: '{{this.path}}',
+        component: React.lazy(() => import('../pages{{this.component}}'))
+    },
+    {{/each}}
+]
+
 
 {{#if notFound}}
 const NotFound = React.lazy(() => import('..{{notFound}}'))
 {{/if}}
 
+
+
 function Bootstrap () {
     return (
         <Router>
             <Switch>
-                {{#each routers}}
+                {{#eachRouters routers}}
                 <Route
                     path="{{this.path}}"
                     exact
@@ -54,7 +68,7 @@ function Bootstrap () {
                         {{/if}}
                     }}
                 />
-                {{/each}}
+                {{/eachRouters}}
                 <Route
                     path="*"
                     render={(props: any) => {

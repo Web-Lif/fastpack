@@ -18,7 +18,6 @@ Handlebars.registerHelper('eachRouters', (context, options) => {
     let ret = "";
     context.forEach((element: any) => {
         const { path } = element
-        console.log(path)
         if (isValidRouterPath(path)) {
             ret += options.fn(element);
         }

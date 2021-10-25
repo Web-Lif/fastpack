@@ -136,6 +136,49 @@ export default {
 - router.layout 布局信息，用户可以指定此属性来进行对不同的地址展现不同的布局
 
 
+关于路由
+
+
+在 `.fastpack.ts` 中配置如下
+
+```js {10}
+import FastpackPluginBabelImport from '@weblif/plugin-babel-import'
+import FastpackPluginLessLoader from '@weblif/plugin-less-loader'
+
+export default {
+    title: 'test',
+    router: {
+        paths: [
+            '/',
+            '/User/Login',
+            'component:/User/test'
+        ],
+        notFound: '/components/NotFound',
+        loading: '/components/Loading',
+        layout: '/layouts'
+    },
+    devServer: {
+        port: 8085
+    },
+    plugins: [
+        new FastpackPluginBabelImport([{"libraryName": "antd", "style": true }]),
+        new FastpackPluginLessLoader({
+            lessOptions: {
+                javascriptEnabled: true,
+            }
+        }),
+    ],
+}
+```
+
+规则如下
+
+- 符合 `/^[/a-zA-Z]/` 的正则表达式的路径则表示是一个 `react-router-dom` 的对象，表示即存在在 `window.g_routers`, 也存在 `react-router-dom`  中
+- 不符合 `/^[/a-zA-Z]/` 的正则表达式的路径则是一个组件, 会在 `window.g_routers` 里面生产，但是不会生成 `react-router-dom` 的节点
+
+> 一般情况下，我们在使用`多标签页`的管理系统的时候，其实不必使用 `react-router-dom` 这样要重新实现 `切换标签页` 的缓存， 其实这是没有必要的
+
+
 ## rootRender
 
 - Type: `string`

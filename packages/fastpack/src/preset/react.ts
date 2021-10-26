@@ -3,7 +3,7 @@ import { readFile, writeFile, mkdir } from 'fs/promises'
 import { existsSync } from 'fs'
 import { join } from 'path'
 import { FastPackConfig } from '../type'
-import { isValidRouterPath } from '../utils/router'
+import { getFastPackConfig } from '../utils/config'
 
 export interface Router {
     /** 组件名称，内部使用 */
@@ -16,11 +16,14 @@ export interface Router {
 
 Handlebars.registerHelper('eachRouters', (context, options) => {
     let ret = "";
+    const { router } = getFastPackConfig()
     context.forEach((element: any) => {
         const { path } = element
-        if (isValidRouterPath(path)) {
-            ret += options.fn(element);
+        
+        if (router?.exclude?.(path)) {
+            return
         }
+        ret += options.fn(element);
     })
     return ret;
 })

@@ -17,6 +17,9 @@ interface Router {
 
     /** 路由的布局信息 */
     layout?: string
+
+    /** 是否忽略生成路由信息， 也就是不创建路由 */
+    exclude?: (path: string) => boolean
 }
 
 interface DevServer {

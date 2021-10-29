@@ -133,7 +133,10 @@ export function presetPlugins(config: Config, {
     htmlWebpackPluginOptions.title = title
 
     if (status === FastpackMode.BUILD) {
-        htmlWebpackPluginOptions.publicPath = publicPath || '/'
+        htmlWebpackPluginOptions.publicPath = publicPath 
+    }
+    if (status === FastpackMode.DEV){
+        htmlWebpackPluginOptions.publicPath = '/'
     }
     htmlWebpackPluginOptions.meta = meta
     if (favicon) {

@@ -19,15 +19,15 @@ import { FastpackMode, FastPackConfig } from './type'
 
 
 // 在启动之前执行的操作
-async function onBeforeStart() {
+async function onBeforeStart(status:  FastpackMode) {
     const fastpack = join(process.cwd())
     watch(fastpack, ( event, filename) => {
         if (event === 'change' && filename === '.fastpack.ts') {
-            createBootstrap(getFastPackConfig())
+            createBootstrap(getFastPackConfig(), status)
         }
     })
     // 创建启动文件
-    await createBootstrap(getFastPackConfig())
+    await createBootstrap(getFastPackConfig(), status)
 }
 
 /**
@@ -48,11 +48,11 @@ export default async function start() {
             fastpackConfig.plugins?.forEach(plugin => {
                 plugin.before?.(config, fastpackConfig)
             })
-            await onBeforeStart()
+            await onBeforeStart(FastpackMode.DEV)
 
             presetEntry(config, fastpackConfig)
             presetLoader(config)
-            presetPlugins(config, fastpackConfig)
+            presetPlugins(config, fastpackConfig, FastpackMode.DEV)
             presetDev(config, fastpackConfig)
     
             fastpackConfig.plugins?.forEach(plugin => {
@@ -102,11 +102,11 @@ export default async function start() {
                 plugin.before?.(config, fastpackConfig)
             })
             
-            await createBootstrap(getFastPackConfig())
+            await createBootstrap(getFastPackConfig(), FastpackMode.BUILD)
 
             presetEntry(config, fastpackConfig)
             presetLoader(config)
-            presetPlugins(config, fastpackConfig)
+            presetPlugins(config, fastpackConfig, FastpackMode.BUILD)
             presetBuild(config, fastpackConfig)
     
             fastpackConfig.plugins?.forEach(plugin => {

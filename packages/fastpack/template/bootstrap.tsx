@@ -39,7 +39,9 @@ const NotFound = React.lazy(() => import('..{{notFound}}'))
 
 function Bootstrap () {
     return (
-        <Router>
+        <Router
+            basename="{{basename}}"
+        >
             <Switch>
                 {{#eachRouters routers}}
                 <Route

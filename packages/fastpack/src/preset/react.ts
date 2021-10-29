@@ -61,12 +61,21 @@ export async function createBootstrap (config: FastPackConfig) {
         }
     })
 
+    
+    let basename;
+    
+    const status = process.argv[2]
+    if (status === 'BUILD') {
+        basename = config.publicPath
+    }
+
     let content = template({
         routers,
         rootRender,
         notFound: router.notFound,
         loading: router.loading,
-        layout: router.layout
+        layout: router.layout,
+        basename,
     })
 
     plugins.forEach(plugin => {

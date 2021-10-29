@@ -131,7 +131,11 @@ export function presetPlugins(config: Config, {
     }
 
     htmlWebpackPluginOptions.title = title
-    htmlWebpackPluginOptions.publicPath = publicPath
+
+    const status = process.argv[2]
+    if (status === 'BUILD') {
+        htmlWebpackPluginOptions.publicPath = publicPath
+    }
     htmlWebpackPluginOptions.meta = meta
     if (favicon) {
         htmlWebpackPluginOptions.favicon = favicon

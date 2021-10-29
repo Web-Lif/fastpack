@@ -10,7 +10,7 @@ import { DefinePlugin, container } from 'webpack'
 import { join } from 'path'
 
 
-import { FastPackConfig } from '../type'
+import { FastPackConfig, FastpackMode } from '../type'
 
 const react = require.resolve('react')
 const reactDOM = require.resolve('react-dom')
@@ -117,7 +117,7 @@ export function presetPlugins(config: Config, {
     favicon,
     router,
     share
-}: FastPackConfig) {
+}: FastPackConfig, status: FastpackMode) {
 
     // see https://www.webpackjs.com/plugins/define-plugin/
     config.plugin('fastpack/DefinePlugin').use(DefinePlugin, [define])
@@ -132,9 +132,8 @@ export function presetPlugins(config: Config, {
 
     htmlWebpackPluginOptions.title = title
 
-    const status = process.argv[2]
-    if (status === 'BUILD') {
-        htmlWebpackPluginOptions.publicPath = publicPath
+    if (status === FastpackMode.BUILD) {
+        htmlWebpackPluginOptions.publicPath = publicPath || '/'
     }
     htmlWebpackPluginOptions.meta = meta
     if (favicon) {

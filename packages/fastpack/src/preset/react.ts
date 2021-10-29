@@ -2,7 +2,7 @@ import Handlebars from 'handlebars'
 import { readFile, writeFile, mkdir } from 'fs/promises'
 import { existsSync } from 'fs'
 import { join } from 'path'
-import { FastPackConfig } from '../type'
+import { FastPackConfig, FastpackMode } from '../type'
 import { getFastPackConfig } from '../utils/config'
 
 export interface Router {
@@ -28,7 +28,7 @@ Handlebars.registerHelper('eachRouters', (context, options) => {
     return ret;
 })
 
-export async function createBootstrap (config: FastPackConfig) {
+export async function createBootstrap (config: FastPackConfig, status: FastpackMode) {
     const {
         router,
         rootRender,
@@ -62,11 +62,11 @@ export async function createBootstrap (config: FastPackConfig) {
     })
 
     
-    let basename;
+    let basename = '/';
     
-    const status = process.argv[2]
-    if (status === 'BUILD') {
-        basename = config.publicPath
+
+    if (status === FastpackMode.BUILD) {
+        basename = config.publicPath || '/'
     }
 
     let content = template({

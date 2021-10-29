@@ -15,7 +15,7 @@ import {
 import { createBootstrap } from './preset/react'
 
 import { getFastPackConfig } from './utils/config'
-import { FastpackMode } from './type'
+import { FastpackMode, FastPackConfig } from './type'
 
 
 // 在启动之前执行的操作
@@ -30,6 +30,10 @@ async function onBeforeStart() {
     await createBootstrap(getFastPackConfig())
 }
 
+/**
+ *  获取类型信息
+ */
+export const getFastpackConfig = (config: FastPackConfig) => config
 
 export default async function start() {
     if (process.argv.length === 3) {

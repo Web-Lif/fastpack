@@ -44,10 +44,11 @@ export function presetEntry(config: Config, {
         .set('react', react)
         .set('react-dom', reactDOM)
         .set('react-router-dom', reactRouterDOM)
+        .set('@', join(process.cwd(), 'src', ''))
 
     config.externals(externals)
 
-    Object.keys((key: string) => {
+    Object.keys(alias).forEach((key: string) => {
         aliasConfig.set(key, alias[key])
     })
 

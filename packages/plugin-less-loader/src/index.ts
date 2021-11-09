@@ -6,7 +6,13 @@ export default class FastpackPluginLessLoader {
     private options: any = {}
 
     constructor(options: any) {
-        this.options = options
+        this.options = {
+            ...(options || {}),
+            lessOptions: {
+                javascriptEnabled: true,
+                ...(options.lessOptions || {})
+            }
+        }
     }
 
     after(webpack: any) {

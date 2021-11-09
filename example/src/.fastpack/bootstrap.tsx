@@ -39,8 +39,25 @@ const NotFound = React.lazy(() => import('../components/NotFound'))
 
 function Bootstrap () {
     return (
-        <Router>
+        <Router
+            basename="/"
+        >
             <Switch>
+                <Route
+                    path="/"
+                    exact
+                    sensitive
+                    render={(props: any) => {
+                        const layout = (
+                            <Layout {...props}>
+                                <Suspense fallback={<RouterLoading />}>
+                                    <Route$Index {...props} />
+                                </Suspense>
+                            </Layout>
+                        )
+                        return layout
+                    }}
+                />
                 <Route
                     path="/User/Login"
                     exact
@@ -50,6 +67,21 @@ function Bootstrap () {
                             <Layout {...props}>
                                 <Suspense fallback={<RouterLoading />}>
                                     <RouteUserLogin {...props} />
+                                </Suspense>
+                            </Layout>
+                        )
+                        return layout
+                    }}
+                />
+                <Route
+                    path="components:/User/test"
+                    exact
+                    sensitive
+                    render={(props: any) => {
+                        const layout = (
+                            <Layout {...props}>
+                                <Suspense fallback={<RouterLoading />}>
+                                    <RouteUsertest {...props} />
                                 </Suspense>
                             </Layout>
                         )

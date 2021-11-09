@@ -55,6 +55,14 @@ export default {
 ```
 然后 `import('foo')`，实际上是 `import('/tmp/foo')`。
 
+## copy
+
+- Type: `Array<string | { from:string, to:string }>`
+- Default: `{}`
+
+设置要复制到输出目录的文件或文件夹。见 https://www.webpackjs.com/plugins/copy-webpack-plugin/
+
+
 ## devServer
 
 - Type: `object`
@@ -114,12 +122,12 @@ export default {
 
 见 https://webpack.js.org/configuration/externals/#string
 
-## copy
+## favicon 
 
-- Type: `Array<string | { from:string, to:string }>`
-- Default: `{}`
+- Type: `string`
+- Default: `''`
 
-设置要复制到输出目录的文件或文件夹。见 https://www.webpackjs.com/plugins/copy-webpack-plugin/
+配置 favicon 地址
 
 
 ## router
@@ -171,8 +179,6 @@ export default {
 }
 ```
 
-
-
 ## rootRender
 
 - Type: `string`
@@ -180,6 +186,12 @@ export default {
 
 渲染的节点，默认情况下会自动创建一个 div 来进行节点的渲染， 如果指定这个值，就会寻找节点id 为这个值的节点来进行渲染
 
+## meta
+
+- Type: `{[name: string]: string}`
+- Default: `{}`
+
+配置额外的 meta 标签。数组中可以配置key:value形式的对象。
 
 ## publicPath
 
@@ -189,28 +201,12 @@ export default {
 用于脚本和链接标签的 publicPath 见 https://github.com/jantimon/html-webpack-plugin
 
 
-## meta
+## plugins
 
-- Type: `{[name: string]: string}`
-- Default: `{}`
+- Type: `Array<FastpackPlugin>`
+- Default: `[]`
 
-配置额外的 meta 标签。数组中可以配置key:value形式的对象。
-
-## title
-
-- Type: `string`
-- Default: `''`
-
-配置网页标题
-
-
-## favicon 
-
-- Type: `string`
-- Default: `''`
-
-配置 favicon 地址
-
+扩展的插件信息
 
 ## share
 
@@ -223,11 +219,11 @@ export default {
 
 > 注意 导出的属性不包含 `layout`
 
+## title
 
-## plugins
+- Type: `string`
+- Default: `''`
 
-- Type: `Array<FastpackPlugin>`
-- Default: `[]`
+配置网页标题
 
-扩展的插件信息
 

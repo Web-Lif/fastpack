@@ -1,6 +1,3 @@
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
-
 export default class FastpackPluginLessLoader {
 
     private options: any = {}
@@ -20,8 +17,8 @@ export default class FastpackPluginLessLoader {
             .module
             .rule('fastpack/lessModule')
             .test(/\.module\.less$/)
-            .use('fastpack/miniCssLoader')
-            .loader(MiniCssExtractPlugin.loader)
+            .use('fastpack/style-loader')
+            .loader('style-loader')
             .end()
             .use('fastpack/css-loade')
             .loader('css-loader')
@@ -41,8 +38,8 @@ export default class FastpackPluginLessLoader {
             .exclude
             .add(/\.module\.less$/)
             .end()
-            .use('fastpack/miniCssLoader')
-            .loader(MiniCssExtractPlugin.loader)
+            .use('fastpack/style-loader')
+            .loader('style-loader')
             .end()
             .use('fastpack/css-loade')
             .loader('css-loader')
@@ -51,9 +48,5 @@ export default class FastpackPluginLessLoader {
             .loader('less-loader')
             .options(this.options)
             .end()
-        
-        webpack.plugin('fastpack/MiniCssExtractPlugin').use(MiniCssExtractPlugin)
-        webpack.optimization.minimizer('fastpack/CssMinimizerPlugin').use(CssMinimizerPlugin)
-        webpack.optimization.minimize(true)
     }
 }

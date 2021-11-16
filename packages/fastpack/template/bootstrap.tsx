@@ -74,12 +74,12 @@ function Bootstrap () {
                 <Route
                     path="*"
                     render={(props: any) => {
-                        {{#if layout}}
+                        {{#if notFound}}
                         const RouterNotFund = <NotFound {...props}/>
                         {{else}}
                         const RouterNotFund = <div />
                         {{/if}}
-
+                        {{#if layout}}
                         const layout = (
                             <Layout {...props}>
                                 {{#if ../loading}}
@@ -92,6 +92,9 @@ function Bootstrap () {
                             </Layout>
                         )
                         return layout
+                        {{else}}
+                        return RouterNotFund
+                        {{/if}}
                     }}
                 />
             </Switch>

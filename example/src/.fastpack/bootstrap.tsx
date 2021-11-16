@@ -92,7 +92,6 @@ function Bootstrap () {
                     path="*"
                     render={(props: any) => {
                         const RouterNotFund = <NotFound {...props}/>
-
                         const layout = (
                             <Layout {...props}>
                                 <Suspense fallback={<div />}>

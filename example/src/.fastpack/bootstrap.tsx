@@ -14,7 +14,6 @@ import RouterLoading from '../components/Loading'
 
 const Route$Index = React.lazy(() => import('../pages'));
 const RouteUserLogin = React.lazy(() => import('../pages/User/Login'));
-const RouteUsertest = React.lazy(() => import('../pages/User/test'));
 
 
 (window as any).g_routers = [
@@ -25,10 +24,6 @@ const RouteUsertest = React.lazy(() => import('../pages/User/test'));
     {
         path: '/User/Login',
         component: React.lazy(() => import('../pages/User/Login'))
-    },
-    {
-        path: 'components:/User/test',
-        component: React.lazy(() => import('../pages/User/test'))
     },
 ]
 
@@ -67,21 +62,6 @@ function Bootstrap () {
                             <Layout {...props}>
                                 <Suspense fallback={<RouterLoading />}>
                                     <RouteUserLogin {...props} />
-                                </Suspense>
-                            </Layout>
-                        )
-                        return layout
-                    }}
-                />
-                <Route
-                    path="components:/User/test"
-                    exact
-                    sensitive
-                    render={(props: any) => {
-                        const layout = (
-                            <Layout {...props}>
-                                <Suspense fallback={<RouterLoading />}>
-                                    <RouteUsertest {...props} />
                                 </Suspense>
                             </Layout>
                         )

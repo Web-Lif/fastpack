@@ -78,7 +78,7 @@ export default async function start() {
             // 默认可访问地址
             const defaultHost = '127.0.0.1'
             // 默认的端口号
-            const defaultPort = 8000
+            const defaultPort = 9080
 
             const {
                 devServer = {}

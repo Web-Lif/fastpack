@@ -15,7 +15,5 @@
         "example"
     ],
     "resolutions": {
-        "immer": ">=9.0.6",
-        "trim": ">=0.0.3"
     }
 }

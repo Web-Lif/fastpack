@@ -8,6 +8,7 @@
         "update-dep:fastpack": "npm run update-dep --workspace=@weblif/fastpack",
         "build:site": "npm run build --workspace=website"
     },
+    
     "workspaces": [
         "packages/*",
         "website",

@@ -179,7 +179,10 @@ export function presetDev(config: Config, {
     config.devtool(devtool)
 
     // see https://webpack.js.org/configuration/cache/
-    config.cache(true)
+    config.cache({
+        type: 'filesystem',
+        hashAlgorithm: 'sha1',
+    })
 
     // 设置环境变量关闭 ReactRefresh
     if (process.env.ReactRefresh !== 'false') {

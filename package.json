@@ -6,12 +6,16 @@
         "start": "npm run build --workspace=@weblif/fastpack --workspace=@weblif/plugin-babel-import --workspace=@weblif/plugin-less-loader && npm run start --workspace=example",
         "start:site": "npm run start --workspace=website",
         "update-dep:fastpack": "npm run update-dep --workspace=@weblif/fastpack",
-        "build:site": "npm run build --workspace=website"
+        "build:site": "npm run build --workspace=website",
+        "preinstall": "npx npm-force-resolutions"
     },
-    
     "workspaces": [
         "packages/*",
         "website",
         "example"
-    ]
+    ],
+    "resolutions": {
+        "immer": ">=9.0.6",
+        "trim": ">=0.0.3"
+    }
 }

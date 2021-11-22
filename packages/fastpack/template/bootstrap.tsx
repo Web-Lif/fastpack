@@ -64,7 +64,13 @@ function Bootstrap () {
                         return layout
                         {{else}}
                         const router = (
-                            <Route{{this.name}} />
+                            {{#if ../loading}}
+                            <Suspense fallback={<RouterLoading />}>
+                            {{else}}
+                            <Suspense fallback={<div />}>
+                            {{/if}}
+                                <Route{{this.name}} {...props} />
+                            </Suspense>
                         )
                         return router
                         {{/if}}

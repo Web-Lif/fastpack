@@ -6,7 +6,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import TerserPlugin from 'terser-webpack-plugin'
 import WebpackBar from 'webpackbar'
 import { existsSync, readdirSync } from 'fs'
-import { DefinePlugin, container } from 'webpack'
+import { DefinePlugin, ProvidePlugin, container } from 'webpack'
 import { join } from 'path'
 
 
@@ -170,6 +170,10 @@ export function presetPlugins(config: Config, {
         name: 'fastpack'
     }])
 
+    // 修复 webpack 5 中 `Buffer is not defined`
+    config.plugin('fastpack/ProvidePlugin').use(ProvidePlugin, [{
+        Buffer: ['buffer', 'Buffer'],
+    }])
 }
 
 export function presetDev(config: Config, {

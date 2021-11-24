@@ -170,6 +170,7 @@ export function presetPlugins(config: Config, {
         name: 'fastpack'
     }])
 
+    // 修复 webpack 5 中 `Buffer is not defined`
     config.plugin('fastpack/ProvidePlugin').use(ProvidePlugin, [{
         Buffer: ['buffer', 'Buffer'],
     }])

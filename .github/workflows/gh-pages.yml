@@ -14,10 +14,10 @@ jobs:
           persist-credentials: false
 
       - name: Install
-        run: sudo npm i -g npm@latest 
+        run: sudo npm i -g npm@latest &&  npm install
         
       - name: Build
-        run: cd website && npm install && npm run build
+        run: npm run build:site
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.5

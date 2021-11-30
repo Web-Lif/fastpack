@@ -93,7 +93,7 @@ export interface FastPackConfig {
     /**
      * 设置要复制到输出目录的文件或文件夹。 see https://www.webpackjs.com/plugins/copy-webpack-plugin/
      */
-    copy?: Array<string | { from:string, to:string }>
+    copy?: Array<string | { from:string, to?:string }>
 
     /**
      * 路由信息, 路径为 `pages` 下的文件

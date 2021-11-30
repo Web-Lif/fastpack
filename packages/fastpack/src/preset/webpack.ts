@@ -245,13 +245,14 @@ export function presetBuild(config: Config, {
     config.optimization.minimizer('fastpack/TerserPlugin').use(TerserPlugin)
     config.optimization.minimize(true)
     const publicPath = join(process.cwd(), 'public')
+
+    const patterns = [...copy]
     if (existsSync(publicPath) && readdirSync(publicPath).length > 0) {
-        // see https://www.webpackjs.com/plugins/copy-webpack-plugin/
-        config.plugin('fastpack/CopyWebpackPlugin').use(CopyWebpackPlugin, [{
-            patterns: [
-                { from: 'public' },
-                ...copy
-            ]
-        }])
+        patterns.push({ from: 'public' })
     }
+
+    // see https://www.webpackjs.com/plugins/copy-webpack-plugin/
+    config.plugin('fastpack/CopyWebpackPlugin').use(CopyWebpackPlugin, [{
+        patterns
+    }])
 }

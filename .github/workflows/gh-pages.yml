@@ -17,7 +17,7 @@ jobs:
         run: sudo npm i -g npm@latest &&  npm install
         
       - name: Build
-        run: npm run build:site
+        run: cd website && npm install && npm run build
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.5

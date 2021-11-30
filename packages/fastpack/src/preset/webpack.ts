@@ -116,7 +116,8 @@ export function presetPlugins(config: Config, {
     title = 'fastpack',
     favicon,
     router,
-    share
+    share,
+    copy = []
 }: FastPackConfig, status: FastpackMode) {
 
     // see https://www.webpackjs.com/plugins/define-plugin/
@@ -174,6 +175,18 @@ export function presetPlugins(config: Config, {
     config.plugin('fastpack/ProvidePlugin').use(ProvidePlugin, [{
         Buffer: ['buffer', 'Buffer'],
     }])
+
+    const publicCopy = join(process.cwd(), 'public')
+
+    const patterns = [...copy]
+    if (existsSync(publicCopy) && readdirSync(publicCopy).length > 0) {
+        patterns.push({ from: 'public' })
+    }
+
+    // see https://www.webpackjs.com/plugins/copy-webpack-plugin/
+    config.plugin('fastpack/CopyWebpackPlugin').use(CopyWebpackPlugin, [{
+        patterns
+    }])
 }
 
 export function presetDev(config: Config, {
@@ -209,8 +222,8 @@ export function presetDev(config: Config, {
     config.stats('errors-only')
 }
 
+// eslint-disable-next-line no-empty-pattern
 export function presetBuild(config: Config, {
-    copy = []
 }: FastPackConfig) {
     config.mode('production')
     config.devtool(false)
@@ -244,15 +257,4 @@ export function presetBuild(config: Config, {
     }
     config.optimization.minimizer('fastpack/TerserPlugin').use(TerserPlugin)
     config.optimization.minimize(true)
-    const publicPath = join(process.cwd(), 'public')
-
-    const patterns = [...copy]
-    if (existsSync(publicPath) && readdirSync(publicPath).length > 0) {
-        patterns.push({ from: 'public' })
-    }
-
-    // see https://www.webpackjs.com/plugins/copy-webpack-plugin/
-    config.plugin('fastpack/CopyWebpackPlugin').use(CopyWebpackPlugin, [{
-        patterns
-    }])
 }

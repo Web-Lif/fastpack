@@ -1,7 +1,7 @@
 {
     "name": "@weblif/fastpack",
     "author": "苯苯 <854363956@qq.com>",
-    "version": "0.0.13-micro",
+    "version": "0.0.14-micro",
     "license": "MIT",
     "repository": {
         "url": "https://github.com/Web-Lif/fastpack"

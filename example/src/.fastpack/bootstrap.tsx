@@ -20,7 +20,7 @@ if (document.querySelector('#root')) {
     ReactDOM.render(
         <Bootstrap />
         ,
-        root
+        document.querySelector('#root')
     )
 } else {
     const root = document.createElement("div")

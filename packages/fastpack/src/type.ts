@@ -44,7 +44,10 @@ export interface FastpackPlugin {
 }
 
 interface FastPackShare {
+    /** 定义一个不冲突的名称 */
     name: string
+    /** 主框架地址 */
+    frame?: string
 }
 
 export interface FastPackConfig {

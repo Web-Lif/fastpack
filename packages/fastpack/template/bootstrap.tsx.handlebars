@@ -34,8 +34,16 @@ const Route{{this.name}} = React.lazy(() => import('../pages{{this.component}}')
 {{#if notFound}}
 const NotFound = React.lazy(() => import('..{{notFound}}'))
 {{/if}}
+interface BootstrapProps {
+    routers: {
+        path: string
+        component: any
+    }[]
+}
 
-function Bootstrap () {
+function Bootstrap ({
+    routers
+}: BootstrapProps) {
     return (
         <Router
             basename="{{basename}}"
@@ -75,6 +83,41 @@ function Bootstrap () {
                     }}
                 />
                 {{/eachRouters}}
+                {routers.map(router => (
+                    <Route
+                        path={router.path}
+                        exact
+                        sensitive
+                        render={(props: any) => {
+                            const RouterComponent = router.component
+                            {{#if layout}}
+                            const layout = (
+                                <Layout {...props}>
+                                    {{#if loading}}
+                                    <Suspense fallback={<RouterLoading />}>
+                                    {{else}}
+                                    <Suspense fallback={<div />}>
+                                    {{/if}}
+                                        <RouterComponent {...props} />
+                                    </Suspense>
+                                </Layout>
+                            )
+                            return layout
+                            {{else}}
+                            const router = (
+                                {{#if ../loading}}
+                                <Suspense fallback={<RouterLoading />}>
+                                {{else}}
+                                <Suspense fallback={<div />}>
+                                {{/if}}
+                                    <RouterComponent {...props} />
+                                </Suspense>
+                            )
+                            return router
+                            {{/if}}
+                        }}
+                    />
+                ))}
                 <Route
                     path="*"
                     render={(props: any) => {
@@ -105,6 +148,8 @@ function Bootstrap () {
         </Router>
     )
 }
+
+export default Bootstrap
 
 {{#if rootRender}}
 ReactDOM.render(

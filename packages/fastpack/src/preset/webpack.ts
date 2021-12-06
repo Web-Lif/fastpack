@@ -163,8 +163,20 @@ export function presetPlugins(config: Config, {
             name: share.name,
             filename: 'fastpack.share.js',
             exposes,
-            shared: { react: { singleton: true, eager: true }, 'react-dom': { singleton: true, eager: true } },
+            shared: { react: { singleton: true, eager: true }, 'react-dom': { singleton: true, eager: true }},
         } as any])
+    } else if (process.env.MainFrame) {
+        config.plugin('fastpack/ModuleFederationPlugin').use(ModuleFederationPlugin, [{
+            name: 'fastpack.micro',
+            filename: 'fastpack.share.js',
+            exposes: {
+                'frame': './src/.fastpack/bootstrap.tsx'
+            },
+            shared: {
+                react: { singleton: true, eager: true },
+                'react-dom': { singleton: true, eager: true }
+            },
+        }])
     }
 
     config.plugin('fastpack/WebpackBar').use(WebpackBar, [{

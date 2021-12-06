@@ -39,7 +39,8 @@ export async function createBootstrap (config: FastPackConfig, status: FastpackM
         await mkdir(fastpackFolder)
     }
 
-    const fileContent = await readFile(join(__dirname, '..', '..', 'template', 'bootstrap.tsx.handlebars'), 'utf8')
+    const templatePath = config.share?.frame ? 'bootstrap.micro.tsx.handlebars' : 'bootstrap.tsx.handlebars'
+    const fileContent = await readFile(join(__dirname, '..', '..', 'template', templatePath), 'utf8')
     const template = Handlebars.compile(fileContent)
     const routers: Router[] = []
 
@@ -63,7 +64,6 @@ export async function createBootstrap (config: FastPackConfig, status: FastpackM
 
     
     let basename = '/';
-    
 
     if (status === FastpackMode.BUILD) {
         basename = config.publicPath || '/'
@@ -76,6 +76,7 @@ export async function createBootstrap (config: FastPackConfig, status: FastpackM
         loading: router.loading,
         layout: router.layout,
         basename,
+        frame: config.share?.frame,
     })
 
     plugins.forEach(plugin => {

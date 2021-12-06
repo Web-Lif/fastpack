@@ -15,6 +15,10 @@ export default {
     devServer: {
         port: 8085
     },
+    share: {
+        name: 'test',
+        frame: 'http://127.0.0.1'
+    },
     plugins: [
         new FastpackPluginBabelImport([{"libraryName": "antd", "style": true }]),
         new FastpackPluginLessLoader({

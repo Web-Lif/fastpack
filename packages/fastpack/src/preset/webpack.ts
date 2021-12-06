@@ -183,10 +183,12 @@ export function presetPlugins(config: Config, {
         patterns.push({ from: 'public' })
     }
 
-    // see https://www.webpackjs.com/plugins/copy-webpack-plugin/
-    config.plugin('fastpack/CopyWebpackPlugin').use(CopyWebpackPlugin, [{
-        patterns
-    }])
+    if (patterns.length > 0) {
+        // see https://www.webpackjs.com/plugins/copy-webpack-plugin/
+        config.plugin('fastpack/CopyWebpackPlugin').use(CopyWebpackPlugin, [{
+            patterns
+        }])
+    }
 }
 
 export function presetDev(config: Config, {

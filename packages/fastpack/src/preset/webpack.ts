@@ -23,7 +23,7 @@ export function presetEntry(config: Config, {
     alias = {},
     externals = {}
 }: FastPackConfig) {
-    const entry = join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx');
+    const entry = join(process.cwd(), 'src', '.fastpack', 'index.ts');
     config.entry('fastpack').add(entry).end();
     config.output
         .filename('[name].bundle.js');
@@ -159,18 +159,27 @@ export function presetPlugins(config: Config, {
             }
         })
 
+
+        let remotes
+
+        if (share.frame) {
+            remotes = {
+                'fastpack_micro': `fastpack_micro@${share.frame}`
+            }
+        }
         config.plugin('fastpack/ModuleFederationPlugin').use(ModuleFederationPlugin, [{
             name: share.name,
             filename: 'fastpack.share.js',
             exposes,
-            shared: { react: { singleton: true, eager: true }, 'react-dom': { singleton: true, eager: true }},
+            remotes,
+            shared: { react: { singleton: true }, 'react-dom': { singleton: true }},
         } as any])
     } else if (process.env.MainFrame) {
         config.plugin('fastpack/ModuleFederationPlugin').use(ModuleFederationPlugin, [{
-            name: 'fastpack.micro',
+            name: 'fastpack_micro',
             filename: 'fastpack.share.js',
             exposes: {
-                'frame': './src/.fastpack/bootstrap.tsx'
+                './frame': './src/.fastpack/bootstrap.tsx'
             },
             shared: {
                 react: { singleton: true, eager: true },

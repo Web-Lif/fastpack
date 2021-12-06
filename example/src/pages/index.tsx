@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react'
+import React, { useState } from 'react'
 import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
 

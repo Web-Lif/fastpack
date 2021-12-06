@@ -41,22 +41,29 @@ export async function createBootstrap (config: FastPackConfig, status: FastpackM
 
     const templatePath = config.share?.frame ? 'bootstrap.micro.tsx.handlebars' : 'bootstrap.tsx.handlebars'
     const fileContent = await readFile(join(__dirname, '..', '..', 'template', templatePath), 'utf8')
+    const indexContent = await readFile(join(__dirname, '..', '..', 'template', 'index.ts'), 'utf8')
+    await writeFile(join(process.cwd(), 'src', '.fastpack', 'index.ts'), indexContent)
+    
     const template = Handlebars.compile(fileContent)
     const routers: Router[] = []
 
     router?.paths?.forEach(path => {
+        let name = ''
+        if (config.share?.name) {
+            name = `/${config.share?.name}`
+        }
         if (path === '/') {
             routers.push({
                 name: '$Index',
                 component: '',
-                path: '/'
+                path: `${name}/`
             })
         } else {
             const pathSplit = path.split(':')
             const pathtemp = pathSplit.pop()!
             routers.push({
                 name: pathtemp.replace(/\//g, ''),
-                path,
+                path: `${name}${path}`,
                 component: pathtemp
             })
         }
@@ -76,7 +83,7 @@ export async function createBootstrap (config: FastPackConfig, status: FastpackM
         loading: router.loading,
         layout: router.layout,
         basename,
-        frame: config.share?.frame,
+        frame: config.share?.frame
     })
 
     plugins.forEach(plugin => {

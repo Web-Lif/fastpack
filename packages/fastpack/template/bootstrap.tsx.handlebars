@@ -21,28 +21,31 @@ const Route{{this.name}} = React.lazy(() => import('../pages{{this.component}}')
 {{/each}}
 
 
-(window as any).g_routers = [
+export const routers = [
     {{#each routers}}
     {
         path: '{{this.path}}',
         component: React.lazy(() => import('../pages{{this.component}}'))
     },
     {{/each}}
-]
+] as any
+
+(window as any).g_routers = routers
+
 
 
 {{#if notFound}}
 const NotFound = React.lazy(() => import('..{{notFound}}'))
 {{/if}}
 interface BootstrapProps {
-    routers: {
+    routers?: {
         path: string
         component: any
     }[]
 }
 
 function Bootstrap ({
-    routers
+    routers = []
 }: BootstrapProps) {
     return (
         <Router
@@ -88,6 +91,7 @@ function Bootstrap ({
                         path={router.path}
                         exact
                         sensitive
+                        key={router.path}
                         render={(props: any) => {
                             const RouterComponent = router.component
                             {{#if layout}}
@@ -151,6 +155,7 @@ function Bootstrap ({
 
 export default Bootstrap
 
+
 {{#if rootRender}}
 ReactDOM.render(
     <Bootstrap />
@@ -158,13 +163,22 @@ ReactDOM.render(
     document.querySelector('#{{rootRender}}')
 )
 {{else}}
-const root = document.createElement("div")
-root.style.width = '100%'
-root.style.height = '100%'
-document.body.appendChild(root)
-ReactDOM.render(
-    <Bootstrap />
-    ,
-    root
-)
+if (document.querySelector('#root')) {
+    ReactDOM.render(
+        <Bootstrap />
+        ,
+        root
+    )
+} else {
+    const root = document.createElement("div")
+    root.setAttribute('id', 'root')
+    root.style.width = '100%'
+    root.style.height = '100%'
+    document.body.appendChild(root)
+    ReactDOM.render(
+        <Bootstrap />
+        ,
+        root
+    )
+}
 {{/if}}

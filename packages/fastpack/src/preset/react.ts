@@ -39,7 +39,7 @@ export async function createBootstrap (config: FastPackConfig, status: FastpackM
         await mkdir(fastpackFolder)
     }
 
-    const fileContent = await readFile(join(__dirname, '..', '..', 'template', 'bootstrap.tsx'), 'utf8')
+    const fileContent = await readFile(join(__dirname, '..', '..', 'template', 'bootstrap.tsx.handlebars'), 'utf8')
     const template = Handlebars.compile(fileContent)
     const routers: Router[] = []
 

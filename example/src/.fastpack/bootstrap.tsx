@@ -1,7 +1,5 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ReactDOM from 'react-dom'
-
-import Bootstrap, { routers } from 'fastpack_micro/frame'
 
 const extRouters = [
     {
@@ -14,23 +12,6 @@ const extRouters = [
     },
 ] as any
 
-(window as any).g_routers = extRouters.concat(routers)
-
-if (document.querySelector('#root')) {
-    ReactDOM.render(
-        <Bootstrap />
-        ,
-        document.querySelector('#root')
-    )
-} else {
-    const root = document.createElement("div")
-    root.setAttribute('id', 'root')
-    root.style.width = '100%'
-    root.style.height = '100%'
-    document.body.appendChild(root)
-    ReactDOM.render(
-        <Bootstrap />
-        ,
-        root
-    )
+export {
+    extRouters as routers,
 }

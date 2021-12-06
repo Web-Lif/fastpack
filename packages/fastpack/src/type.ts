@@ -137,6 +137,11 @@ export interface FastPackConfig {
      * 将路由分享给其他用户
      */
     share?: FastPackShare
+
+    /**
+     * 连接到微前端的地址
+     */
+    links?: string[]
 } 
 
 

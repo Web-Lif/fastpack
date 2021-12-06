@@ -115,8 +115,8 @@ export function presetPlugins(config: Config, {
     meta = {},
     title = 'fastpack',
     favicon,
-    router,
     share,
+    links,
     copy = []
 }: FastPackConfig, status: FastpackMode) {
 
@@ -150,37 +150,41 @@ export function presetPlugins(config: Config, {
 
     // see https://webpack.js.org/plugins/module-federation-plugin/
     if (share) {
-        const exposes: any = {}
-        router?.paths?.forEach((ele) => {
-            if (ele === '/') {
-                exposes.Router$Index = `./src/pages${ele}`
-            } else {
-                exposes[`Router$${ele.replace(/\//g, '')}`] = `./src/pages${ele}`
-            }
-        })
-
-
         let remotes
-
         if (share.frame) {
             remotes = {
                 'fastpack_micro': `fastpack_micro@${share.frame}`
             }
         }
+
         config.plugin('fastpack/ModuleFederationPlugin').use(ModuleFederationPlugin, [{
-            name: share.name,
+            name: `fastpack_link_${share.name}`,
             filename: 'fastpack.share.js',
-            exposes,
+            exposes: {
+                './share': './src/.fastpack/bootstrap.tsx'
+            },
             remotes,
             shared: { react: { singleton: true }, 'react-dom': { singleton: true }},
         } as any])
     } else if (process.env.MainFrame) {
+        let remotes: any;
+        if (links) {
+            remotes = {}
+            links.forEach(link => {
+                const splits = link.split('@')
+                if (splits.length === 2) {
+                    remotes[`fastpack_link_${splits[0]}`] = `fastpack_link_${splits[0]}@${splits[1]}`
+                }
+            })
+        }
+
         config.plugin('fastpack/ModuleFederationPlugin').use(ModuleFederationPlugin, [{
             name: 'fastpack_micro',
             filename: 'fastpack.share.js',
             exposes: {
                 './frame': './src/.fastpack/bootstrap.tsx'
             },
+            remotes,
             shared: {
                 react: { singleton: true, eager: true },
                 'react-dom': { singleton: true, eager: true }

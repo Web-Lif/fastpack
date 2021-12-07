@@ -23,7 +23,7 @@ export function presetEntry(config: Config, {
     alias = {},
     externals = {}
 }: FastPackConfig) {
-    const entry = join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx');
+    const entry = join(process.cwd(), 'src', '.fastpack', 'index.ts');
     config.entry('fastpack').add(entry).end();
     config.output
         .filename('[name].bundle.js');
@@ -115,8 +115,8 @@ export function presetPlugins(config: Config, {
     meta = {},
     title = 'fastpack',
     favicon,
-    router,
     share,
+    links,
     copy = []
 }: FastPackConfig, status: FastpackMode) {
 
@@ -150,21 +150,49 @@ export function presetPlugins(config: Config, {
 
     // see https://webpack.js.org/plugins/module-federation-plugin/
     if (share) {
-        const exposes: any = {}
-        router?.paths?.forEach((ele) => {
-            if (ele === '/') {
-                exposes.Router$Index = `./src/pages${ele}`
-            } else {
-                exposes[`Router$${ele.replace(/\//g, '')}`] = `./src/pages${ele}`
+        let remotes
+        if (share.frame) {
+            remotes = {
+                'fastpack_micro': `fastpack_micro@${share.frame}`
             }
-        })
+        }
 
         config.plugin('fastpack/ModuleFederationPlugin').use(ModuleFederationPlugin, [{
-            name: share.name,
+            name: `fastpack_link_${share.name}`,
+            filename: 'fastpack.share.js',
+            exposes: {
+                './share': './src/.fastpack/bootstrap.tsx'
+            },
+            remotes,
+            shared: { react: { singleton: true }, 'react-dom': { singleton: true }},
+        } as any])
+    } else {
+        let remotes: any;
+        if (links) {
+            remotes = {}
+            links.forEach(link => {
+                const splits = link.split('@')
+                if (splits.length === 2) {
+                    remotes[`fastpack_link_${splits[0]}`] = `fastpack_link_${splits[0]}@${splits[1]}`
+                }
+            })
+        }
+
+        let exposes: any;
+        if (process.env.MainFrame) {
+            exposes['./frame'] = './src/.fastpack/bootstrap.tsx'
+        }
+
+        config.plugin('fastpack/ModuleFederationPlugin').use(ModuleFederationPlugin, [{
+            name: 'fastpack_micro',
             filename: 'fastpack.share.js',
             exposes,
-            shared: { react: { singleton: true, eager: true }, 'react-dom': { singleton: true, eager: true } },
-        } as any])
+            remotes,
+            shared: {
+                react: { singleton: true, eager: true },
+                'react-dom': { singleton: true, eager: true }
+            },
+        }])
     }
 
     config.plugin('fastpack/WebpackBar').use(WebpackBar, [{

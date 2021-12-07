@@ -28,34 +28,34 @@ Handlebars.registerHelper('eachRouters', (context, options) => {
     return ret;
 })
 
-export async function createBootstrap (config: FastPackConfig, status: FastpackMode) {
+export async function createHandlebarsFile (config: FastPackConfig, status: FastpackMode, templatePath: string, targetPath: string) {
     const {
         router,
         rootRender,
         plugins = []
     } =  config
-    const fastpackFolder = join(process.cwd(), 'src', '.fastpack')
-    if (!existsSync(fastpackFolder)) {
-        await mkdir(fastpackFolder)
-    }
-
-    const fileContent = await readFile(join(__dirname, '..', '..', 'template', 'bootstrap.tsx.handlebars'), 'utf8')
-    const template = Handlebars.compile(fileContent)
+    
+    const fileContent = await readFile(join(__dirname, '..', '..', 'template', templatePath), 'utf8')
+    
     const routers: Router[] = []
 
     router?.paths?.forEach(path => {
+        let name = ''
+        if (config.share?.name) {
+            name = `/${config.share?.name}`
+        }
         if (path === '/') {
             routers.push({
                 name: '$Index',
                 component: '',
-                path: '/'
+                path: `${name}/`
             })
         } else {
             const pathSplit = path.split(':')
             const pathtemp = pathSplit.pop()!
             routers.push({
                 name: pathtemp.replace(/\//g, ''),
-                path,
+                path: `${name}${path}`,
                 component: pathtemp
             })
         }
@@ -63,12 +63,12 @@ export async function createBootstrap (config: FastPackConfig, status: FastpackM
 
     
     let basename = '/';
-    
 
     if (status === FastpackMode.BUILD) {
         basename = config.publicPath || '/'
     }
 
+    const template = Handlebars.compile(fileContent)
     let content = template({
         routers,
         rootRender,
@@ -76,6 +76,8 @@ export async function createBootstrap (config: FastPackConfig, status: FastpackM
         loading: router.loading,
         layout: router.layout,
         basename,
+        frame: config.share?.frame,
+        links: config?.links?.map(ele => ele.split('@')?.[0])
     })
 
     plugins.forEach(plugin => {
@@ -85,7 +87,7 @@ export async function createBootstrap (config: FastPackConfig, status: FastpackM
         }
     })
 
-    const bootstrapPath = join(process.cwd(), 'src', '.fastpack', 'bootstrap.tsx')
+    const bootstrapPath = join(process.cwd(), 'src', '.fastpack', targetPath)
 
     // 如果不存在文件，则创建对应的文件信息
     if (!existsSync(bootstrapPath)) {
@@ -99,4 +101,20 @@ export async function createBootstrap (config: FastPackConfig, status: FastpackM
     if (content !== targetContent) {
         await writeFile(bootstrapPath, content)
     }
+}
+
+export async function createBootstrap (config: FastPackConfig, status: FastpackMode) {
+    const fastpackFolder = join(process.cwd(), 'src', '.fastpack')
+    if (!existsSync(fastpackFolder)) {
+        await mkdir(fastpackFolder)
+    }
+
+    const templatePath = config.share?.frame ? 'bootstrap.micro.tsx.handlebars' : 'bootstrap.tsx.handlebars'
+
+    const indexContent = await readFile(join(__dirname, '..', '..', 'template', 'index.ts'), 'utf8')
+    await writeFile(join(process.cwd(), 'src', '.fastpack', 'index.ts'), indexContent)
+    
+    await createHandlebarsFile(config, status, templatePath, 'bootstrap.tsx')
+    await createHandlebarsFile(config, status, 'render.tsx.handlebars', 'render.tsx')
+  
 }

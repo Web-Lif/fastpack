@@ -1,0 +1,15 @@
+import React from "react";
+import ReactDOM from 'react-dom'
+
+const extRouters = [
+    {{#each routers}}
+    {
+        path: '{{this.path}}',
+        component: React.lazy(() => import('../pages{{this.component}}'))
+    },
+    {{/each}}
+] as any
+
+export {
+    extRouters as routers,
+}

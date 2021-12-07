@@ -44,7 +44,10 @@ export interface FastpackPlugin {
 }
 
 interface FastPackShare {
+    /** 定义一个不冲突的名称 */
     name: string
+    /** 主框架地址 */
+    frame?: string
 }
 
 export interface FastPackConfig {
@@ -134,6 +137,11 @@ export interface FastPackConfig {
      * 将路由分享给其他用户
      */
     share?: FastPackShare
+
+    /**
+     * 连接到微前端的地址
+     */
+    links?: string[]
 } 
 
 

@@ -38,6 +38,9 @@ export const getFastpackConfig = (config: FastPackConfig) => config
 export default async function start() {
     if (process.argv.length === 3) {
         const fastpackConfig = getFastPackConfig()
+        if (fastpackConfig.share?.name && (fastpackConfig.router?.layout || fastpackConfig.router?.loading || fastpackConfig.router?.notFound)) {
+            console.warn('\x1b[31m!!!警告: Share模式下, layout, loading, notFound 这些配置在被主框架加载的时候将失去任何效果!!!\x1b[0m')
+        }
 
         const status = process.argv[2];
         

@@ -9,11 +9,12 @@ import {
 {{#if layout}}
 import Layout from '..{{layout}}'
 {{/if}}
-
-
 {{#if loading}}
 import RouterLoading from '..{{loading}}'
 {{/if}}
+{{#each links}}
+import { routers as {{this}}Routers } from 'fastpack_link_{{this}}/share'
+{{/each}}
 
 
 {{#each routers}}
@@ -21,21 +22,40 @@ const Route{{this.name}} = React.lazy(() => import('../pages{{this.component}}')
 {{/each}}
 
 
-(window as any).g_routers = [
+export const routers = [
     {{#each routers}}
     {
         path: '{{this.path}}',
         component: React.lazy(() => import('../pages{{this.component}}'))
     },
     {{/each}}
-]
+] as any
+
+
+const shareRouters = [] as any
+
+{{#each links}}
+shareRouters.push(...{{this}}Routers)
+{{/each}}
+
+{{#if frame}}
+routers.push(...shareRouters)
+{{/if}}
 
 
 {{#if notFound}}
 const NotFound = React.lazy(() => import('..{{notFound}}'))
 {{/if}}
+interface BootstrapProps {
+    routers?: {
+        path: string
+        component: any
+    }[]
+}
 
-function Bootstrap () {
+function Bootstrap ({
+    routers = []
+}: BootstrapProps) {
     return (
         <Router
             basename="{{basename}}"
@@ -75,6 +95,42 @@ function Bootstrap () {
                     }}
                 />
                 {{/eachRouters}}
+                {routers.map(router => (
+                    <Route
+                        path={router.path}
+                        exact
+                        sensitive
+                        key={router.path}
+                        render={(props: any) => {
+                            const RouterComponent = router.component
+                            {{#if layout}}
+                            const layout = (
+                                <Layout {...props}>
+                                    {{#if loading}}
+                                    <Suspense fallback={<RouterLoading />}>
+                                    {{else}}
+                                    <Suspense fallback={<div />}>
+                                    {{/if}}
+                                        <RouterComponent {...props} />
+                                    </Suspense>
+                                </Layout>
+                            )
+                            return layout
+                            {{else}}
+                            const router = (
+                                {{#if ../loading}}
+                                <Suspense fallback={<RouterLoading />}>
+                                {{else}}
+                                <Suspense fallback={<div />}>
+                                {{/if}}
+                                    <RouterComponent {...props} />
+                                </Suspense>
+                            )
+                            return router
+                            {{/if}}
+                        }}
+                    />
+                ))}
                 <Route
                     path="*"
                     render={(props: any) => {
@@ -106,20 +162,6 @@ function Bootstrap () {
     )
 }
 
-{{#if rootRender}}
-ReactDOM.render(
-    <Bootstrap />
-    ,
-    document.querySelector('#{{rootRender}}')
-)
-{{else}}
-const root = document.createElement("div")
-root.style.width = '100%'
-root.style.height = '100%'
-document.body.appendChild(root)
-ReactDOM.render(
-    <Bootstrap />
-    ,
-    root
-)
-{{/if}}
+export default Bootstrap
+export { shareRouters as bootstrapRouters} 
+

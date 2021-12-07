@@ -28,4 +28,7 @@ export default {
             }
         }),
     ],
+    // links: [
+    //     'test@http://127.0.0.1:8015/fastpack.share.js'
+    // ]
 }

@@ -42,3 +42,9 @@ $ set PORT=3000 && fastpack dev
 - `human` 表示在控制台生成可读的信息
 - `humanVerbose` 表示生成更加详细的可读信息
 
+## MainFrame 
+
+- Type: `boolean`
+- Default: `false`
+
+是否启用 `微前端` 将其设置为主框架, 并且共享给其他的微模块

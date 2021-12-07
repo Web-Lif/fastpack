@@ -166,7 +166,7 @@ export function presetPlugins(config: Config, {
             remotes,
             shared: { react: { singleton: true }, 'react-dom': { singleton: true }},
         } as any])
-    } else if (process.env.MainFrame) {
+    } else {
         let remotes: any;
         if (links) {
             remotes = {}
@@ -178,12 +178,15 @@ export function presetPlugins(config: Config, {
             })
         }
 
+        let exposes: any;
+        if (process.env.MainFrame) {
+            exposes['./frame'] = './src/.fastpack/bootstrap.tsx'
+        }
+
         config.plugin('fastpack/ModuleFederationPlugin').use(ModuleFederationPlugin, [{
             name: 'fastpack_micro',
             filename: 'fastpack.share.js',
-            exposes: {
-                './frame': './src/.fastpack/bootstrap.tsx'
-            },
+            exposes,
             remotes,
             shared: {
                 react: { singleton: true, eager: true },

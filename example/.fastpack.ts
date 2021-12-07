@@ -16,10 +16,10 @@ export default {
         port: 8085
     },
     devtool: 'eval-source-map',
-    share: {
-        name: 'test',
-        frame: 'http://127.0.0.1:9080/fastpack.share.js'
-    },
+    // share: {
+    //     name: 'test',
+    //     frame: 'http://127.0.0.1:9080/fastpack.share.js'
+    // },
     plugins: [
         new FastpackPluginBabelImport([{"libraryName": "antd", "style": true }]),
         new FastpackPluginLessLoader({

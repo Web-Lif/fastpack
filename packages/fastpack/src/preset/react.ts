@@ -77,7 +77,10 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
         layout: router.layout,
         basename,
         frame: config.share?.frame,
-        links: config?.links?.map(ele => ele.split('@')?.[0])
+        links: config?.links?.map(ele => ({
+            name: ele.split('@')[0],
+            link: ele
+        }))
     })
 
     plugins.forEach(plugin => {

@@ -1,113 +1,54 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ReactDOM from 'react-dom'
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-} from 'react-router-dom'
 
-let linktest;
-try {
-    linktest = require('fastpack_link_test/share')
-}catch(e){
-    console.error('micro: 加载 test@http://127.0.0.1:8015/fastpack.share.js 失败, 请检查是否可以正常访问')
+import Vue from 'vue'
+
+
+const VueWrapper = ({
+    component,
+    ...restProps
+}: any) => {
+    const ref = React.useRef<HTMLDivElement>(null)
+    React.useLayoutEffect(() => {
+        new Vue({
+            render: render => render(component),
+            props: restProps
+        }).$mount(ref.current);
+    }, [])
+
+    return <div ref={ref}/>
 }
 
 
-const Route$Index = React.lazy(() => import('../pages'));
-const RouteUserLogin = React.lazy(() => import('../pages/User/Login'));
-
-
-export const routers = [
+const extRouters = [
     {
-        path: '/',
+        path: '/test/',
         component: React.lazy(() => import('../pages'))
     },
     {
-        path: '/User/Login',
+        path: '/test/User/Login',
         component: React.lazy(() => import('../pages/User/Login'))
     },
 ] as any
 
+const vueRouters = [
+    {
+        path: '/test/test.vue'.replace('.', '-'),
+        component: React.lazy(
+            async () => {
+                const component = await import('../pages/test.vue')
+                return ({
+                    default: (props: any) => (
+                        <VueWrapper component={component.default} {...props} />
+                    )
+                })
+            }
+        )
+    },
+] as any
 
-const shareRouters = [] as any
+const routers = extRouters.concat(vueRouters)
 
-if (linktest) {
-    shareRouters.push(...linktest.routers)
+export {
+    routers,
 }
-
-
-
-interface BootstrapProps {
-    routers?: {
-        path: string
-        component: any
-    }[]
-}
-
-function Bootstrap ({
-    routers = []
-}: BootstrapProps) {
-    return (
-        <Router
-            basename="/"
-        >
-            <Switch>
-                <Route
-                    path="/"
-                    exact
-                    sensitive
-                    render={(props: any) => {
-                        const router = (
-                            <Suspense fallback={<div />}>
-                                <Route$Index {...props} />
-                            </Suspense>
-                        )
-                        return router
-                    }}
-                />
-                <Route
-                    path="/User/Login"
-                    exact
-                    sensitive
-                    render={(props: any) => {
-                        const router = (
-                            <Suspense fallback={<div />}>
-                                <RouteUserLogin {...props} />
-                            </Suspense>
-                        )
-                        return router
-                    }}
-                />
-                {routers.map(rt => (
-                    <Route
-                        path={rt.path}
-                        exact
-                        sensitive
-                        key={rt.path}
-                        render={(props: any) => {
-                            const RouterComponent = rt.component
-                            const comp = (
-                                <Suspense fallback={<div />}>
-                                    <RouterComponent {...props} />
-                                </Suspense>
-                            )
-                            return comp
-                        }}
-                    />
-                ))}
-                <Route
-                    path="*"
-                    render={(props: any) => {
-                        const RouterNotFund = <div />
-                        return RouterNotFund
-                    }}
-                />
-            </Switch>
-        </Router>
-    )
-}
-
-export default Bootstrap
-export { shareRouters as bootstrapRouters} 
-

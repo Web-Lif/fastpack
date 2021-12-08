@@ -180,7 +180,9 @@ export function presetPlugins(config: Config, {
 
         let exposes: any;
         if (process.env.MainFrame) {
-            exposes['./frame'] = './src/.fastpack/bootstrap.tsx'
+            exposes = {
+                './frame': './src/.fastpack/bootstrap.tsx'
+            }
         }
 
         config.plugin('fastpack/ModuleFederationPlugin').use(ModuleFederationPlugin, [{

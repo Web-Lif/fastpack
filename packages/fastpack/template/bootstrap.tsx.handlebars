@@ -13,7 +13,12 @@ import Layout from '..{{layout}}'
 import RouterLoading from '..{{loading}}'
 {{/if}}
 {{#each links}}
-import { routers as {{this}}Routers } from 'fastpack_link_{{this}}/share'
+let link{{this.name}};
+try {
+    link{{this.name}} = require('fastpack_link_{{this.name}}/share')
+}catch(e){
+    console.error('micro: 加载 {{this.link}} 失败, 请检查是否可以正常访问')
+}
 {{/each}}
 
 
@@ -35,7 +40,9 @@ export const routers = [
 const shareRouters = [] as any
 
 {{#each links}}
-shareRouters.push(...{{this}}Routers)
+if (link{{this.name}}) {
+    shareRouters.push(...link{{this.name}}.routers)
+}
 {{/each}}
 
 {{#if frame}}
@@ -95,14 +102,14 @@ function Bootstrap ({
                     }}
                 />
                 {{/eachRouters}}
-                {routers.map(router => (
+                {routers.map(rt => (
                     <Route
-                        path={router.path}
+                        path={rt.path}
                         exact
                         sensitive
-                        key={router.path}
+                        key={rt.path}
                         render={(props: any) => {
-                            const RouterComponent = router.component
+                            const RouterComponent = rt.component
                             {{#if layout}}
                             const layout = (
                                 <Layout {...props}>
@@ -117,7 +124,7 @@ function Bootstrap ({
                             )
                             return layout
                             {{else}}
-                            const router = (
+                            const comp = (
                                 {{#if ../loading}}
                                 <Suspense fallback={<RouterLoading />}>
                                 {{else}}
@@ -126,7 +133,7 @@ function Bootstrap ({
                                     <RouterComponent {...props} />
                                 </Suspense>
                             )
-                            return router
+                            return comp
                             {{/if}}
                         }}
                     />

@@ -5,7 +5,7 @@ const extRouters = [
     {{#each routers}}
     {
         path: '{{this.path}}',
-        component: React.lazy(() => import('../pages{{this.component}}'))
+        component: React.lazy(() => import( /* webpackPrefetch: true */ '../pages{{this.component}}'))
     },
     {{/each}}
 ] as any

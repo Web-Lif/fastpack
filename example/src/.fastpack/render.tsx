@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom'
-import Bootstrap, { routers, bootstrapRouters } from './bootstrap'
+import Bootstrap, { routers, bootstrapRouters } from './frame'
 
 (window as any).g_routers = routers.concat(bootstrapRouters)
 

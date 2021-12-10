@@ -6,35 +6,26 @@ import {
     Route,
 } from 'react-router-dom'
 
-let linktest;
-try {
-    linktest = require('fastpack_link_test/share')
-}catch(e){
-    console.error('micro: 加载 test@http://127.0.0.1:8015/fastpack.share.js 失败, 请检查是否可以正常访问')
-}
 
 
-const Route$Index = React.lazy(() => import('../pages'));
-const RouteUserLogin = React.lazy(() => import('../pages/User/Login'));
+const Route$Index = React.lazy(() => import(/* webpackPrefetch: true */'../pages'));
+const RouteUserLogin = React.lazy(() => import(/* webpackPrefetch: true */'../pages/User/Login'));
 
 
 export const routers = [
     {
         path: '/',
-        component: React.lazy(() => import('../pages'))
+        component: Route$Index
     },
     {
         path: '/User/Login',
-        component: React.lazy(() => import('../pages/User/Login'))
+        component: RouteUserLogin
     },
 ] as any
 
 
 const shareRouters = [] as any
 
-if (linktest) {
-    shareRouters.push(...linktest.routers)
-}
 
 
 

@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom'
 
+{{#if vues}}
 import Vue from 'vue'
 
 
@@ -18,25 +19,25 @@ const VueWrapper = ({
 
     return <div ref={ref}/>
 }
+{{/if}}
 
 
 const extRouters = [
+    {{#each routers}}
     {
-        path: '/test/',
-        component: React.lazy(() => import('../pages'))
+        path: '{{this.path}}',
+        component: React.lazy(() => import( /* webpackPrefetch: true */ '../pages{{this.component}}'))
     },
-    {
-        path: '/test/User/Login',
-        component: React.lazy(() => import('../pages/User/Login'))
-    },
+    {{/each}}
 ] as any
 
 const vueRouters = [
+    {{#each vues}}
     {
-        path: '/test/test.vue'.replace('.', '-'),
+        path: '{{this.path}}'.replace('.', '-'),
         component: React.lazy(
             async () => {
-                const component = await import('../pages/test.vue')
+                const component = await import('../pages{{this.component}}')
                 return ({
                     default: (props: any) => (
                         <VueWrapper component={component.default} {...props} />
@@ -45,6 +46,7 @@ const vueRouters = [
             }
         )
     },
+    {{/each}}
 ] as any
 
 const routers = extRouters.concat(vueRouters)

@@ -119,12 +119,15 @@ export async function createBootstrap (config: FastPackConfig, status: FastpackM
         await mkdir(fastpackFolder)
     }
 
-    const templatePath = config.share?.frame ? 'bootstrap.micro.tsx.handlebars' : 'bootstrap.tsx.handlebars'
 
     const indexContent = await readFile(join(__dirname, '..', '..', 'template', 'index.ts'), 'utf8')
     await writeFile(join(process.cwd(), 'src', '.fastpack', 'index.ts'), indexContent)
     
-    await createHandlebarsFile(config, status, templatePath, 'bootstrap.tsx')
+    if ( config.share?.frame) {
+        await createHandlebarsFile(config, status, 'router.micro.tsx.handlebars', 'router.tsx')
+    } else {
+        await createHandlebarsFile(config, status, 'frame.tsx.handlebars', 'frame.tsx')
+    }
     await createHandlebarsFile(config, status, 'render.tsx.handlebars', 'render.tsx')
   
 }

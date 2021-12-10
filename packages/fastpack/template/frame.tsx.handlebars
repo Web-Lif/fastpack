@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import ReactDOM from 'react-dom'
 import {
     BrowserRouter as Router,
     Switch,
@@ -44,7 +43,7 @@ try {
 
 
 {{#each routers}}
-const Route{{this.name}} = React.lazy(() => import('../pages{{this.component}}'));
+const Route{{this.name}} = React.lazy(() => import(/* webpackPrefetch: true */'../pages{{this.component}}'));
 {{/each}}
 
 
@@ -52,7 +51,7 @@ export const routers = [
     {{#each routers}}
     {
         path: '{{this.path}}',
-        component: React.lazy(() => import('../pages{{this.component}}'))
+        component: Route{{this.name}}
     },
     {{/each}}
 ] as any
@@ -88,7 +87,7 @@ routers.push(...shareRouters)
 
 
 {{#if notFound}}
-const NotFound = React.lazy(() => import('..{{notFound}}'))
+const NotFound = React.lazy(() => import(/* webpackPrefetch: true */ '..{{notFound}}'))
 {{/if}}
 interface BootstrapProps {
     routers?: {

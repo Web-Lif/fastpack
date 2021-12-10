@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from 'react-dom'
 {{#if frame}}
 import Bootstrap, {routers as bootstrapRouters} from 'fastpack_micro/frame'
-import { routers } from './bootstrap'
+import { routers } from './router'
 {{else}}
-import Bootstrap, { routers, bootstrapRouters } from './bootstrap'
+import Bootstrap, { routers, bootstrapRouters } from './frame'
 {{/if}}
 
 (window as any).g_routers = routers.concat(bootstrapRouters)

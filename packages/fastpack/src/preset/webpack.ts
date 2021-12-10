@@ -161,7 +161,7 @@ export function presetPlugins(config: Config, {
             name: `fastpack_link_${share.name}`,
             filename: 'fastpack.share.js',
             exposes: {
-                './share': './src/.fastpack/bootstrap.tsx'
+                './share': './src/.fastpack/router.tsx'
             },
             remotes,
             shared: { react: { singleton: true }, 'react-dom': { singleton: true }},
@@ -181,7 +181,7 @@ export function presetPlugins(config: Config, {
         let exposes: any;
         if (process.env.MainFrame) {
             exposes = {
-                './frame': './src/.fastpack/bootstrap.tsx'
+                './frame': './src/.fastpack/frame.tsx'
             }
         }
 

@@ -1,6 +1,27 @@
 import React from "react";
 import ReactDOM from 'react-dom'
 
+{{#if vues}}
+import Vue from 'vue'
+
+
+const VueWrapper = ({
+    component,
+    ...restProps
+}: any) => {
+    const ref = React.useRef<HTMLDivElement>(null)
+    React.useLayoutEffect(() => {
+        new Vue({
+            render: render => render(component),
+            props: restProps
+        }).$mount(ref.current);
+    }, [])
+
+    return <div ref={ref}/>
+}
+{{/if}}
+
+
 const extRouters = [
     {{#each routers}}
     {
@@ -10,6 +31,26 @@ const extRouters = [
     {{/each}}
 ] as any
 
+const vueRouters = [
+    {{#each vues}}
+    {
+        path: '{{this.path}}'.replace('.', '-'),
+        component: React.lazy(
+            async () => {
+                const component = await import('../pages{{this.component}}')
+                return ({
+                    default: (props: any) => (
+                        <VueWrapper component={component.default} {...props} />
+                    )
+                })
+            }
+        )
+    },
+    {{/each}}
+] as any
+
+const routers = extRouters.concat(vueRouters)
+
 export {
-    extRouters as routers,
+    routers,
 }

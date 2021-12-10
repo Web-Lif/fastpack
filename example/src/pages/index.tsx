@@ -1,32 +1,11 @@
-import React, { useState } from 'react'
-import { Button } from 'antd'
-import { useHistory } from 'react-router-dom'
+import React from 'react'
 
 import styles from './index.module.less';
 
-
-const App = () => {
-    const [count, setCount] = useState<number>(0)
-    const history = useHistory()
-    return (
-        <div className={styles.mybody}>
-            <Button
-                onClick={() => {
-                    setCount(count + 1)
-                }}
-            >
-                点击-次数  {count}
-            </Button>
-
-            <Button
-                onClick={() => {
-                    history.push('/User/Logout')
-                }}
-            >
-                Logout
-            </Button>
-        </div>
-    )
-}
+const App = () => (
+    <div className={styles.mybody}>
+            这个是React开发的页面
+    </div>
+)
 
 export default App

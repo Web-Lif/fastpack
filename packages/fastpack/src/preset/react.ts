@@ -38,6 +38,7 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
     const fileContent = await readFile(join(__dirname, '..', '..', 'template', templatePath), 'utf8')
     
     const routers: Router[] = []
+    const vueRouters:  Router[] = []
 
     router?.paths?.forEach(path => {
         let name = ''
@@ -53,11 +54,16 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
         } else {
             const pathSplit = path.split(':')
             const pathtemp = pathSplit.pop()!
-            routers.push({
+            const data = {
                 name: pathtemp.replace(/\//g, ''),
                 path: `${name}${path}`,
                 component: pathtemp
-            })
+            }
+            if (/\.vue$/.test(path)) {
+                vueRouters.push(data)
+            } else {
+                routers.push(data)
+            }
         }
     })
 
@@ -71,6 +77,7 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
     const template = Handlebars.compile(fileContent)
     let content = template({
         routers,
+        vues: vueRouters,
         rootRender,
         notFound: router.notFound,
         loading: router.loading,

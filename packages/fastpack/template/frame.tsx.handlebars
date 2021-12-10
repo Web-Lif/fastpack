@@ -5,6 +5,27 @@ import {
     Route,
 } from 'react-router-dom'
 
+
+
+{{#if vues}}
+import Vue from 'vue'
+
+const VueWrapper = ({
+    component,
+    ...restProps
+}: any) => {
+    const ref = React.useRef<HTMLDivElement>(null)
+    React.useLayoutEffect(() => {
+        new Vue({
+            render: render => render(component),
+            props: restProps
+        }).$mount(ref.current);
+    }, [])
+
+    return <div ref={ref}/>
+}
+{{/if}}
+
 {{#if layout}}
 import Layout from '..{{layout}}'
 {{/if}}
@@ -37,6 +58,22 @@ export const routers = [
 
 
 const shareRouters = [] as any
+
+{{#each vues}}
+shareRouters.push({
+    path: '{{this.path}}'.replace('.', '-'),
+    component: React.lazy(
+        async () => {
+            const component = await import('../pages{{this.component}}')
+            return ({
+                default: (props: any) => (
+                    <VueWrapper component={component.default} {...props} />
+                )
+            })
+        }
+    )
+})
+{{/each}}
 
 {{#each links}}
 if (link{{this.name}}) {

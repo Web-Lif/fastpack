@@ -22,6 +22,7 @@
         "@types/react-router-dom": "^5.3.0",
         "@weblif/plugin-less-loader": "*",
         "@weblif/plugin-babel-import": "*",
+        "@weblif/plugin-vue2-loader": "*",
         "@weblif/preset-cli": "^0.0.4",
         "@weblif/fastpack": "*"
     }

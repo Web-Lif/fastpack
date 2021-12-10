@@ -61,7 +61,7 @@ export function presetLoader(config: Config) {
     config
         .module
         .rule('fastpack/typescript')
-        .test(/\.tsx?$/)
+        .test(/\.(t|j)sx?$/)
         .exclude
         .add(/node_modules/)
         .end()
@@ -75,7 +75,7 @@ export function presetLoader(config: Config) {
                 "@babel/preset-typescript"
             ],
             'plugins': [
-
+                '@babel/plugin-transform-runtime'
             ]
         })
         .end()
@@ -99,6 +99,7 @@ export function presetLoader(config: Config) {
         .test(/\.css$/)
         .exclude
         .add(/node_modules/)
+        .add(/\.vue\.css$/)
         .end()
         .use('fastpack/style-loader')
         .loader('style-loader')

@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import ReactDOM from 'react-dom'
 import {
     BrowserRouter as Router,
     Switch,

@@ -14,11 +14,6 @@
 
 > fastpack 主要是为了构建 React 应用，但是用户可以可以通过 `@weblif/plugin-vue2-loader` 插件让其对能够对其他 `vue2` 或者可以通过自定义插件对其他的框架进行支持
 
-## 社区支持
-
-- issues 在此提交 [https://github.com/Web-Lif/fastpack/issues](https://github.com/Web-Lif/fastpack/issues) 获取社区支持
-- discussions 在此提交讨论/新的想法/创意 [https://github.com/Web-Lif/fastpack/discussions](https://github.com/Web-Lif/fastpack/discussions) 
-
 ## 插件
 
 | 插件名称                    | 版本号                                                            | 描述
@@ -26,6 +21,19 @@
 |@weblif/plugin-babel-import | ![](https://img.shields.io/npm/v/@weblif/plugin-babel-import)    | 按需加载
 |@weblif/plugin-less-loader  | ![](https://img.shields.io/npm/v/@weblif/plugin-less-loader)     | less 样式文件解析支持
 |@weblif/plugin-vue2-loader  | ![](https://img.shields.io/npm/v/@weblif/plugin-vue2-loader)     | 添加对 vue2 的支持 
+
+## 生态
+
+| 名称                                                  | 描述
+|-------                                               |-----------
+|[ms-template](https://github.com/Web-Lif/ms-template) | 后端Admin管理模板
+
+
+## 社区支持
+
+- issues 在此提交 [https://github.com/Web-Lif/fastpack/issues](https://github.com/Web-Lif/fastpack/issues) 获取社区支持
+- discussions 在此提交讨论/新的想法/创意 [https://github.com/Web-Lif/fastpack/discussions](https://github.com/Web-Lif/fastpack/discussions) 
+
 
 
 ## LICENSE

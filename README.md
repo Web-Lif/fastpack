@@ -27,6 +27,7 @@
 | 名称                                                  | 描述
 |-------                                               |-----------
 |[ms-template](https://github.com/Web-Lif/ms-template) | 后端Admin管理模板
+|[@weblif/fast-ui](https://github.com/Web-Lif/fast-ui) | UI 组件库
 
 
 ## 社区支持

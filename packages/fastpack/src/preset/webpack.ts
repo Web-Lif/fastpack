@@ -98,7 +98,6 @@ export function presetLoader(config: Config) {
         .rule('fastpack/css')
         .test(/\.css$/)
         .exclude
-        .add(/node_modules/)
         .add(/\.vue\.css$/)
         .end()
         .use('fastpack/style-loader')

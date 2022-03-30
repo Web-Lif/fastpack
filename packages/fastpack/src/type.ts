@@ -23,7 +23,7 @@ interface Router {
 }
 
 interface DevServer {
-    [name: string]: string
+    [name: string]: any
 }
 
 export interface FastpackPlugin {

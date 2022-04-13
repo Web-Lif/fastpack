@@ -8,12 +8,13 @@ import WebpackBar from 'webpackbar'
 import { existsSync, readdirSync } from 'fs'
 import { DefinePlugin, ProvidePlugin, container } from 'webpack'
 import { join } from 'path'
-
+import * as pack from "../../package.json"
 
 import { FastPackConfig, FastpackMode } from '../type'
 
 const react = require.resolve('react')
 const reactDOM = require.resolve('react-dom')
+const reactDOMClient = require.resolve('react-dom/client')
 const reactRouterDOM = require.resolve('react-router-dom')
 
 const { ModuleFederationPlugin } = container
@@ -42,6 +43,7 @@ export function presetEntry(config: Config, {
     // see https://github.com/facebook/react/issues/13991#issuecomment-435587809
     const aliasConfig = config.resolve.alias
         .set('react', react)
+        .set('react-dom/client', reactDOMClient)
         .set('react-dom', reactDOM)
         .set('react-router-dom', reactRouterDOM)
         .set('@', join(process.cwd(), 'src', ''))
@@ -164,9 +166,16 @@ export function presetPlugins(config: Config, {
                 './share': './src/.fastpack/router.tsx'
             },
             remotes,
-            shared: { react: { singleton: true }, 'react-dom': { singleton: true }},
-        } as any])
-    } else {
+            shared: {
+                react: {
+                    singleton: true
+                },
+                'react-dom': {
+                    singleton: true
+                }
+            },
+        }])
+    } else if (process.env.MainFrame) {
         let remotes: any;
         if (links) {
             remotes = {}
@@ -178,12 +187,9 @@ export function presetPlugins(config: Config, {
             })
         }
 
-        let exposes: any;
-        if (process.env.MainFrame) {
-            exposes = {
-                './frame': './src/.fastpack/frame.tsx'
-            }
-        }
+        const exposes = {
+            './frame': './src/.fastpack/frame.tsx'
+        };
 
         config.plugin('fastpack/ModuleFederationPlugin').use(ModuleFederationPlugin, [{
             name: 'fastpack_micro',
@@ -191,8 +197,8 @@ export function presetPlugins(config: Config, {
             exposes,
             remotes,
             shared: {
-                react: { singleton: true, eager: true },
-                'react-dom': { singleton: true, eager: true }
+                react: { singleton: true, eager: true, requiredVersion: pack.peerDependencies.react},
+                'react-dom': { singleton: true, eager: true, requiredVersion: pack.peerDependencies['react-dom'] }
             },
         }])
     }

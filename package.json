@@ -11,10 +11,6 @@
     },
     "workspaces": [
         "packages/*",
-        "website",
         "example"
-    ],
-    "resolutions": {
-        "nth-check": ">=2.0.1"
-    }
+    ]
 }

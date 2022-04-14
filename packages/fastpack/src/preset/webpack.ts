@@ -228,10 +228,10 @@ export function presetPlugins(config: Config, {
 }
 
 export function presetDev(config: Config, {
-    devtool = 'cheap-module-source-map'
+    devtool = 'eval-cheap-module-source-map'
 }: FastPackConfig) {
     config.mode('development')
-    config.devtool(devtool)
+    config.devtool(devtool as any)
 
     // see https://webpack.js.org/configuration/cache/
     config.cache({

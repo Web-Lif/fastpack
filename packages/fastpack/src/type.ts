@@ -1,4 +1,4 @@
-import Config, { DevTool } from 'webpack-chain'
+import Config from 'webpack-chain'
 
 export enum FastpackMode {
     DEV = 'dev',
@@ -86,7 +86,7 @@ export interface FastPackConfig {
      * Choose a style of source mapping to enhance the debugging process. These values can affect build and rebuild speed dramatically.
      * see https://webpack.js.org/configuration/devtool/
      */
-    devtool?: DevTool
+    devtool?: string | boolean
 
     /**
      * 用于提供给代码中可用的变量。

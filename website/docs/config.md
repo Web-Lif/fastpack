@@ -80,7 +80,7 @@ export default {
 ## devtool
 
 - Type: string
-- Default: cheap-module-source-map in dev, false in build
+- Default: eval-cheap-module-source-map in dev, false in build
 
 用户配置 sourcemap 类型。
 

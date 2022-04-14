@@ -17,7 +17,6 @@ export default {
     devServer: {
         port: 8085
     },
-    devtool: 'eval-source-map',
     // share: {
     //     name: 'test',
     //     frame: 'http://127.0.0.1:9080/fastpack.share.js'

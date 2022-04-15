@@ -8,7 +8,6 @@ import WebpackBar from 'webpackbar'
 import { existsSync, readdirSync } from 'fs'
 import { DefinePlugin, ProvidePlugin, container } from 'webpack'
 import { join } from 'path'
-import * as pack from "../../package.json"
 
 import { FastPackConfig, FastpackMode } from '../type'
 
@@ -67,18 +66,14 @@ export function presetLoader(config: Config) {
         .exclude
         .add(/node_modules/)
         .end()
-        .use('fastpack/babel-loader')
-        .loader('babel-loader')
+        .use('fastpack/swc-loader')
+        .loader('swc-loader')
         .options({
-            'cacheDirectory': true,
-            'presets': [
-                "@babel/preset-env",
-                "@babel/preset-react",
-                "@babel/preset-typescript"
-            ],
-            'plugins': [
-                '@babel/plugin-transform-runtime'
-            ]
+            jsc: {
+                parser: {
+                    syntax: "typescript"
+                }
+            }
         })
         .end()
 
@@ -197,8 +192,8 @@ export function presetPlugins(config: Config, {
             exposes,
             remotes,
             shared: {
-                react: { singleton: true, eager: true, requiredVersion: pack.peerDependencies.react},
-                'react-dom': { singleton: true, eager: true, requiredVersion: pack.peerDependencies['react-dom'] }
+                react: { singleton: true, eager: true, requiredVersion: '^18.0.0'},
+                'react-dom': { singleton: true, eager: true, requiredVersion: '^18.0.0' }
             },
         }])
     }
@@ -243,15 +238,19 @@ export function presetDev(config: Config, {
     if (process.env.ReactRefresh !== 'false') {
         config.module
             .rule('fastpack/typescript')
-            .use('fastpack/babel-loader')
-            .loader('babel-loader')
+            .use('fastpack/swc-loader')
+            .loader('swc-loader')
             .tap((options: any) => (
                 {
-                    ...options,
-                    plugins: [
-                        ...options.plugins,
-                        require.resolve('react-refresh/babel')
-                    ]
+                    jsc: {
+                        ...options.jsc,
+                        transform: {
+                            react: {
+                                development: true,
+                                refresh: true,
+                            },
+                        },
+                    },
                 }
             ))
         // see https://github.com/pmmmwh/react-refresh-webpack-plugin

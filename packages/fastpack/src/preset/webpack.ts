@@ -3,12 +3,12 @@ import CopyWebpackPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
 import WebpackBar from 'webpackbar'
 import { existsSync, readdirSync } from 'fs'
 import { DefinePlugin, ProvidePlugin, container } from 'webpack'
 import { join } from 'path'
-import * as pack from "../../package.json"
 
 import { FastPackConfig, FastpackMode } from '../type'
 
@@ -67,20 +67,20 @@ export function presetLoader(config: Config) {
         .exclude
         .add(/node_modules/)
         .end()
-        .use('fastpack/babel-loader')
-        .loader('babel-loader')
+        .use('fastpack/swc-loader-cache')
+        .loader('cache-loader')
+        .end()
+        .use('fastpack/swc-loader')
+        .loader('swc-loader')
         .options({
-            'cacheDirectory': true,
-            'presets': [
-                "@babel/preset-env",
-                "@babel/preset-react",
-                "@babel/preset-typescript"
-            ],
-            'plugins': [
-                '@babel/plugin-transform-runtime'
-            ]
+            jsc: {
+                parser: {
+                    syntax: "typescript"
+                }
+            }
         })
         .end()
+      
 
     // see https://www.webpackjs.com/loaders/worker-loader/
     config
@@ -102,8 +102,11 @@ export function presetLoader(config: Config) {
         .exclude
         .add(/\.vue\.css$/)
         .end()
-        .use('fastpack/style-loader')
-        .loader('style-loader')
+        .use('fastpack/swc-loader-cache')
+        .loader('cache-loader')
+        .end()
+        .use('fastpack/MiniCssExtractPlugin')
+        .loader(MiniCssExtractPlugin.loader)
         .end()
         .use('fastpack/css-loade')
         .loader('css-loader')
@@ -149,6 +152,11 @@ export function presetPlugins(config: Config, {
     // see https://www.webpackjs.com/plugins/html-webpack-plugin/
     config.plugin('fastpack/HtmlWebpackPlugin').use(HtmlWebpackPlugin, [htmlWebpackPluginOptions])
 
+    config.plugin('fastpack/MiniCssExtractPlugin').use(MiniCssExtractPlugin, [{
+        linkType: false,
+        filename: '[name].[contenthash].css',
+        chunkFilename: '[id].[contenthash].css'
+    }])
 
     // see https://webpack.js.org/plugins/module-federation-plugin/
     if (share) {
@@ -197,8 +205,8 @@ export function presetPlugins(config: Config, {
             exposes,
             remotes,
             shared: {
-                react: { singleton: true, eager: true, requiredVersion: pack.peerDependencies.react},
-                'react-dom': { singleton: true, eager: true, requiredVersion: pack.peerDependencies['react-dom'] }
+                react: { singleton: true, eager: true, requiredVersion: '^18.0.0'},
+                'react-dom': { singleton: true, eager: true, requiredVersion: '^18.0.0' }
             },
         }])
     }
@@ -243,15 +251,19 @@ export function presetDev(config: Config, {
     if (process.env.ReactRefresh !== 'false') {
         config.module
             .rule('fastpack/typescript')
-            .use('fastpack/babel-loader')
-            .loader('babel-loader')
+            .use('fastpack/swc-loader')
+            .loader('swc-loader')
             .tap((options: any) => (
                 {
-                    ...options,
-                    plugins: [
-                        ...options.plugins,
-                        require.resolve('react-refresh/babel')
-                    ]
+                    jsc: {
+                        ...options.jsc,
+                        transform: {
+                            react: {
+                                development: true,
+                                refresh: true,
+                            },
+                        },
+                    },
                 }
             ))
         // see https://github.com/pmmmwh/react-refresh-webpack-plugin

@@ -1,4 +1,3 @@
-import FastpackPluginBabelImport from '@weblif/plugin-babel-import'
 import FastpackPluginLessLoader from '@weblif/plugin-less-loader'
 import FastpackPluginVue2Loader from '@weblif/plugin-vue2-loader'
 
@@ -22,7 +21,6 @@ export default {
     //     frame: 'http://127.0.0.1:9080/fastpack.share.js'
     // },
     plugins: [
-        new FastpackPluginBabelImport([{"libraryName": "antd", "style": true }]),
         new FastpackPluginLessLoader({
             lessOptions: {
                 javascriptEnabled: true,

@@ -1,3 +1,4 @@
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 export default class FastpackPluginLessLoader {
 
     private options: any = {}
@@ -17,8 +18,8 @@ export default class FastpackPluginLessLoader {
             .module
             .rule('fastpack/lessModule')
             .test(/\.module\.less$/)
-            .use('fastpack/style-loader')
-            .loader('style-loader')
+            .use('fastpack/miniCssLoader')
+            .loader(MiniCssExtractPlugin.loader)
             .end()
             .use('fastpack/css-loade')
             .loader('css-loader')
@@ -38,8 +39,8 @@ export default class FastpackPluginLessLoader {
             .exclude
             .add(/\.module\.less$/)
             .end()
-            .use('fastpack/style-loader')
-            .loader('style-loader')
+            .use('fastpack/miniCssLoader')
+            .loader(MiniCssExtractPlugin.loader)
             .end()
             .use('fastpack/css-loade')
             .loader('css-loader')

@@ -3,6 +3,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
 import WebpackBar from 'webpackbar'
 import { existsSync, readdirSync } from 'fs'
@@ -66,6 +67,9 @@ export function presetLoader(config: Config) {
         .exclude
         .add(/node_modules/)
         .end()
+        .use('fastpack/swc-loader-cache')
+        .loader('cache-loader')
+        .end()
         .use('fastpack/swc-loader')
         .loader('swc-loader')
         .options({
@@ -76,6 +80,7 @@ export function presetLoader(config: Config) {
             }
         })
         .end()
+      
 
     // see https://www.webpackjs.com/loaders/worker-loader/
     config
@@ -97,8 +102,11 @@ export function presetLoader(config: Config) {
         .exclude
         .add(/\.vue\.css$/)
         .end()
-        .use('fastpack/style-loader')
-        .loader('style-loader')
+        .use('fastpack/swc-loader-cache')
+        .loader('cache-loader')
+        .end()
+        .use('fastpack/MiniCssExtractPlugin')
+        .loader(MiniCssExtractPlugin.loader)
         .end()
         .use('fastpack/css-loade')
         .loader('css-loader')
@@ -144,6 +152,11 @@ export function presetPlugins(config: Config, {
     // see https://www.webpackjs.com/plugins/html-webpack-plugin/
     config.plugin('fastpack/HtmlWebpackPlugin').use(HtmlWebpackPlugin, [htmlWebpackPluginOptions])
 
+    config.plugin('fastpack/MiniCssExtractPlugin').use(MiniCssExtractPlugin, [{
+        linkType: false,
+        filename: '[name].[contenthash].css',
+        chunkFilename: '[id].[contenthash].css'
+    }])
 
     // see https://webpack.js.org/plugins/module-federation-plugin/
     if (share) {

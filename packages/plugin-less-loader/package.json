@@ -1,6 +1,6 @@
 {
     "name": "@weblif/plugin-less-loader",
-    "version": "2.3.0",
+    "version": "2.3.9",
     "main": "dist/index.js",
     "license": "MIT",
     "files": [
@@ -10,10 +10,19 @@
         "build": "tsc",
         "prepublishOnly": "npm run build"
     },
-    "peerDependencies": {
+    "dependencies": {
         "less": "^4.1.2",
+        "css-loader": "^6.7.1",
         "less-loader": "^10.2.0",
         "style-loader": "^3.3.1",
         "mini-css-extract-plugin": "^2.6.0"
+    },
+    "peerDependencies": {
+        "less": "^4.1.2"
+    },
+    "peerDependenciesMeta": {
+        "less": {
+            "optional": true
+        }
     }
 }

@@ -68,10 +68,10 @@ export function presetLoader(config: Config) {
         .add(/node_modules/)
         .end()
         .use('fastpack/swc-loader-cache')
-        .loader('cache-loader')
+        .loader(require.resolve('cache-loader'))
         .end()
         .use('fastpack/swc-loader')
-        .loader('swc-loader')
+        .loader(require.resolve('swc-loader'))
         .options({
             jsc: {
                 parser: {
@@ -91,7 +91,7 @@ export function presetLoader(config: Config) {
         .add(/node_modules/)
         .end()
         .use('fastpack/worker-loader')
-        .loader('worker-loader')
+        .loader(require.resolve('worker-loader'))
         .end()
 
     // see https://www.webpackjs.com/loaders/css-loader/
@@ -103,13 +103,13 @@ export function presetLoader(config: Config) {
         .add(/\.vue\.css$/)
         .end()
         .use('fastpack/swc-loader-cache')
-        .loader('cache-loader')
+        .loader(require.resolve('cache-loader'))
         .end()
         .use('fastpack/MiniCssExtractPlugin')
         .loader(MiniCssExtractPlugin.loader)
         .end()
         .use('fastpack/css-loade')
-        .loader('css-loader')
+        .loader(require.resolve('css-loader'))
         .end()
 }
 
@@ -252,7 +252,7 @@ export function presetDev(config: Config, {
         config.module
             .rule('fastpack/typescript')
             .use('fastpack/swc-loader')
-            .loader('swc-loader')
+            .loader(require.resolve('swc-loader'))
             .tap((options: any) => (
                 {
                     jsc: {

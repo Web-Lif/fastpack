@@ -22,13 +22,13 @@ export default class FastpackPluginLessLoader {
             .loader(MiniCssExtractPlugin.loader)
             .end()
             .use('fastpack/css-loade')
-            .loader('css-loader')
+            .loader(require.resolve('css-loader'))
             .options({
                 modules: true
             })
             .end()
             .use('fastpack/less-loader')
-            .loader('less-loader')
+            .loader(require.resolve('less-loader'))
             .options(this.options)
             .end()
 
@@ -43,10 +43,10 @@ export default class FastpackPluginLessLoader {
             .loader(MiniCssExtractPlugin.loader)
             .end()
             .use('fastpack/css-loade')
-            .loader('css-loader')
+            .loader(require.resolve('css-loader'))
             .end()
             .use('fastpack/less-loader')
-            .loader('less-loader')
+            .loader(require.resolve('less-loader'))
             .options(this.options)
             .end()
     }

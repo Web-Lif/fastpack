@@ -75,6 +75,16 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
     }
 
     const template = Handlebars.compile(fileContent)
+    const history = config?.history || { type: 'browser'}
+    let routerName = ''
+    if (history.type === 'browser') {
+        routerName = 'BrowserRouter'
+    } else if (history.type === 'hash') {
+        routerName = 'HashRouter'
+    } else if (history.type === 'memory') {
+        routerName = 'MemoryRouter'
+    }
+
     let content = template({
         routers,
         vues: vueRouters,
@@ -83,11 +93,12 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
         loading: router.loading,
         layout: router.layout,
         basename,
-        frame: config.share?.frame,
+        frame: config?.share?.frame,
         links: config?.links?.map(ele => ({
             name: ele.split('@')[0],
             link: ele
-        }))
+        })),
+        routerName,
     })
 
     plugins.forEach(plugin => {

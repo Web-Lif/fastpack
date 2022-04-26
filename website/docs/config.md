@@ -227,3 +227,14 @@ export default {
 配置网页标题
 
 
+## history
+
+- Type: `object`
+- Default: `{ type: 'browser' }`
+
+配置 `react-router-dom` 的 history 类型和配置项。
+
+- browser 
+- hash
+- memory 
+

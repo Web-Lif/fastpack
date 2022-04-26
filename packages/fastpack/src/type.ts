@@ -51,6 +51,14 @@ interface FastPackShare {
 }
 
 export interface FastPackConfig {
+
+    /**
+     * 配置 React Router Dom 的 history 类型
+     */
+    history?: {
+        type: 'browser' | 'hash' | 'memory'
+    }
+
     /**
      * 配置别名，对引用路径进行映射。
      * 

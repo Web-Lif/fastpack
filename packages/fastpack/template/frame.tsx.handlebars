@@ -1,8 +1,9 @@
 import React, { Suspense } from "react";
 import {
     {{ routerName }} as Router,
-    Switch,
+    Routes,
     Route,
+    Outlet
 } from 'react-router-dom'
 
 {{#if vues}}
@@ -39,11 +40,9 @@ try {
 }
 {{/each}}
 
-
 {{#each routers}}
 const Route{{this.name}} = React.lazy(() => import(/* webpackPrefetch: true */'../pages{{this.component}}'));
 {{/each}}
-
 
 export const routers = [
     {{#each routers}}
@@ -53,7 +52,6 @@ export const routers = [
     },
     {{/each}}
 ] as any
-
 
 const shareRouters = [] as any
 
@@ -83,7 +81,6 @@ if (link{{this.name}}) {
 routers.push(...shareRouters)
 {{/if}}
 
-
 {{#if notFound}}
 const NotFound = React.lazy(() => import(/* webpackPrefetch: true */ '..{{notFound}}'))
 {{/if}}
@@ -101,104 +98,83 @@ function Bootstrap ({
         <Router
             basename="{{basename}}"
         >
-            <Switch>
-                {{#eachRouters routers}}
+            <Routes>
                 <Route
-                    path="{{this.path}}"
-                    exact
-                    sensitive
-                    render={(props: any) => {
-                        {{#if ../layout}}
-                        const layout = (
-                            <Layout {...props}>
-                                {{#if ../loading}}
-                                <Suspense fallback={<RouterLoading />}>
-                                {{else}}
-                                <Suspense fallback={<div />}>
-                                {{/if}}
-                                    <Route{{this.name}} {...props} />
-                                </Suspense>
-                            </Layout>
-                        )
-                        return layout
+                    path="/"
+                    element={(
+                        {{#if layout}}
+                        <Layout />
                         {{else}}
-                        const router = (
+                        <div >
+                            <Outlet />
+                        </div>
+                        {{/if}}
+                    )}
+                >
+                {{#each routers}}
+                    <Route
+                        {{#if index}}
+                        index
+                        {{else}}
+                        path="{{path}}"
+                        {{/if}}
+                        element={(
                             {{#if ../loading}}
                             <Suspense fallback={<RouterLoading />}>
+                                <Route{{this.name}} />
+                            </Suspense>
                             {{else}}
                             <Suspense fallback={<div />}>
-                            {{/if}}
-                                <Route{{this.name}} {...props} />
+                                <Route{{this.name}} />
                             </Suspense>
-                        )
-                        return router
-                        {{/if}}
-                    }}
-                />
-                {{/eachRouters}}
-                {routers.map(rt => (
-                    <Route
-                        path={rt.path}
-                        exact
-                        sensitive
-                        key={rt.path}
-                        render={(props: any) => {
-                            const RouterComponent = rt.component
-                            {{#if layout}}
-                            const layout = (
-                                <Layout {...props}>
+                            {{/if}}
+                        )}
+                    />
+                {{/each}}
+                    {routers.map(rt => {
+                        const RouterComponent = rt.component
+                        return (
+                            <Route
+                                path={rt.path}
+                                key={rt.path}
+                                element={(
                                     {{#if loading}}
                                     <Suspense fallback={<RouterLoading />}>
+                                        <RouterComponent />
+                                    </Suspense>
                                     {{else}}
                                     <Suspense fallback={<div />}>
-                                    {{/if}}
-                                        <RouterComponent {...props} />
+                                        <RouterComponent />
                                     </Suspense>
-                                </Layout>
-                            )
-                            return layout
-                            {{else}}
-                            const comp = (
-                                {{#if ../loading}}
-                                <Suspense fallback={<RouterLoading />}>
-                                {{else}}
-                                <Suspense fallback={<div />}>
-                                {{/if}}
-                                    <RouterComponent {...props} />
-                                </Suspense>
-                            )
-                            return comp
-                            {{/if}}
-                        }}
-                    />
-                ))}
+                                    {{/if}}
+                                )}
+                            />
+                        )
+                    })}
+                </Route>
                 <Route
                     path="*"
-                    render={(props: any) => {
-                        {{#if notFound}}
-                        const RouterNotFund = <NotFound {...props}/>
+                    element={(
+                        {{#if ../loading}}
+                        <Suspense fallback={<RouterLoading />}>
+                            {{#if notFound}}
+                            <NotFound />
+                            {{else}}
+                            <div />
+                            {{/if}}
+                        </Suspense>
                         {{else}}
-                        const RouterNotFund = <div />
+                        <Suspense fallback={<div />}>
+                            {{#if notFound}}
+                            <NotFound />
+                            {{else}}
+                            <div />
+                            {{/if}}
+                        </Suspense>
                         {{/if}}
-                        {{#if layout}}
-                        const layout = (
-                            <Layout {...props}>
-                                {{#if ../loading}}
-                                <Suspense fallback={<RouterLoading />}>
-                                {{else}}
-                                <Suspense fallback={<div />}>
-                                {{/if}}
-                                    {RouterNotFund}
-                                </Suspense>
-                            </Layout>
-                        )
-                        return layout
-                        {{else}}
-                        return RouterNotFund
-                        {{/if}}
-                    }}
+                    )}
                 />
-            </Switch>
+            </Routes>
         </Router>
     )
 }

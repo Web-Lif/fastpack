@@ -1,7 +1,7 @@
 {
     "name": "@weblif/fastpack",
     "author": "苯苯 <854363956@qq.com>",
-    "version": "1.10.0-canary",
+    "version": "1.11.0-canary",
     "license": "MIT",
     "repository": {
         "url": "https://github.com/Web-Lif/fastpack"
@@ -50,7 +50,8 @@
         "css-loader": "^6.7.1",
         "cache-loader": "^4.1.0",
         "react": "^18.0.0",
-        "react-dom": "^18.0.0"
+        "react-dom": "^18.0.0",
+        "react-router-dom": "^6.3.0"
     },
     "peerDependencies": {
         "buffer": "^6.0.3"

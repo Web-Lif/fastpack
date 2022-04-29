@@ -75,7 +75,8 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
     let content = template({
         routers: newRouters.map(rt => ({
             ...rt,
-            path: rt.path.substring(1),
+            path: rt.path,
+            relativePath: rt.path.substring(1),
             index: rt.path === '/'
         })),
         vues: vueRouters,

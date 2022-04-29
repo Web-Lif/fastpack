@@ -3,7 +3,6 @@ import { readFile, writeFile, mkdir } from 'fs/promises'
 import { existsSync } from 'fs'
 import { join } from 'path'
 import { FastPackConfig, FastpackMode } from '../type'
-import { getFastPackConfig } from '../utils/config'
 
 export interface Router {
     /** 组件名称，内部使用 */
@@ -13,20 +12,6 @@ export interface Router {
     /** 组件的文件信息, 内部使用 */
     component: string
 }
-
-Handlebars.registerHelper('eachRouters', (context, options) => {
-    let ret = "";
-    const { router } = getFastPackConfig()
-    context.forEach((element: any) => {
-        const { path } = element
-        
-        if (router?.exclude?.(path)) {
-            return
-        }
-        ret += options.fn(element);
-    })
-    return ret;
-})
 
 export async function createHandlebarsFile (config: FastPackConfig, status: FastpackMode, templatePath: string, targetPath: string) {
     const {
@@ -85,8 +70,14 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
         routerName = 'MemoryRouter'
     }
 
+    const newRouters =routers.filter(rt =>  !router?.exclude?.(rt.path))
+
     let content = template({
-        routers,
+        routers: newRouters.map(rt => ({
+            ...rt,
+            path: rt.path.substring(1),
+            index: rt.path === '/'
+        })),
         vues: vueRouters,
         rootRender,
         notFound: router.notFound,

@@ -3,9 +3,6 @@ import FastpackPluginVue2Loader from '@weblif/plugin-vue2-loader'
 
 export default {
     title: 'test',
-    history: {
-        type: 'hash'
-    },
     router: {
         paths: [
             '/',

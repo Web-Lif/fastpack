@@ -1,31 +1,28 @@
 import React, { Suspense } from "react";
 import {
-    HashRouter as Router,
-    Switch,
+    BrowserRouter as Router,
+    Routes,
     Route,
+    Outlet
 } from 'react-router-dom'
-
 
 
 
 const Route$Index = React.lazy(() => import(/* webpackPrefetch: true */'../pages'));
 const RouteUserLogin = React.lazy(() => import(/* webpackPrefetch: true */'../pages/User/Login'));
 
-
 export const routers = [
     {
-        path: '/',
+        path: '',
         component: Route$Index
     },
     {
-        path: '/User/Login',
+        path: 'User/Login',
         component: RouteUserLogin
     },
 ] as any
 
-
 const shareRouters = [] as any
-
 
 
 
@@ -44,58 +41,55 @@ function Bootstrap ({
         <Router
             basename="/"
         >
-            <Switch>
+            <Routes>
                 <Route
                     path="/"
-                    exact
-                    sensitive
-                    render={(props: any) => {
-                        const router = (
-                            <Suspense fallback={<div />}>
-                                <Route$Index {...props} />
-                            </Suspense>
-                        )
-                        return router
-                    }}
-                />
-                <Route
-                    path="/User/Login"
-                    exact
-                    sensitive
-                    render={(props: any) => {
-                        const router = (
-                            <Suspense fallback={<div />}>
-                                <RouteUserLogin {...props} />
-                            </Suspense>
-                        )
-                        return router
-                    }}
-                />
-                {routers.map(rt => (
+                    element={(
+                        <div >
+                            <Outlet />
+                        </div>
+                    )}
+                >
                     <Route
-                        path={rt.path}
-                        exact
-                        sensitive
-                        key={rt.path}
-                        render={(props: any) => {
-                            const RouterComponent = rt.component
-                            const comp = (
-                                <Suspense fallback={<div />}>
-                                    <RouterComponent {...props} />
-                                </Suspense>
-                            )
-                            return comp
-                        }}
+                        index
+                        element={(
+                            <Suspense fallback={<div />}>
+                                <Route$Index />
+                            </Suspense>
+                        )}
                     />
-                ))}
+                    <Route
+                        path="User/Login"
+                        element={(
+                            <Suspense fallback={<div />}>
+                                <RouteUserLogin />
+                            </Suspense>
+                        )}
+                    />
+                    {routers.map(rt => {
+                        const RouterComponent = rt.component
+                        return (
+                            <Route
+                                path={rt.path}
+                                key={rt.path}
+                                element={(
+                                    <Suspense fallback={<div />}>
+                                        <RouterComponent />
+                                    </Suspense>
+                                )}
+                            />
+                        )
+                    })}
+                </Route>
                 <Route
                     path="*"
-                    render={(props: any) => {
-                        const RouterNotFund = <div />
-                        return RouterNotFund
-                    }}
+                    element={(
+                        <Suspense fallback={<div />}>
+                            <div />
+                        </Suspense>
+                    )}
                 />
-            </Switch>
+            </Routes>
         </Router>
     )
 }

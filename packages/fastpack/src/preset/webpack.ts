@@ -63,7 +63,7 @@ export function presetLoader(config: Config) {
     config
         .module
         .rule('fastpack/typescript')
-        .test(/\.(t|j)sx?$/)
+        .test(/\.tsx?$/)
         .exclude
         .add(/node_modules/)
         .end()
@@ -75,12 +75,39 @@ export function presetLoader(config: Config) {
         .options({
             jsc: {
                 parser: {
-                    syntax: "typescript"
+                    syntax: "typescript",
+                    tsx: true,
+                    decorators: false,
+                    dynamicImport: true
                 }
             }
         })
         .end()
       
+    config
+        .module
+        .rule('fastpack/ecmascript')
+        .test(/\.jsx?$/)
+        .exclude
+        .add(/node_modules/)
+        .end()
+        .use('fastpack/swc-loader-cache')
+        .loader(require.resolve('cache-loader'))
+        .end()
+        .use('fastpack/swc-loader')
+        .loader(require.resolve('swc-loader'))
+        .options({
+            jsc: {
+                parser: {
+                    syntax: "ecmascript",
+                    jsx: true,
+                    decorators: false,
+                    dynamicImport: true
+                }
+            }
+        })
+        .end()
+
 
     // see https://www.webpackjs.com/loaders/worker-loader/
     config

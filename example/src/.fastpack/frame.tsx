@@ -13,11 +13,11 @@ const RouteUserLogin = React.lazy(() => import(/* webpackPrefetch: true */'../pa
 
 export const routers = [
     {
-        path: '',
+        path: '/',
         component: Route$Index
     },
     {
-        path: 'User/Login',
+        path: '/User/Login',
         component: RouteUserLogin
     },
 ] as any

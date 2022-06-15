@@ -67,7 +67,7 @@
         "@types/speed-measure-webpack-plugin": "^1.3.4",
         "@types/webpack-bundle-analyzer": "^4.4.1",
         "@types/webpack-dev-server": "^4.3.1",
-        "@weblif/preset-cli": "^0.0.6"
+        "@weblif/preset-cli": "0.1.0"
     },
     "engines": {
         "node": ">=14"

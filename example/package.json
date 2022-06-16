@@ -22,6 +22,6 @@
         "@weblif/fastpack": "*",
         "@weblif/plugin-less-loader": "*",
         "@weblif/plugin-vue2-loader": "*",
-        "@weblif/preset-cli": "^0.0.4"
+        "@weblif/configure": "0.0.2"
     }
 }

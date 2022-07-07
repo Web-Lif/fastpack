@@ -1,7 +1,7 @@
 {
     "name": "@weblif/fastpack",
     "author": "苯苯 <854363956@qq.com>",
-    "version": "1.12.0-canary",
+    "version": "1.12.3-canary",
     "license": "MIT",
     "repository": {
         "url": "https://github.com/Web-Lif/fastpack"
@@ -21,7 +21,7 @@
         "start": "tsc --watch",
         "build": "tsc",
         "lint:script": "eslint src --ext .js,.ts",
-        "update-dep": "ncu -u",
+        "update-dep": "npx npm-check-updates",
         "test": "jest",
         "prepublishOnly": "npm run build"
     },
@@ -48,18 +48,13 @@
         "thread-loader": "^3.0.4",
         "style-loader": "^3.3.0",
         "css-loader": "^6.7.1",
-        "cache-loader": "^4.1.0",
+        "cache-loader": "^4.1.0"
+    },
+    "peerDependencies": {
+        "buffer": "^6.0.3",
         "react": "^18.0.0",
         "react-dom": "^18.0.0",
         "react-router-dom": "^6.3.0"
-    },
-    "peerDependencies": {
-        "buffer": "^6.0.3"
-    },
-    "peerDependenciesMeta": {
-        "buffer": {
-            "optional": true
-        }
     },
     "devDependencies": {
         "@types/copy-webpack-plugin": "8.0.1",
@@ -67,7 +62,7 @@
         "@types/speed-measure-webpack-plugin": "1.3.4",
         "@types/webpack-bundle-analyzer": "4.4.1",
         "@types/webpack-dev-server": "4.7.2",
-        "@weblif/preset-cli": "0.0.6"
+        "@weblif/configure": "0.0.2"
     },
     "engines": {
         "node": ">=14"

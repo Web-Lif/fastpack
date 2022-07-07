@@ -12,10 +12,10 @@ import { join } from 'path'
 
 import { FastPackConfig, FastpackMode } from '../type'
 
-const react = require.resolve('react')
-const reactDOM = require.resolve('react-dom')
-const reactDOMClient = require.resolve('react-dom/client')
-const reactRouterDOM = require.resolve('react-router-dom')
+// const react = require.resolve('react')
+// const reactDOM = require.resolve('react-dom')
+// const reactDOMClient = require.resolve('react-dom/client')
+// const reactRouterDOM = require.resolve('react-router-dom')
 
 const { ModuleFederationPlugin } = container
 
@@ -42,10 +42,10 @@ export function presetEntry(config: Config, {
     // see https://github.com/facebook/react/issues/2402
     // see https://github.com/facebook/react/issues/13991#issuecomment-435587809
     const aliasConfig = config.resolve.alias
-        .set('react', react)
-        .set('react-dom/client', reactDOMClient)
-        .set('react-dom', reactDOM)
-        .set('react-router-dom', reactRouterDOM)
+        // .set('react', react)
+        // .set('react-dom/client', reactDOMClient)
+        // .set('react-dom', reactDOM)
+        // .set('react-router-dom', reactRouterDOM)
         .set('@', join(process.cwd(), 'src', ''))
 
     config.externals(externals)

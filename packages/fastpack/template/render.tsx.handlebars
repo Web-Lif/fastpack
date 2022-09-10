@@ -1,6 +1,10 @@
 import React from "react";
 import { createRoot } from 'react-dom/client';
 
+{{#if startup}}
+import '@/startup'
+{{/if}}
+
 {{#if frame}}
 import Bootstrap, {routers as bootstrapRouters} from 'fastpack_micro/frame'
 import { routers } from './router'

@@ -67,9 +67,6 @@ export function presetLoader(config: Config) {
         .exclude
         .add(/node_modules/)
         .end()
-        .use('fastpack/swc-loader-cache')
-        .loader(require.resolve('cache-loader'))
-        .end()
         .use('fastpack/swc-loader')
         .loader(require.resolve('swc-loader'))
         .options({
@@ -90,9 +87,6 @@ export function presetLoader(config: Config) {
         .test(/\.jsx?$/)
         .exclude
         .add(/node_modules/)
-        .end()
-        .use('fastpack/swc-loader-cache')
-        .loader(require.resolve('cache-loader'))
         .end()
         .use('fastpack/swc-loader')
         .loader(require.resolve('swc-loader'))
@@ -128,9 +122,6 @@ export function presetLoader(config: Config) {
         .test(/\.css$/)
         .exclude
         .add(/\.vue\.css$/)
-        .end()
-        .use('fastpack/swc-loader-cache')
-        .loader(require.resolve('cache-loader'))
         .end()
         .use('fastpack/MiniCssExtractPlugin')
         .loader(MiniCssExtractPlugin.loader)

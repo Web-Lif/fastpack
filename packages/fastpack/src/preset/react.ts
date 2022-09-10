@@ -85,6 +85,7 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
         loading: router.loading,
         layout: router.layout,
         basename,
+        startup: existsSync(join(process.cwd(), 'src', 'startup.ts')),
         frame: config?.share?.frame,
         links: config?.links?.map(ele => ({
             name: ele.split('@')[0],

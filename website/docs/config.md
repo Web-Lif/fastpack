@@ -19,12 +19,13 @@ Fastpack 默认会读取当前项目中的 `.fastpack.ts` 文件
 |   │      index.tsx
 |   │
 |   └─pages
-|       │  index.tsx
-|       │
-|       └─User
-|           └─Login.tsx
-|           └─Logout.tsx
-|           └─test.tsx
+|   │   │  index.tsx
+|   │   │
+|   │   └─User
+|   │       └─Login.tsx
+|   │       └─Logout.tsx
+|   │       └─test.tsx
+│   └─ startup.ts # startup 表示页面加载的时候会触发执行一下的逻辑
 └─.eslintrc.js
 └─.fastpack.ts
 └─.gitignore

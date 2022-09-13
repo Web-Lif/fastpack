@@ -1,5 +1,5 @@
 {
-    "name": "example",
+    "name": "react-basis-example",
     "private": true,
     "author": "",
     "version": "0.0.1-canary",
@@ -19,7 +19,6 @@
         "@types/react-dom": "18.0.6",
         "@weblif/fastpack": "*",
         "@weblif/plugin-less-loader": "*",
-        "@weblif/plugin-vue2-loader": "*",
         "@weblif/configure": "0.0.2"
     },
     "overrides": {

@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from 'react-dom'
 
-{{#if vues}}
+{{#if router.paths.vue}}
 import Vue from 'vue'
-
 
 const VueWrapper = ({
     component,
@@ -21,9 +20,8 @@ const VueWrapper = ({
 }
 {{/if}}
 
-
 const extRouters = [
-    {{#each routers}}
+    {{#each router.paths.react}}
     {
         path: '{{this.path}}',
         component: React.lazy(() => import( /* webpackPrefetch: true */ '../pages{{this.component}}'))
@@ -32,7 +30,7 @@ const extRouters = [
 ] as any
 
 const vueRouters = [
-    {{#each vues}}
+    {{#each router.paths.vue}}
     {
         path: '{{this.path}}'.replace('.', '-'),
         component: React.lazy(

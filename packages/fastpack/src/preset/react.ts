@@ -7,10 +7,40 @@ import { FastPackConfig, FastpackMode } from '../type'
 export interface Router {
     /** 组件名称，内部使用 */
     name: string
+
     /** 访问的路径 */
     path: string
     /** 组件的文件信息, 内部使用 */
     component: string
+}
+
+interface HandlebarsTemplateParam {
+    // 基础路径名
+    basename?: string
+    /** 主框架地址 */
+    frame?: string
+    /** 子模块地址 */
+    links?: {name: string, link: string}[]
+    /** 路由信息 */
+    router: {
+        // 路由信息
+        paths: {
+            react?: Router[]
+            vue?: Router[]
+        },
+        // 路由类型
+        type?: string
+        // 主框架布局信息
+        layout?: string
+        // 未找到路由的页面
+        notFound?: string
+        // loading 状态
+        loading?: string
+    }
+    /** root 渲染模式 */
+    rootRender?: string
+    /** 是否有启动文件 */
+    isHaveStartupFile: boolean
 }
 
 export async function createHandlebarsFile (config: FastPackConfig, status: FastpackMode, templatePath: string, targetPath: string) {
@@ -61,38 +91,63 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
 
     const template = Handlebars.compile(fileContent)
     const history = config?.history || { type: 'browser'}
-    let routerName = ''
+    let routerType = ''
     if (history.type === 'browser') {
-        routerName = 'BrowserRouter'
+        routerType = 'BrowserRouter'
     } else if (history.type === 'hash') {
-        routerName = 'HashRouter'
+        routerType = 'HashRouter'
     } else if (history.type === 'memory') {
-        routerName = 'MemoryRouter'
+        routerType = 'MemoryRouter'
     }
 
     const newRouters =routers.filter(rt =>  !router?.exclude?.(rt.path))
 
-    let content = template({
-        routers: newRouters.map(rt => ({
-            ...rt,
-            path: rt.path,
-            relativePath: rt.path.substring(1),
-            index: rt.path === '/'
-        })),
-        vues: vueRouters,
-        rootRender,
-        notFound: router.notFound,
-        loading: router.loading,
-        layout: router.layout,
+    const templateParam: HandlebarsTemplateParam = {
         basename,
-        startup: existsSync(join(process.cwd(), 'src', 'startup.ts')),
+        rootRender,
+        router: {
+            type: routerType,
+            paths: {
+                vue: vueRouters,
+                react: newRouters.map(rt => ({
+                    ...rt,
+                    path: rt.path,
+                    relativePath: rt.path.substring(1),
+                    index: rt.path === '/'
+                })),
+            },
+            notFound: router.notFound,
+            loading: router.loading,
+            layout: router.layout,
+        },
         frame: config?.share?.frame,
-        links: config?.links?.map(ele => ({
-            name: ele.split('@')[0],
-            link: ele
+        links: config?.links?.map(link => ({
+            name: link.split('@')[0],
+            link: link
         })),
-        routerName,
-    })
+        isHaveStartupFile: existsSync(join(process.cwd(), 'src', 'startup.ts'))
+    }
+    let content = template(
+        templateParam
+    //     {
+    //     routers: newRouters.map(rt => ({
+    //         ...rt,
+    //         path: rt.path,
+    //         relativePath: rt.path.substring(1),
+    //         index: rt.path === '/'
+    //     })),
+    //     vues: vueRouters,
+    //     rootRender,
+    //     notFound: router.notFound,
+    //     loading: router.loading,
+    //     layout: router.layout,
+    //     basename,
+    //     startup: existsSync(join(process.cwd(), 'src', 'startup.ts')),
+    //     frame: config?.share?.frame,
+    //     links: 
+    //     routerName,
+    // }
+    )
 
     plugins.forEach(plugin => {
         const txt = plugin.onCreateFile?.(config, fileContent)

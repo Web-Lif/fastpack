@@ -5,8 +5,6 @@
     "scripts": {
         "start": "npm run start --workspace=website",
         "example:react-basis": "npm run build:pack && npm run start --workspace=react-basis-example",
-        "update-dep:fastpack": "npm run update-dep --workspace=@weblif/fastpack",
-        "build:site": "npm run build --workspace=website",
         "build:pack": "npm run build --workspace=@weblif/fastpack --workspace=@weblif/plugin-less-loader --workspace=@weblif/plugin-vue2-loader "
     },
     "workspaces": [

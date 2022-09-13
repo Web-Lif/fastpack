@@ -1,12 +1,12 @@
 import React, { Suspense } from "react";
 import {
-    {{ routerName }} as Router,
+    {{ router.type }} as Router,
     Routes,
     Route,
     Outlet
 } from 'react-router-dom'
 
-{{#if vues}}
+{{#if router.paths.vue}}
 import Vue from 'vue'
 
 const VueWrapper = ({
@@ -25,11 +25,11 @@ const VueWrapper = ({
 }
 {{/if}}
 
-{{#if layout}}
-import Layout from '..{{layout}}'
+{{#if router.layout}}
+import Layout from '..{{router.layout}}'
 {{/if}}
-{{#if loading}}
-import RouterLoading from '..{{loading}}'
+{{#if router.loading}}
+import RouterLoading from '..{{router.loading}}'
 {{/if}}
 {{#each links}}
 let link{{this.name}};
@@ -40,12 +40,12 @@ try {
 }
 {{/each}}
 
-{{#each routers}}
+{{#each router.paths.react}}
 const Route{{this.name}} = React.lazy(() => import(/* webpackPrefetch: true */'../pages{{this.component}}'));
 {{/each}}
 
 export const routers = [
-    {{#each routers}}
+    {{#each router.paths.react}}
     {
         path: '{{this.path}}',
         component: Route{{this.name}}
@@ -55,7 +55,7 @@ export const routers = [
 
 const shareRouters = [] as any
 
-{{#each vues}}
+{{#each router.paths.vue}}
 shareRouters.push({
     path: '{{this.path}}'.replace('.', '-'),
     component: React.lazy(
@@ -81,8 +81,8 @@ if (link{{this.name}}) {
 routers.push(...shareRouters)
 {{/if}}
 
-{{#if notFound}}
-const NotFound = React.lazy(() => import(/* webpackPrefetch: true */ '..{{notFound}}'))
+{{#if router.layout}}
+const NotFound = React.lazy(() => import(/* webpackPrefetch: true */ '..{{router.notFound}}'))
 {{/if}}
 interface BootstrapProps {
     routers?: {
@@ -102,7 +102,7 @@ function Bootstrap ({
                 <Route
                     path="/"
                     element={(
-                        {{#if layout}}
+                        {{#if router.layout}}
                         <Layout />
                         {{else}}
                         <div >
@@ -111,7 +111,7 @@ function Bootstrap ({
                         {{/if}}
                     )}
                 >
-                {{#each routers}}
+                {{#each router.paths.react}}
                     <Route
                         {{#if index}}
                         index
@@ -119,7 +119,7 @@ function Bootstrap ({
                         path="{{relativePath}}"
                         {{/if}}
                         element={(
-                            {{#if ../loading}}
+                            {{#if router.loading}}
                             <Suspense fallback={<RouterLoading />}>
                                 <Route{{this.name}} />
                             </Suspense>
@@ -138,7 +138,7 @@ function Bootstrap ({
                                 path={rt.path}
                                 key={rt.path}
                                 element={(
-                                    {{#if loading}}
+                                    {{#if router.loading}}
                                     <Suspense fallback={<RouterLoading />}>
                                         <RouterComponent />
                                     </Suspense>
@@ -155,7 +155,7 @@ function Bootstrap ({
                 <Route
                     path="*"
                     element={(
-                        {{#if ../loading}}
+                        {{#if router.loading}}
                         <Suspense fallback={<RouterLoading />}>
                             {{#if notFound}}
                             <NotFound />
@@ -165,7 +165,7 @@ function Bootstrap ({
                         </Suspense>
                         {{else}}
                         <Suspense fallback={<div />}>
-                            {{#if notFound}}
+                            {{#if router.notFound}}
                             <NotFound />
                             {{else}}
                             <div />

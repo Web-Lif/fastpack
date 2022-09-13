@@ -3,14 +3,14 @@
     "author": "苯苯 <854363956@qq.com>",
     "license": "MIT",
     "scripts": {
-        "start": "npm run build --workspace=@weblif/fastpack --workspace=@weblif/plugin-less-loader --workspace=@weblif/plugin-vue2-loader && npm run start --workspace=example",
-        "start:site": "npm run start --workspace=website",
+        "start": "npm run start --workspace=website",
+        "example:react-basis": "npm run build:pack && npm run start --workspace=react-basis-example",
         "update-dep:fastpack": "npm run update-dep --workspace=@weblif/fastpack",
         "build:site": "npm run build --workspace=website",
-        "preinstall": "npx npm-force-resolutions"
+        "build:pack": "npm run build --workspace=@weblif/fastpack --workspace=@weblif/plugin-less-loader --workspace=@weblif/plugin-vue2-loader "
     },
     "workspaces": [
         "packages/*",
-        "example"
+        "example/*"
     ]
 }

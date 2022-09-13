@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
+import { Outlet } from 'react-router-dom'
 
-const Layout: React.FC = ({ children }) => {
+const Layout: React.FC = () => {
     console.log('123')
     
     const ref = useRef<HTMLDivElement>(null)
@@ -8,8 +9,7 @@ const Layout: React.FC = ({ children }) => {
         <div
             ref={ref}
         >
-            这是主要的布局信息
-            {children}
+            <Outlet />
         </div>
     )
 }

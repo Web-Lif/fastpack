@@ -11,15 +11,15 @@
         "test": "jest"
     },
     "dependencies": {
-        "antd": "4.23.1",
+        "@weblif/fast-ui": "^0.29.3",
         "react-router-dom": "6.4.0"
     },
     "devDependencies": {
         "@types/react": "18.0.20",
         "@types/react-dom": "18.0.6",
+        "@weblif/configure": "0.1.1",
         "@weblif/fastpack": "*",
-        "@weblif/plugin-less-loader": "*",
-        "@weblif/configure": "0.1.1"
+        "@weblif/plugin-less-loader": "*"
     },
     "overrides": {
         "react": "18.2.0",

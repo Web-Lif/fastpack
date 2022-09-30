@@ -26,16 +26,21 @@
         "prepublishOnly": "npm run build"
     },
     "dependencies": {
-        "@swc/core": "^1.2.165",
         "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
+        "@swc/core": "^1.2.165",
+        "@swc/plugin-transform-imports": "^1.2.12",
         "copy-webpack-plugin": "^11.0.0",
+        "css-loader": "^6.7.1",
         "handlebars": "^4.7.7",
         "html-webpack-plugin": "^5.4.0",
         "mini-css-extract-plugin": "^2.6.0",
         "nodemon": "^2.0.13",
         "react-refresh": "^0.14.0",
         "speed-measure-webpack-plugin": "^1.5.0",
+        "style-loader": "^3.3.0",
+        "swc-loader": "^0.2.0",
         "terser-webpack-plugin": "^5.2.4",
+        "thread-loader": "^3.0.4",
         "ts-node": "^10.3.0",
         "typescript": "^4.4.4",
         "webpack": "^5.74.0",
@@ -43,11 +48,7 @@
         "webpack-chain": "^6.5.1",
         "webpack-dev-server": "^4.3.1",
         "webpackbar": "^5.0.0-3",
-        "swc-loader": "^0.2.0",
-        "worker-loader": "^3.0.8",
-        "thread-loader": "^3.0.4",
-        "style-loader": "^3.3.0",
-        "css-loader": "^6.7.1"
+        "worker-loader": "^3.0.8"
     },
     "peerDependencies": {
         "buffer": "^6.0.3",

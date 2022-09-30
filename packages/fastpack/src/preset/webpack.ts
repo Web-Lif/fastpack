@@ -76,6 +76,15 @@ export function presetLoader(config: Config) {
                     tsx: true,
                     decorators: false,
                     dynamicImport: true
+                },
+                experimental: {
+                    plugins: [
+                        ['transform-imports', {
+                            '@weblif/fast-ui': {
+                                transform: 'es/{{member}}'
+                            }
+                        }]
+                    ]
                 }
             }
         })

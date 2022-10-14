@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import { Suspense, useRef, useLayoutEffect, lazy } from "react";
 import {
     {{ router.type }} as Router,
     Routes,
@@ -13,8 +13,8 @@ const VueWrapper = ({
     component,
     ...restProps
 }: any) => {
-    const ref = React.useRef<HTMLDivElement>(null)
-    React.useLayoutEffect(() => {
+    const ref = useRef<HTMLDivElement>(null)
+    useLayoutEffect(() => {
         new Vue({
             render: render => render(component),
             props: restProps
@@ -41,7 +41,7 @@ try {
 {{/each}}
 
 {{#each router.paths.react}}
-const Route{{this.name}} = React.lazy(() => import(/* webpackPrefetch: true */'../pages{{this.component}}'));
+const Route{{this.name}} = lazy(() => import(/* webpackPrefetch: true */'../pages{{this.component}}'));
 {{/each}}
 
 export const routers = [
@@ -58,7 +58,7 @@ const shareRouters = [] as any
 {{#each router.paths.vue}}
 shareRouters.push({
     path: '{{this.path}}'.replace('.', '-'),
-    component: React.lazy(
+    component: lazy(
         async () => {
             const component = await import('../pages{{this.component}}')
             return ({
@@ -82,7 +82,7 @@ routers.push(...shareRouters)
 {{/if}}
 
 {{#if router.layout}}
-const NotFound = React.lazy(() => import(/* webpackPrefetch: true */ '..{{router.notFound}}'))
+const NotFound = lazy(() => import(/* webpackPrefetch: true */ '..{{router.notFound}}'))
 {{/if}}
 interface BootstrapProps {
     routers?: {

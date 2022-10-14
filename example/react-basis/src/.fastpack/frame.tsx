@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import { Suspense, useRef, useLayoutEffect, lazy } from "react";
 import {
     BrowserRouter as Router,
     Routes,
@@ -8,8 +8,8 @@ import {
 
 
 
-const Route$Index = React.lazy(() => import(/* webpackPrefetch: true */'../pages'));
-const RouteUserLogin = React.lazy(() => import(/* webpackPrefetch: true */'../pages/User/Login'));
+const Route$Index = lazy(() => import(/* webpackPrefetch: true */'../pages'));
+const RouteUserLogin = lazy(() => import(/* webpackPrefetch: true */'../pages/User/Login'));
 
 export const routers = [
     {

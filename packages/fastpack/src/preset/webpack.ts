@@ -76,6 +76,11 @@ export function presetLoader(config: Config) {
                     tsx: true,
                     decorators: false,
                     dynamicImport: true
+                },
+                transform: {
+                    react: {
+                        runtime: 'automatic'
+                    }
                 }
             }
         })
@@ -97,6 +102,11 @@ export function presetLoader(config: Config) {
                     jsx: true,
                     decorators: false,
                     dynamicImport: true
+                },
+                transform: {
+                    react: {
+                        runtime: 'automatic'
+                    }
                 }
             }
         })
@@ -130,7 +140,6 @@ export function presetLoader(config: Config) {
         .loader(require.resolve('css-loader'))
         .end()
 }
-
 
 export function presetPlugins(config: Config, {
     define = {},
@@ -277,6 +286,7 @@ export function presetDev(config: Config, {
                         ...options.jsc,
                         transform: {
                             react: {
+                                ...options.jsc.transform.react,
                                 development: true,
                                 refresh: true,
                             },

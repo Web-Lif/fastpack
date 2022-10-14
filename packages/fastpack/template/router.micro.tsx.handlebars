@@ -1,4 +1,4 @@
-import React from "react";
+import { useLayoutEffect, useRef, lazy } from "react";
 import ReactDOM from 'react-dom'
 
 {{#if router.paths.vue}}
@@ -8,8 +8,8 @@ const VueWrapper = ({
     component,
     ...restProps
 }: any) => {
-    const ref = React.useRef<HTMLDivElement>(null)
-    React.useLayoutEffect(() => {
+    const ref = useRef<HTMLDivElement>(null)
+    useLayoutEffect(() => {
         new Vue({
             render: render => render(component),
             props: restProps
@@ -24,7 +24,7 @@ const extRouters = [
     {{#each router.paths.react}}
     {
         path: '{{this.path}}',
-        component: React.lazy(() => import( /* webpackPrefetch: true */ '../pages{{this.component}}'))
+        component: lazy(() => import( /* webpackPrefetch: true */ '../pages{{this.component}}'))
     },
     {{/each}}
 ] as any
@@ -33,7 +33,7 @@ const vueRouters = [
     {{#each router.paths.vue}}
     {
         path: '{{this.path}}'.replace('.', '-'),
-        component: React.lazy(
+        component: lazy(
             async () => {
                 const component = await import('../pages{{this.component}}')
                 return ({

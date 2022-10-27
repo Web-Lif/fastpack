@@ -203,10 +203,12 @@ export function presetPlugins(config: Config, {
             remotes,
             shared: {
                 react: {
-                    singleton: true
+                    singleton: true,
+                    requiredVersion: '^18.0.0'
                 },
                 'react-dom': {
-                    singleton: true
+                    singleton: true,
+                    requiredVersion: '^18.0.0'
                 }
             },
         }])

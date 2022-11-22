@@ -70,7 +70,7 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
             const pathSplit = path.split(':')
             const pathtemp = pathSplit.pop()!
             const data = {
-                name: pathtemp.replace(/\//g, ''),
+                name: pathtemp.replace(/\//g, '').replace(/\./g, '$$'),
                 path: `${name}${path}`,
                 component: pathtemp
             }

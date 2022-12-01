@@ -1,5 +1,8 @@
 import { useLayoutEffect, useRef, lazy } from "react";
-import ReactDOM from 'react-dom'
+
+{{#if isHaveStartupFile}}
+import '@/startup'
+{{/if}}
 
 {{#if router.paths.vue}}
 import Vue from 'vue'

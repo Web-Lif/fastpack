@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars'
-import { readFile, writeFile, mkdir } from 'fs/promises'
+import { readFile, writeFile, mkdir, rmdir } from 'fs/promises'
 import { existsSync } from 'fs'
 import { join } from 'path'
 import { FastPackConfig, FastpackMode } from '../type'
@@ -102,6 +102,11 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
 
     const newRouters =routers.filter(rt =>  !router?.exclude?.(rt.path))
 
+    let isHaveStartupFile = false
+    if (['router.micro.tsx.handlebars', 'frame.tsx.handlebars'].includes(templatePath)) {
+        isHaveStartupFile = existsSync(join(process.cwd(), 'src', 'startup.ts'))
+    }
+
     const templateParam: HandlebarsTemplateParam = {
         basename,
         rootRender,
@@ -125,7 +130,7 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
             name: link.split('@')[0],
             link: link
         })),
-        isHaveStartupFile: existsSync(join(process.cwd(), 'src', 'startup.ts'))
+        isHaveStartupFile
     }
     let content = template(
         templateParam
@@ -174,15 +179,18 @@ export async function createHandlebarsFile (config: FastPackConfig, status: Fast
 
 export async function createBootstrap (config: FastPackConfig, status: FastpackMode) {
     const fastpackFolder = join(process.cwd(), 'src', '.fastpack')
-    if (!existsSync(fastpackFolder)) {
-        await mkdir(fastpackFolder)
-    }
 
+    if (existsSync(fastpackFolder)) {
+        await rmdir(fastpackFolder, {
+            recursive: true
+        })
+    }
+    await mkdir(fastpackFolder)
 
     const indexContent = await readFile(join(__dirname, '..', '..', 'template', 'index.ts'), 'utf8')
     await writeFile(join(process.cwd(), 'src', '.fastpack', 'index.ts'), indexContent)
     
-    if ( config.share?.frame) {
+    if (config.share?.frame) {
         await createHandlebarsFile(config, status, 'router.micro.tsx.handlebars', 'router.tsx')
     } else {
         await createHandlebarsFile(config, status, 'frame.tsx.handlebars', 'frame.tsx')

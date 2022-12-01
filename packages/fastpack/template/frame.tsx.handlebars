@@ -1,4 +1,9 @@
 import { Suspense, useRef, useLayoutEffect, lazy } from "react";
+
+{{#if isHaveStartupFile}}
+import '@/startup'
+{{/if}}
+
 import {
     {{ router.type }} as Router,
     Routes,

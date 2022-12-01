@@ -1,8 +1,7 @@
 import { createRoot } from 'react-dom/client';
 
-import '@/startup'
-
-import Bootstrap, { routers, bootstrapRouters } from './frame'
+import Bootstrap, {routers as bootstrapRouters} from 'fastpack_micro/frame'
+import { routers } from './router'
 
 (window as any).g_routers = routers.concat(bootstrapRouters)
 

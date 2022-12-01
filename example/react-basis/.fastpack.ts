@@ -16,10 +16,10 @@ export default {
     devServer: {
         port: 8085
     },
-    // share: {
-    //     name: 'test',
-    //     frame: 'http://127.0.0.1:9080/fastpack.share.js'
-    // },
+    share: {
+        name: 'test',
+        frame: 'http://127.0.0.1:9080/fastpack.share.js'
+    },
     plugins: [
         new FastpackPluginLessLoader({
             lessOptions: {

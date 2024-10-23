@@ -15,14 +15,14 @@
         "react-router-dom": "6.4.4"
     },
     "devDependencies": {
-        "@types/react": "18.0.25",
-        "@types/react-dom": "18.0.10",
+        "@types/react": "18.3.12",
+        "@types/react-dom": "18.3.1",
         "@weblif/fastpack": "*",
         "@weblif/plugin-less-loader": "*",
         "@weblif/configure": "0.1.1"
     },
     "overrides": {
-        "react": "18.2.0",
-        "react-dom": "18.2.0"
+        "react": "18.3.1",
+        "react-dom": "18.3.1"
     }
 }

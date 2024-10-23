@@ -38,13 +38,13 @@
   "devDependencies": {
     "@docusaurus/module-type-aliases": "2.2.0",
     "@tsconfig/docusaurus": "1.0.6",
-    "@types/react": "18.0.25",
+    "@types/react": "18.3.12",
     "@types/react-helmet": "6.1.6",
     "@types/react-router-dom": "5.3.3",
     "typescript": "4.9.4"
   },
   "overrides": {
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   }
 }
